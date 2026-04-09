@@ -5,163 +5,216 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>İSGB Takip Paneli — Gaziantep İlçe</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg:#0f1117; --bg2:#181c27; --bg3:#1e2235;
-    --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.12);
-    --text:#e8eaf0; --text2:#8b90a0; --text3:#555c70;
-    --purple:#7c6ff7; --teal:#1db88a; --blue:#4096f5;
-    --amber:#f5a623; --red:#f0655a; --gray:#6b7280;
-    --radius:12px; --radius-sm:8px;
-  }
-  body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:13px; min-height:100vh; }
-  .header { display:flex; align-items:center; justify-content:space-between; padding:18px 24px; border-bottom:1px solid var(--border); background:var(--bg2); position:sticky; top:0; z-index:10; }
-  .logo-row { display:flex; align-items:center; gap:12px; }
-  .logo-badge { width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,var(--purple),var(--blue)); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; color:white; }
-  .logo-text { font-size:15px; font-weight:600; color:var(--text); }
-  .logo-sub  { font-size:11px; color:var(--text2); margin-top:1px; }
-  .header-right { display:flex; align-items:center; gap:16px; }
-  .live-badge { display:flex; align-items:center; gap:6px; background:rgba(29,184,138,0.12); border:1px solid rgba(29,184,138,0.25); border-radius:20px; padding:4px 12px; font-size:11px; font-weight:500; color:var(--teal); }
-  .live-dot { width:7px; height:7px; border-radius:50%; background:var(--teal); animation:pulse 1.6s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  .update-time { font-size:11px; color:var(--text3); }
-  .refresh-btn { background:var(--bg3); border:1px solid var(--border2); color:var(--text2); padding:6px 14px; border-radius:var(--radius-sm); cursor:pointer; font-size:12px; }
-  .refresh-btn:hover { color:var(--text); }
-  .main { padding:20px 24px; max-width:1400px; margin:0 auto; }
-  .kpis { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; margin-bottom:20px; }
-  .kpi { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; position:relative; overflow:hidden; }
-  .kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; border-radius:var(--radius) var(--radius) 0 0; }
-  .kpi-warn::before { background:var(--amber); }
-  .kpi-ok::before   { background:var(--teal); }
-  .kpi-blue::before { background:var(--blue); }
-  .kpi-purple::before { background:var(--purple); }
-  .kpi-gray::before   { background:var(--gray); }
-  .kpi-label { font-size:11px; color:var(--text2); margin-bottom:10px; letter-spacing:.03em; }
-  .kpi-val   { font-size:30px; font-weight:700; line-height:1; margin-bottom:5px; }
-  .kpi-warn .kpi-val   { color:var(--amber); }
-  .kpi-ok .kpi-val     { color:var(--teal); }
-  .kpi-blue .kpi-val   { color:var(--blue); }
-  .kpi-purple .kpi-val { color:var(--purple); }
-  .kpi-gray .kpi-val   { color:var(--text); }
-  .kpi-sub { font-size:11px; color:var(--text3); }
-  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-  .grid-3 { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:16px; margin-bottom:16px; }
-  .panel { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:18px; }
-  .panel-title { font-size:11px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:.07em; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
-  .panel-title .dot { width:6px; height:6px; border-radius:50%; }
-  .bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-  .bar-row:last-child { margin-bottom:0; }
-  .bar-avatar { width:28px; height:28px; border-radius:50%; background:rgba(124,111,247,0.15); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:var(--purple); flex-shrink:0; }
-  .bar-name { font-size:12px; color:var(--text); width:120px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .bar-track { flex:1; height:5px; background:var(--bg3); border-radius:3px; overflow:hidden; }
-  .bar-fill  { height:100%; border-radius:3px; }
-  .bar-num   { font-size:12px; font-weight:600; color:var(--text2); width:24px; text-align:right; flex-shrink:0; }
-  .feed-item { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
-  .feed-item:last-child { border-bottom:none; padding-bottom:0; }
-  .f-icon { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .fi-new { background:rgba(124,111,247,0.15); }
-  .fi-ok  { background:rgba(29,184,138,0.15); }
-  .fi-err { background:rgba(240,101,90,0.15); }
-  .f-main { font-size:12px; color:var(--text); line-height:1.4; }
-  .f-meta { font-size:11px; color:var(--text2); margin-top:2px; }
-  .f-time { font-size:11px; color:var(--text3); flex-shrink:0; margin-top:3px; }
-  .pill { display:inline-block; font-size:10px; font-weight:600; padding:2px 8px; border-radius:20px; margin-left:6px; vertical-align:middle; }
-  .p-bek { background:rgba(245,166,35,0.15); color:var(--amber); }
-  .p-on  { background:rgba(29,184,138,0.15);  color:var(--teal); }
-  .p-gec { background:rgba(240,101,90,0.15);  color:var(--red); }
-  .seg-row { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
-  .seg-row:last-child { margin-bottom:0; }
-  .seg-label { font-size:11px; color:var(--text2); width:110px; flex-shrink:0; }
-  .seg-track { flex:1; height:6px; background:var(--bg3); border-radius:3px; overflow:hidden; }
-  .seg-fill  { height:100%; border-radius:3px; }
-  .seg-val   { font-size:11px; font-weight:600; width:28px; text-align:right; flex-shrink:0; }
-  .legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
-  .leg-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text2); }
-  .leg-dot  { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
-  .loading { display:flex; align-items:center; justify-content:center; height:180px; color:var(--text2); font-size:13px; gap:10px; }
-  .spinner { width:18px; height:18px; border:2px solid var(--border2); border-top-color:var(--purple); border-radius:50%; animation:spin .7s linear infinite; }
-  @keyframes spin { to { transform:rotate(360deg); } }
-  .error-box { background:rgba(240,101,90,0.08); border:1px solid rgba(240,101,90,0.25); border-radius:var(--radius); padding:20px; color:var(--red); text-align:center; margin-bottom:20px; display:none; }
-  @media (max-width:900px) { .kpis{grid-template-columns:repeat(3,1fr);} .grid-2,.grid-3{grid-template-columns:1fr;} }
-  @media (max-width:600px) { .kpis{grid-template-columns:1fr 1fr;} .main{padding:12px;} }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#0f1117; --bg2:#181c27; --bg3:#1e2235;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.12);
+  --text:#e8eaf0; --text2:#8b90a0; --text3:#555c70;
+  --purple:#7c6ff7; --teal:#1db88a; --blue:#4096f5;
+  --amber:#f5a623; --red:#f0655a; --gray:#6b7280;
+  --radius:12px; --radius-sm:8px;
+}
+body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:13px; min-height:100vh; }
+
+/* ── GİRİŞ EKRANI ── */
+.login-wrap {
+  display:flex; align-items:center; justify-content:center;
+  min-height:100vh; padding:20px;
+}
+.login-box {
+  background:var(--bg2); border:1px solid var(--border2);
+  border-radius:var(--radius); padding:36px 32px;
+  width:100%; max-width:360px; text-align:center;
+}
+.login-badge {
+  width:52px; height:52px; border-radius:14px;
+  background:linear-gradient(135deg,var(--purple),var(--blue));
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; font-weight:700; color:white;
+  margin:0 auto 20px;
+}
+.login-title { font-size:17px; font-weight:600; margin-bottom:4px; }
+.login-sub   { font-size:12px; color:var(--text2); margin-bottom:28px; }
+.login-box input {
+  width:100%; background:var(--bg3); border:1px solid var(--border2);
+  border-radius:var(--radius-sm); color:var(--text);
+  font-size:15px; padding:12px 14px; outline:none;
+  margin-bottom:12px; text-align:center; letter-spacing:4px;
+  -webkit-appearance:none;
+}
+.login-box input:focus { border-color:var(--purple); }
+.login-box input::placeholder { letter-spacing:0; color:var(--text3); }
+.login-btn {
+  width:100%; padding:13px; background:var(--purple); color:white;
+  border:none; border-radius:var(--radius-sm); font-size:14px;
+  font-weight:700; cursor:pointer; font-family:inherit;
+}
+.login-btn:hover { opacity:.88; }
+.login-err {
+  font-size:12px; color:var(--red); margin-top:10px;
+  display:none; padding:8px; background:rgba(240,101,90,0.1);
+  border-radius:var(--radius-sm);
+}
+
+/* ── DASHBOARD ── */
+#dashboard { display:none; }
+.header { display:flex; align-items:center; justify-content:space-between; padding:18px 24px; border-bottom:1px solid var(--border); background:var(--bg2); position:sticky; top:0; z-index:10; }
+.logo-row { display:flex; align-items:center; gap:12px; }
+.logo-badge { width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,var(--purple),var(--blue)); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; color:white; }
+.logo-text { font-size:15px; font-weight:600; }
+.logo-sub  { font-size:11px; color:var(--text2); margin-top:1px; }
+.header-right { display:flex; align-items:center; gap:16px; }
+.live-badge { display:flex; align-items:center; gap:6px; background:rgba(29,184,138,0.12); border:1px solid rgba(29,184,138,0.25); border-radius:20px; padding:4px 12px; font-size:11px; font-weight:500; color:var(--teal); }
+.live-dot { width:7px; height:7px; border-radius:50%; background:var(--teal); animation:pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.update-time { font-size:11px; color:var(--text3); }
+.action-btn { background:var(--bg3); border:1px solid var(--border2); color:var(--text2); padding:6px 14px; border-radius:var(--radius-sm); cursor:pointer; font-size:12px; font-family:inherit; }
+.action-btn:hover { color:var(--text); }
+.main { padding:20px 24px; max-width:1400px; margin:0 auto; }
+.kpis { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; margin-bottom:20px; }
+.kpi { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; position:relative; overflow:hidden; }
+.kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; border-radius:var(--radius) var(--radius) 0 0; }
+.kpi-warn::before{background:var(--amber);} .kpi-ok::before{background:var(--teal);}
+.kpi-blue::before{background:var(--blue);} .kpi-purple::before{background:var(--purple);}
+.kpi-gray::before{background:var(--gray);}
+.kpi-label{font-size:11px;color:var(--text2);margin-bottom:10px;letter-spacing:.03em;}
+.kpi-val{font-size:30px;font-weight:700;line-height:1;margin-bottom:5px;}
+.kpi-warn .kpi-val{color:var(--amber);} .kpi-ok .kpi-val{color:var(--teal);}
+.kpi-blue .kpi-val{color:var(--blue);} .kpi-purple .kpi-val{color:var(--purple);}
+.kpi-gray .kpi-val{color:var(--text);}
+.kpi-sub{font-size:11px;color:var(--text3);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.grid-3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
+.panel-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.panel-title .dot{width:6px;height:6px;border-radius:50%;}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.bar-row:last-child{margin-bottom:0;}
+.bar-avatar{width:28px;height:28px;border-radius:50%;background:rgba(124,111,247,0.15);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--purple);flex-shrink:0;}
+.bar-name{font-size:12px;color:var(--text);width:120px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bar-track{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;}
+.bar-num{font-size:12px;font-weight:600;color:var(--text2);width:24px;text-align:right;flex-shrink:0;}
+.feed-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.feed-item:last-child{border-bottom:none;padding-bottom:0;}
+.f-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.fi-new{background:rgba(124,111,247,0.15);} .fi-ok{background:rgba(29,184,138,0.15);} .fi-err{background:rgba(240,101,90,0.15);}
+.f-main{font-size:12px;color:var(--text);line-height:1.4;}
+.f-meta{font-size:11px;color:var(--text2);margin-top:2px;}
+.f-time{font-size:11px;color:var(--text3);flex-shrink:0;margin-top:3px;}
+.pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;}
+.p-bek{background:rgba(245,166,35,0.15);color:var(--amber);}
+.p-on{background:rgba(29,184,138,0.15);color:var(--teal);}
+.p-gec{background:rgba(240,101,90,0.15);color:var(--red);}
+.seg-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.seg-row:last-child{margin-bottom:0;}
+.seg-label{font-size:11px;color:var(--text2);width:110px;flex-shrink:0;}
+.seg-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.seg-fill{height:100%;border-radius:3px;}
+.seg-val{font-size:11px;font-weight:600;width:28px;text-align:right;flex-shrink:0;}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.loading{display:flex;align-items:center;justify-content:center;height:180px;color:var(--text2);font-size:13px;gap:10px;}
+.spinner{width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.error-box{background:rgba(240,101,90,0.08);border:1px solid rgba(240,101,90,0.25);border-radius:var(--radius);padding:20px;color:var(--red);text-align:center;margin-bottom:20px;display:none;}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(3,1fr);}.grid-2,.grid-3{grid-template-columns:1fr;}}
+@media(max-width:600px){.kpis{grid-template-columns:1fr 1fr;}.main{padding:12px;}}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="logo-row">
-    <div class="logo-badge">İ</div>
-    <div>
-      <div class="logo-text">İSGB Takip Paneli</div>
-      <div class="logo-sub">Gaziantep Valiliği — İl MEM / İşyeri Sağlık ve Güvenlik Birimi</div>
-    </div>
-  </div>
-  <div class="header-right">
-    <div class="live-badge"><span class="live-dot"></span> canlı</div>
-    <span class="update-time" id="updateTime">—</span>
-    <button class="refresh-btn" id="refreshBtn">↻ Yenile</button>
+<!-- GİRİŞ EKRANI -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="login-badge">İ</div>
+    <div class="login-title">İSGB Takip Paneli</div>
+    <div class="login-sub">Gaziantep Valiliği — İl MEM / İşyeri Sağlık ve Güvenlik Birimi</div>
+    <input type="password" id="sifreInput" placeholder="Şifrenizi giriniz" maxlength="20">
+    <button class="login-btn" id="girisBtn">Giriş Yap</button>
+    <div class="login-err" id="loginErr">Hatalı şifre. Lütfen tekrar deneyin.</div>
   </div>
 </div>
 
-<div class="main">
-  <div id="errorBox" class="error-box">Veriler yüklenemedi. <small id="errorMsg"></small></div>
-
-  <div class="kpis">
-    <div class="kpi kpi-warn">
-      <div class="kpi-label">onay bekleyen</div>
-      <div class="kpi-val" id="kBekleyen"><div class="spinner"></div></div>
-      <div class="kpi-sub">müdür onayı bekleniyor</div>
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="header">
+    <div class="logo-row">
+      <div class="logo-badge">İ</div>
+      <div>
+        <div class="logo-text">İSGB Takip Paneli</div>
+        <div class="logo-sub">Gaziantep Valiliği — İl MEM / İşyeri Sağlık ve Güvenlik Birimi</div>
+      </div>
     </div>
-    <div class="kpi kpi-ok">
-      <div class="kpi-label">bu ay onaylanan</div>
-      <div class="kpi-val" id="kOnaylanan"><div class="spinner"></div></div>
-      <div class="kpi-sub">form tamamlandı</div>
-    </div>
-    <div class="kpi kpi-blue">
-      <div class="kpi-label">bugün gelen</div>
-      <div class="kpi-val" id="kBugun"><div class="spinner"></div></div>
-      <div class="kpi-sub">yeni form</div>
-    </div>
-    <div class="kpi kpi-purple">
-      <div class="kpi-label">aktif igu</div>
-      <div class="kpi-val" id="kIGU"><div class="spinner"></div></div>
-      <div class="kpi-sub">uzman kayıtlı</div>
-    </div>
-    <div class="kpi kpi-gray">
-      <div class="kpi-label">toplam okul</div>
-      <div class="kpi-val" id="kOkul"><div class="spinner"></div></div>
-      <div class="kpi-sub">okul / kurum</div>
+    <div class="header-right">
+      <div class="live-badge"><span class="live-dot"></span> canlı</div>
+      <span class="update-time" id="updateTime">—</span>
+      <button class="action-btn" id="refreshBtn">↻ Yenile</button>
+      <button class="action-btn" id="cikisBtn">Çıkış</button>
     </div>
   </div>
 
-  <div class="grid-3">
-    <div class="panel">
-      <div class="panel-title"><span class="dot" style="background:var(--purple)"></span>igu performansı — bu ay</div>
-      <div id="iguBars"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
-    </div>
-    <div class="panel">
-      <div class="panel-title"><span class="dot" style="background:var(--blue)"></span>aylık ziyaret trendi</div>
-      <div style="position:relative;height:220px">
-        <canvas id="trendC" role="img" aria-label="Son 6 aylık ziyaret sayısı">Aylık trend.</canvas>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-title"><span class="dot" style="background:var(--teal)"></span>anlık aktivite akışı</div>
-      <div id="feedList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
-    </div>
-  </div>
+  <div class="main">
+    <div id="errorBox" class="error-box">Veriler yüklenemedi. <small id="errorMsg"></small></div>
 
-  <div class="grid-2">
-    <div class="panel">
-      <div class="panel-title"><span class="dot" style="background:var(--amber)"></span>görev türü dağılımı</div>
-      <div id="gorevLegend" class="legend"></div>
-      <div style="position:relative;height:160px">
-        <canvas id="pieC" role="img" aria-label="Görev türü dağılımı">Görev dağılımı.</canvas>
+    <div class="kpis">
+      <div class="kpi kpi-warn">
+        <div class="kpi-label">onay bekleyen</div>
+        <div class="kpi-val" id="kBekleyen"><div class="spinner"></div></div>
+        <div class="kpi-sub">müdür onayı bekleniyor</div>
+      </div>
+      <div class="kpi kpi-ok">
+        <div class="kpi-label">bu ay onaylanan</div>
+        <div class="kpi-val" id="kOnaylanan"><div class="spinner"></div></div>
+        <div class="kpi-sub">form tamamlandı</div>
+      </div>
+      <div class="kpi kpi-blue">
+        <div class="kpi-label">bugün gelen</div>
+        <div class="kpi-val" id="kBugun"><div class="spinner"></div></div>
+        <div class="kpi-sub">yeni form</div>
+      </div>
+      <div class="kpi kpi-purple">
+        <div class="kpi-label">aktif igu</div>
+        <div class="kpi-val" id="kIGU"><div class="spinner"></div></div>
+        <div class="kpi-sub">uzman kayıtlı</div>
+      </div>
+      <div class="kpi kpi-gray">
+        <div class="kpi-label">toplam okul</div>
+        <div class="kpi-val" id="kOkul"><div class="spinner"></div></div>
+        <div class="kpi-sub">okul / kurum</div>
       </div>
     </div>
-    <div class="panel">
-      <div class="panel-title"><span class="dot" style="background:var(--blue)"></span>okul türüne göre ziyaret</div>
-      <div id="okulSegs"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+
+    <div class="grid-3">
+      <div class="panel">
+        <div class="panel-title"><span class="dot" style="background:var(--purple)"></span>igu performansı — bu ay</div>
+        <div id="iguBars"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="dot" style="background:var(--blue)"></span>aylık ziyaret trendi</div>
+        <div style="position:relative;height:220px">
+          <canvas id="trendC" role="img" aria-label="Son 6 aylık ziyaret sayısı">Aylık trend.</canvas>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="dot" style="background:var(--teal)"></span>anlık aktivite akışı</div>
+        <div id="feedList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-title"><span class="dot" style="background:var(--amber)"></span>görev türü dağılımı</div>
+        <div id="gorevLegend" class="legend"></div>
+        <div style="position:relative;height:160px">
+          <canvas id="pieC" role="img" aria-label="Görev türü dağılımı">Görev dağılımı.</canvas>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="dot" style="background:var(--blue)"></span>okul türüne göre ziyaret</div>
+        <div id="okulSegs"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+      </div>
     </div>
   </div>
 </div>
@@ -171,9 +224,10 @@
 (function(){
 
   // ============================================================
-  // ⚠️ WEB APP URL'İNİZİ BURAYA YAZIN
+  // ⚠️ AYARLAR
   // ============================================================
-  var API = 'https://script.google.com/macros/s/AKfycbwu6MI5GV-kK4Cv03CpHgRF9Ok3ACxZpv-zohi6ZRfjDBmKKTqRzMRZpeFY83KG4YZG/exec';
+  var API   = 'https://script.google.com/macros/s/AKfycbwu6MI5GV-kK4Cv03CpHgRF9Ok3ACxZpv-zohi6ZRfjDBmKKTqRzMRZpeFY83KG4YZG/exec';
+  var SIFRE = 'isgb2026'; // ← Şifreyi buradan değiştirin
   // ============================================================
 
   var trendChart = null;
@@ -181,21 +235,56 @@
   var cbSayac    = 0;
   var RENKLER    = ['#7c6ff7','#1db88a','#4096f5','#f5a623','#f0655a','#6b7280','#a78bfa'];
 
-  // ── JSONP çağrısı ──────────────────────────────────────────
+  // ── Şifre Kontrolü ─────────────────────────────────────────
+  var oturum = sessionStorage.getItem('isgb_auth');
+  if (oturum === 'ok') girisYap();
+
+  document.getElementById('girisBtn').addEventListener('click', sifreKontrol);
+  document.getElementById('sifreInput').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') sifreKontrol();
+  });
+
+  function sifreKontrol() {
+    var girilen = document.getElementById('sifreInput').value;
+    if (girilen === SIFRE) {
+      sessionStorage.setItem('isgb_auth', 'ok');
+      girisYap();
+    } else {
+      document.getElementById('loginErr').style.display = 'block';
+      document.getElementById('sifreInput').value = '';
+      document.getElementById('sifreInput').focus();
+    }
+  }
+
+  function girisYap() {
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    veriYukle();
+    setInterval(veriYukle, 60000);
+  }
+
+  document.getElementById('cikisBtn').addEventListener('click', function(){
+    sessionStorage.removeItem('isgb_auth');
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('loginWrap').style.display = 'flex';
+    document.getElementById('sifreInput').value = '';
+    document.getElementById('loginErr').style.display = 'none';
+  });
+
+  document.getElementById('refreshBtn').addEventListener('click', veriYukle);
+
+  // ── JSONP ───────────────────────────────────────────────────
   function jsonpCagri(params, callback) {
     var cbAd = 'cb_' + (++cbSayac) + '_' + Date.now();
     params.callback = cbAd;
-
     var url = API + '?' + Object.keys(params).map(function(k){
       return encodeURIComponent(k) + '=' + encodeURIComponent(String(params[k]));
     }).join('&');
-
     window[cbAd] = function(data) {
       delete window[cbAd];
       try { document.head.removeChild(script); } catch(e){}
       callback(null, data);
     };
-
     var script = document.createElement('script');
     script.src = url;
     script.onerror = function() {
@@ -206,9 +295,9 @@
     document.head.appendChild(script);
   }
 
-  // ── Veri yükle ─────────────────────────────────────────────
+  // ── Veri Yükle ──────────────────────────────────────────────
   function veriYukle() {
-    jsonpCagri({ action: 'dashboard' }, function(err, d) {
+    jsonpCagri({ action:'dashboard' }, function(err, d) {
       if (err || !d || !d.ok) {
         document.getElementById('errorBox').style.display = 'block';
         document.getElementById('errorMsg').textContent = err ? err.message : (d ? d.hata : 'Veri alınamadı');
@@ -225,7 +314,6 @@
     });
   }
 
-  // ── KPI ────────────────────────────────────────────────────
   function renderKPI(k) {
     document.getElementById('kBekleyen').textContent  = k.bekleyen;
     document.getElementById('kOnaylanan').textContent = k.ay;
@@ -234,7 +322,6 @@
     document.getElementById('kOkul').textContent      = k.toplamOkul;
   }
 
-  // ── IGU Barlar ─────────────────────────────────────────────
   function renderIGU(liste) {
     if (!liste || !liste.length) {
       document.getElementById('iguBars').innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Henüz veri yok</div>';
@@ -249,24 +336,23 @@
       html += '<div class="bar-row">'
         + '<div class="bar-avatar">' + harf + '</div>'
         + '<div class="bar-name">' + ig.ad + '</div>'
-        + '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:' + barColors[i % barColors.length] + '"></div></div>'
+        + '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:' + barColors[i%barColors.length] + '"></div></div>'
         + '<div class="bar-num">' + ig.buAy + '</div>'
         + '</div>';
     });
     document.getElementById('iguBars').innerHTML = html;
   }
 
-  // ── Trend Grafiği ──────────────────────────────────────────
   function renderTrend(aylar) {
     if (!aylar || !aylar.length) return;
     var labels   = aylar.map(function(a){ return a.label; });
     var data     = aylar.map(function(a){ return a.sayi; });
-    var bgColors = data.map(function(_, i){ return i === data.length-1 ? '#7c6ff7' : 'rgba(124,111,247,0.3)'; });
+    var bgColors = data.map(function(_,i){ return i===data.length-1?'#7c6ff7':'rgba(124,111,247,0.3)'; });
     if (trendChart) trendChart.destroy();
     trendChart = new Chart(document.getElementById('trendC'), {
-      type: 'bar',
-      data: { labels:labels, datasets:[{ data:data, backgroundColor:bgColors, borderRadius:6, borderSkipped:false }] },
-      options: {
+      type:'bar',
+      data:{ labels:labels, datasets:[{ data:data, backgroundColor:bgColors, borderRadius:6, borderSkipped:false }] },
+      options:{
         responsive:true, maintainAspectRatio:false,
         plugins:{ legend:{ display:false } },
         scales:{
@@ -277,7 +363,6 @@
     });
   }
 
-  // ── Aktivite Akışı ─────────────────────────────────────────
   function renderFeed(aktiviteler) {
     if (!aktiviteler || !aktiviteler.length) {
       document.getElementById('feedList').innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Henüz aktivite yok</div>';
@@ -285,52 +370,50 @@
     }
     var html = '';
     aktiviteler.slice(0,7).forEach(function(a) {
-      var gecikti = a.durum === 'Beklemede' && a.bekSure && a.bekSure > 24;
+      var gecikti = a.durum==='Beklemede' && a.bekSure && a.bekSure>24;
       var ikonSinif, ikonSvg, pillHtml;
-      if (a.durum === 'Onaylandı') {
-        ikonSinif = 'fi-ok';
-        ikonSvg   = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#1db88a" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="#1db88a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        pillHtml  = '<span class="pill p-on">onaylandı</span>';
+      if (a.durum==='Onaylandı') {
+        ikonSinif='fi-ok';
+        ikonSvg='<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#1db88a" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="#1db88a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        pillHtml='<span class="pill p-on">onaylandı</span>';
       } else if (gecikti) {
-        ikonSinif = 'fi-err';
-        ikonSvg   = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f0655a" stroke-width="1.5"/><path d="M8 5v4M8 10.5v.5" stroke="#f0655a" stroke-width="1.5" stroke-linecap="round"/></svg>';
-        pillHtml  = '<span class="pill p-gec">' + a.bekSure + ' saat</span>';
+        ikonSinif='fi-err';
+        ikonSvg='<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f0655a" stroke-width="1.5"/><path d="M8 5v4M8 10.5v.5" stroke="#f0655a" stroke-width="1.5" stroke-linecap="round"/></svg>';
+        pillHtml='<span class="pill p-gec">'+a.bekSure+' saat</span>';
       } else {
-        ikonSinif = 'fi-new';
-        ikonSvg   = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#7c6ff7" stroke-width="1.5"/><path d="M8 5v3l2 1" stroke="#7c6ff7" stroke-width="1.5" stroke-linecap="round"/></svg>';
-        pillHtml  = '<span class="pill p-bek">bekliyor</span>';
+        ikonSinif='fi-new';
+        ikonSvg='<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#7c6ff7" stroke-width="1.5"/><path d="M8 5v3l2 1" stroke="#7c6ff7" stroke-width="1.5" stroke-linecap="round"/></svg>';
+        pillHtml='<span class="pill p-bek">bekliyor</span>';
       }
-      var zaman = a.gonZaman && a.gonZaman !== '-' ? a.gonZaman.split(' ')[1] : '-';
+      var zaman = a.gonZaman && a.gonZaman!=='-' ? a.gonZaman.split(' ')[1] : '-';
       html += '<div class="feed-item">'
-        + '<div class="f-icon ' + ikonSinif + '">' + ikonSvg + '</div>'
-        + '<div style="flex:1"><div class="f-main">' + a.igu + ' — ' + a.okul + pillHtml + '</div>'
-        + '<div class="f-meta">' + a.tarih + '</div></div>'
-        + '<div class="f-time">' + zaman + '</div>'
+        + '<div class="f-icon '+ikonSinif+'">'+ikonSvg+'</div>'
+        + '<div style="flex:1"><div class="f-main">'+a.igu+' — '+a.okul+pillHtml+'</div>'
+        + '<div class="f-meta">'+a.tarih+'</div></div>'
+        + '<div class="f-time">'+zaman+'</div>'
         + '</div>';
     });
     document.getElementById('feedList').innerHTML = html;
   }
 
-  // ── Görev Dağılımı ─────────────────────────────────────────
   function renderPie(dagilim) {
     if (!dagilim || !dagilim.length) return;
     var labels = dagilim.map(function(d){ return d.label; });
     var data   = dagilim.map(function(d){ return d.sayi; });
     var colors = RENKLER.slice(0, dagilim.length);
     var legendHtml = '';
-    dagilim.forEach(function(d, i) {
-      legendHtml += '<div class="leg-item"><span class="leg-dot" style="background:' + colors[i] + '"></span>' + d.label + ' ' + d.pct + '%</div>';
+    dagilim.forEach(function(d,i){
+      legendHtml += '<div class="leg-item"><span class="leg-dot" style="background:'+colors[i]+'"></span>'+d.label+' '+d.pct+'%</div>';
     });
     document.getElementById('gorevLegend').innerHTML = legendHtml;
     if (pieChart) pieChart.destroy();
     pieChart = new Chart(document.getElementById('pieC'), {
-      type: 'doughnut',
-      data: { labels:labels, datasets:[{ data:data, backgroundColor:colors, borderWidth:3, borderColor:'#181c27' }] },
-      options: { responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{ legend:{ display:false } } }
+      type:'doughnut',
+      data:{ labels:labels, datasets:[{ data:data, backgroundColor:colors, borderWidth:3, borderColor:'#181c27' }] },
+      options:{ responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{ legend:{ display:false } } }
     });
   }
 
-  // ── Okul Türü Segmentleri ──────────────────────────────────
   function renderOkulSegs(liste) {
     if (!liste || !liste.length) {
       document.getElementById('okulSegs').innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Henüz veri yok</div>';
@@ -338,22 +421,17 @@
     }
     var maks = liste[0].sayi || 1;
     var html = '';
-    liste.forEach(function(s, i) {
-      var pct  = Math.round((s.sayi / maks) * 100);
-      var renk = RENKLER[i % RENKLER.length];
+    liste.forEach(function(s,i){
+      var pct  = Math.round((s.sayi/maks)*100);
+      var renk = RENKLER[i%RENKLER.length];
       html += '<div class="seg-row">'
-        + '<div class="seg-label">' + s.label + '</div>'
-        + '<div class="seg-track"><div class="seg-fill" style="width:' + pct + '%;background:' + renk + '"></div></div>'
-        + '<div class="seg-val" style="color:' + renk + '">' + s.sayi + '</div>'
+        + '<div class="seg-label">'+s.label+'</div>'
+        + '<div class="seg-track"><div class="seg-fill" style="width:'+pct+'%;background:'+renk+'"></div></div>'
+        + '<div class="seg-val" style="color:'+renk+'">'+s.sayi+'</div>'
         + '</div>';
     });
     document.getElementById('okulSegs').innerHTML = html;
   }
-
-  // ── Başlat ─────────────────────────────────────────────────
-  document.getElementById('refreshBtn').addEventListener('click', veriYukle);
-  veriYukle();
-  setInterval(veriYukle, 60000);
 
 })();
 </script>
