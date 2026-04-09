@@ -45,7 +45,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 
 .main { padding:20px 24px; max-width:1400px; margin:0 auto; }
 
-/* KPI - 6 kart (müdür bekleyen + isgb bekleyen eklendi) */
+/* KPI */
 .kpis { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; margin-bottom:20px; }
 .kpi { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; position:relative; overflow:hidden; }
 .kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; border-radius:var(--radius) var(--radius) 0 0; }
@@ -62,10 +62,14 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
 .grid-3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px;margin-bottom:16px;}
 .panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
-.panel-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.panel-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
+.panel-title-left{display:flex;align-items:center;gap:8px;}
 .panel-title .dot{width:6px;height:6px;border-radius:50%;}
 
-/* İSGB ONAY LİSTESİ */
+/* Yıl seçici */
+.yil-sec{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-size:11px;padding:3px 8px;outline:none;cursor:pointer;font-family:inherit;}
+
+/* İSGB Onay */
 .onay-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
 .onay-item:last-child{border-bottom:none;padding-bottom:0;}
 .onay-info{flex:1;min-width:0;}
@@ -73,9 +77,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .onay-okul{font-size:11px;color:var(--text2);margin-top:2px;}
 .onay-tarih{font-size:11px;color:var(--text3);}
 .onayla-btn{background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;}
-.onayla-btn:hover{opacity:.85;}
-.onayla-btn:disabled{opacity:.4;cursor:not-allowed;}
+.onayla-btn:hover{opacity:.85;} .onayla-btn:disabled{opacity:.4;cursor:not-allowed;}
 
+/* Aktivite */
 .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .bar-row:last-child{margin-bottom:0;}
 .bar-avatar{width:28px;height:28px;border-radius:50%;background:rgba(124,111,247,0.15);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--purple);flex-shrink:0;}
@@ -84,19 +88,36 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .bar-fill{height:100%;border-radius:3px;}
 .bar-num{font-size:12px;font-weight:600;color:var(--text2);width:24px;text-align:right;flex-shrink:0;}
 
-.feed-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.feed-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
 .feed-item:last-child{border-bottom:none;padding-bottom:0;}
-.f-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.fi-new{background:rgba(124,111,247,0.15);} .fi-ok{background:rgba(29,184,138,0.15);}
+.f-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.fi-new{background:rgba(245,166,35,0.15);} .fi-ok{background:rgba(29,184,138,0.15);}
 .fi-wait{background:rgba(249,115,22,0.15);} .fi-err{background:rgba(240,101,90,0.15);}
-.f-main{font-size:12px;color:var(--text);line-height:1.4;}
-.f-meta{font-size:11px;color:var(--text2);margin-top:2px;}
-.f-time{font-size:11px;color:var(--text3);flex-shrink:0;margin-top:3px;}
-.pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;}
+.f-body{flex:1;min-width:0;}
+.f-main{font-size:12px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.f-meta{font-size:11px;color:var(--text2);margin-top:1px;}
+.f-sag{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.f-time{font-size:11px;color:var(--text3);}
+.pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:5px;vertical-align:middle;}
 .p-mudur{background:rgba(245,166,35,0.15);color:var(--amber);}
 .p-isgb{background:rgba(249,115,22,0.15);color:#f97316;}
 .p-on{background:rgba(29,184,138,0.15);color:var(--teal);}
 .p-gec{background:rgba(240,101,90,0.15);color:var(--red);}
+.pdf-link{background:rgba(124,111,247,0.12);color:var(--purple);border:none;border-radius:var(--radius-sm);padding:3px 10px;font-size:10px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;white-space:nowrap;}
+.pdf-link:hover{background:rgba(124,111,247,0.22);}
+
+/* Yıllık Rapor Tablosu */
+.rapor-tablo{width:100%;border-collapse:collapse;font-size:12px;}
+.rapor-tablo th{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;}
+.rapor-tablo th:not(:first-child){text-align:center;}
+.rapor-tablo td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text);}
+.rapor-tablo td:not(:first-child){text-align:center;color:var(--text2);}
+.rapor-tablo tr:last-child td{border-bottom:none;}
+.rapor-tablo tr:hover td{background:rgba(255,255,255,0.02);}
+.oran-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;}
+.oran-yuksek{background:rgba(29,184,138,0.12);color:var(--teal);}
+.oran-orta{background:rgba(245,166,35,0.12);color:var(--amber);}
+.oran-dusuk{background:rgba(240,101,90,0.12);color:var(--red);}
 
 .seg-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
 .seg-row:last-child{margin-bottom:0;}
@@ -107,7 +128,8 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
 .leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
 .leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-.loading{display:flex;align-items:center;justify-content:center;height:140px;color:var(--text2);font-size:13px;gap:10px;}
+
+.loading{display:flex;align-items:center;justify-content:center;height:120px;color:var(--text2);font-size:13px;gap:10px;}
 .spinner{width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .error-box{background:rgba(240,101,90,0.08);border:1px solid rgba(240,101,90,0.25);border-radius:var(--radius);padding:16px;color:var(--red);text-align:center;margin-bottom:20px;display:none;}
@@ -189,14 +211,14 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       </div>
     </div>
 
-    <!-- İSGB Onay Listesi + Aktivite -->
+    <!-- İSGB Onay + Aktivite -->
     <div class="grid-2">
       <div class="panel">
-        <div class="panel-title"><span class="dot" style="background:#f97316"></span>isgb onayı bekleyenler</div>
+        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:#f97316"></span>isgb onayı bekleyenler</span></div>
         <div id="isgbOnayList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
       </div>
       <div class="panel">
-        <div class="panel-title"><span class="dot" style="background:var(--teal)"></span>anlık aktivite akışı</div>
+        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--teal)"></span>anlık aktivite akışı</span></div>
         <div id="feedList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
       </div>
     </div>
@@ -204,11 +226,11 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     <!-- IGU Perf + Trend -->
     <div class="grid-2">
       <div class="panel">
-        <div class="panel-title"><span class="dot" style="background:var(--purple)"></span>igu performansı — bu ay</div>
+        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--purple)"></span>igu performansı — bu ay</span></div>
         <div id="iguBars"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
       </div>
       <div class="panel">
-        <div class="panel-title"><span class="dot" style="background:var(--blue)"></span>aylık ziyaret trendi</div>
+        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--blue)"></span>aylık ziyaret trendi</span></div>
         <div style="position:relative;height:200px">
           <canvas id="trendC" role="img" aria-label="Aylık trend">Aylık trend.</canvas>
         </div>
@@ -218,17 +240,27 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     <!-- Görev + Okul Türü -->
     <div class="grid-2">
       <div class="panel">
-        <div class="panel-title"><span class="dot" style="background:var(--amber)"></span>görev türü dağılımı</div>
+        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--amber)"></span>görev türü dağılımı</span></div>
         <div id="gorevLegend" class="legend"></div>
         <div style="position:relative;height:150px">
           <canvas id="pieC" role="img" aria-label="Görev dağılımı">Görev dağılımı.</canvas>
         </div>
       </div>
       <div class="panel">
-        <div class="panel-title"><span class="dot" style="background:var(--blue)"></span>okul türüne göre ziyaret</div>
+        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--blue)"></span>okul türüne göre ziyaret</span></div>
         <div id="okulSegs"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
       </div>
     </div>
+
+    <!-- YILLIK RAPOR -->
+    <div class="panel" style="margin-bottom:16px">
+      <div class="panel-title">
+        <span class="panel-title-left"><span class="dot" style="background:var(--teal)"></span>yıllık igu performans raporu</span>
+        <select class="yil-sec" id="yilSec"></select>
+      </div>
+      <div id="yillikRapor"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+    </div>
+
   </div>
 </div>
 
@@ -239,20 +271,25 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 (function(){
 
   // ============================================================
-  var API   = 'https://script.google.com/macros/s/AKfycbxY-RZNYTCYHOj1-Gfh56v28GJy9C_pBU4EZGEltP6ITevB-S7dWab0cQm4SlyR7buh/exec';
-  var SIFRE = 'isgb2708'; // ← Şifreyi buradan değiştirin
+  var API   = 'https://script.google.com/macros/s/AKfycbwu6MI5GV-kK4Cv03CpHgRF9Ok3ACxZpv-zohi6ZRfjDBmKKTqRzMRZpeFY83KG4YZG/exec';
+  var SIFRE = 'isgb2026';
   // ============================================================
 
   var trendChart = null, pieChart = null, cbSayac = 0;
   var RENKLER = ['#7c6ff7','#1db88a','#4096f5','#f5a623','#f0655a','#6b7280','#a78bfa'];
+  var tumAktiviteler = [];
+  var secilenYil = new Date().getFullYear();
 
-  // ── Giriş ───────────────────────────────────────────────────
+  // Giriş
   if (sessionStorage.getItem('isgb_auth') === 'ok') girisYap();
-
   document.getElementById('girisBtn').addEventListener('click', sifreKontrol);
   document.getElementById('sifreInput').addEventListener('keydown', function(e){ if(e.key==='Enter') sifreKontrol(); });
   document.getElementById('cikisBtn').addEventListener('click', cikis);
   document.getElementById('refreshBtn').addEventListener('click', veriYukle);
+  document.getElementById('yilSec').addEventListener('change', function(){
+    secilenYil = parseInt(this.value);
+    yillikRaporuRender(tumAktiviteler, secilenYil);
+  });
 
   function sifreKontrol() {
     if (document.getElementById('sifreInput').value === SIFRE) {
@@ -263,14 +300,22 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       document.getElementById('sifreInput').value = '';
     }
   }
-
   function girisYap() {
+    // Yıl seçici doldur
+    var yilSec = document.getElementById('yilSec');
+    var buYil = new Date().getFullYear();
+    yilSec.innerHTML = '';
+    for (var y = buYil; y >= buYil - 4; y--) {
+      var opt = document.createElement('option');
+      opt.value = y; opt.textContent = y + ' Yılı';
+      if (y === buYil) opt.selected = true;
+      yilSec.appendChild(opt);
+    }
     document.getElementById('loginWrap').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     veriYukle();
     setInterval(veriYukle, 60000);
   }
-
   function cikis() {
     sessionStorage.removeItem('isgb_auth');
     document.getElementById('dashboard').style.display = 'none';
@@ -279,7 +324,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.getElementById('loginErr').style.display = 'none';
   }
 
-  // ── JSONP ───────────────────────────────────────────────────
+  // JSONP
   function jsonpCagri(params, callback) {
     var cbAd = 'cb_'+(++cbSayac)+'_'+Date.now();
     params.callback = cbAd;
@@ -301,7 +346,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.head.appendChild(script);
   }
 
-  // ── Veri Yükle ──────────────────────────────────────────────
+  // Veri yükle
   function veriYukle() {
     jsonpCagri({action:'dashboard'}, function(err,d){
       if(err||!d||!d.ok){
@@ -310,13 +355,15 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         return;
       }
       document.getElementById('errorBox').style.display='none';
+      tumAktiviteler = d.aktiviteler || [];
       renderKPI(d.kpi);
-      renderIsgbOnayList(d.aktiviteler);
-      renderFeed(d.aktiviteler);
+      renderIsgbOnayList(tumAktiviteler);
+      renderFeed(tumAktiviteler);
       renderIGU(d.iguListesi);
       renderTrend(d.ayTrend);
       renderPie(d.gorevDagilim);
       renderOkulSegs(d.okulTurListesi);
+      yillikRaporuRender(tumAktiviteler, secilenYil);
       document.getElementById('updateTime').textContent='güncellendi: '+d.guncelleme;
     });
   }
@@ -330,91 +377,140 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.getElementById('kOkul').textContent     = k.toplamOkul    || 0;
   }
 
-  // ── İSGB Onay Listesi ───────────────────────────────────────
+  // İSGB Onay Listesi
   function renderIsgbOnayList(aktiviteler) {
-    var liste = (aktiviteler||[]).filter(function(a){ return a.durum === 'İSGB Onayı Bekleniyor'; });
+    var liste = (aktiviteler||[]).filter(function(a){ return a.durum==='İSGB Onayı Bekleniyor'; });
     var el = document.getElementById('isgbOnayList');
-    if (!liste.length) {
-      el.innerHTML = '<div class="bos">İSGB onayı bekleyen form yok ✓</div>';
-      return;
-    }
-    var html = '';
-    liste.forEach(function(a) {
-      html += '<div class="onay-item" id="onay_'+a.id+'">'
-        + '<div class="onay-info">'
-        + '<div class="onay-igu">'+a.igu+'</div>'
-        + '<div class="onay-okul">'+a.okul+'</div>'
-        + '<div class="onay-tarih">'+a.tarih+'</div>'
-        + '</div>'
-        + '<button class="onayla-btn" onclick="isgbOnayla(\''+a.id+'\',this)">Onayla</button>'
-        + '</div>';
+    if (!liste.length) { el.innerHTML='<div class="bos">İSGB onayı bekleyen form yok ✓</div>'; return; }
+    var html='';
+    liste.forEach(function(a){
+      html+='<div class="onay-item" id="onay_'+a.id+'">'
+        +'<div class="onay-info">'
+        +'<div class="onay-igu">'+a.igu+'</div>'
+        +'<div class="onay-okul">'+a.okul+'</div>'
+        +'<div class="onay-tarih">'+a.tarih+'</div>'
+        +'</div>'
+        +'<button class="onayla-btn" onclick="isgbOnayla(\''+a.id+'\',this)">Onayla</button>'
+        +'</div>';
     });
-    el.innerHTML = html;
+    el.innerHTML=html;
   }
 
-  // ── İSGB Onayla ─────────────────────────────────────────────
   window.isgbOnayla = function(ziyaretId, btn) {
-    btn.disabled = true;
-    btn.textContent = '...';
-    jsonpCagri({ action:'isgbOnayla', id:ziyaretId }, function(err,s){
-      if (err || !s || !s.ok) {
-        btn.disabled = false;
-        btn.textContent = 'Onayla';
-        toastGoster('Hata: '+(err?err.message:(s?s.hata:'Bilinmeyen')), 'err');
+    btn.disabled=true; btn.textContent='...';
+    jsonpCagri({action:'isgbOnayla',id:ziyaretId}, function(err,s){
+      if(err||!s||!s.ok){
+        btn.disabled=false; btn.textContent='Onayla';
+        toastGoster('Hata: '+(err?err.message:(s?s.hata:'Bilinmeyen')),'err');
         return;
       }
-      // Satırı listeden kaldır
-      var satir = document.getElementById('onay_'+ziyaretId);
-      if (satir) {
-        satir.style.opacity = '0';
-        satir.style.transition = 'opacity .3s';
-        setTimeout(function(){ satir.remove(); veriYukle(); }, 300);
-      }
-      toastGoster('✓ Form onaylandı! PDF oluşturuluyor...', 'ok');
+      var satir=document.getElementById('onay_'+ziyaretId);
+      if(satir){satir.style.opacity='0';satir.style.transition='opacity .3s';setTimeout(function(){satir.remove();veriYukle();},300);}
+      toastGoster('✓ Form onaylandı! PDF oluşturuluyor...','ok');
     });
   };
 
-  function toastGoster(mesaj, tip) {
-    var el = document.getElementById('toast');
-    el.textContent = mesaj;
-    el.className = 'toast ' + (tip||'');
-    el.style.display = 'block';
-    setTimeout(function(){ el.style.display='none'; }, 3500);
-  }
-
-  // ── Aktivite Akışı ──────────────────────────────────────────
+  // Aktivite akışı — PDF butonu eklendi
   function renderFeed(aktiviteler) {
-    if (!aktiviteler||!aktiviteler.length) {
-      document.getElementById('feedList').innerHTML='<div class="bos">Henüz aktivite yok</div>';
-      return;
-    }
+    if(!aktiviteler||!aktiviteler.length){document.getElementById('feedList').innerHTML='<div class="bos">Henüz aktivite yok</div>';return;}
     var html='';
-    aktiviteler.slice(0,6).forEach(function(a){
-      var ikonSinif, ikonSvg, pillHtml;
-      if (a.durum==='Onaylandı') {
+    aktiviteler.slice(0,8).forEach(function(a){
+      var ikonSinif,ikonSvg,pillHtml;
+      if(a.durum==='Onaylandı'){
         ikonSinif='fi-ok';
-        ikonSvg='<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#1db88a" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="#1db88a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        ikonSvg='<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#1db88a" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="#1db88a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         pillHtml='<span class="pill p-on">onaylandı</span>';
-      } else if (a.durum==='İSGB Onayı Bekleniyor') {
+      } else if(a.durum==='İSGB Onayı Bekleniyor'){
         ikonSinif='fi-wait';
-        ikonSvg='<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f97316" stroke-width="1.5"/><path d="M8 5v3l2 1" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/></svg>';
+        ikonSvg='<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f97316" stroke-width="1.5"/><path d="M8 5v3l2 1" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/></svg>';
         pillHtml='<span class="pill p-isgb">isgb onayında</span>';
-      } else if (a.bekSure && a.bekSure>48) {
+      } else if(a.bekSure&&a.bekSure>48){
         ikonSinif='fi-err';
-        ikonSvg='<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f0655a" stroke-width="1.5"/><path d="M8 5v4M8 10.5v.5" stroke="#f0655a" stroke-width="1.5" stroke-linecap="round"/></svg>';
+        ikonSvg='<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f0655a" stroke-width="1.5"/><path d="M8 5v4M8 10.5v.5" stroke="#f0655a" stroke-width="1.5" stroke-linecap="round"/></svg>';
         pillHtml='<span class="pill p-gec">'+a.bekSure+' saat</span>';
       } else {
         ikonSinif='fi-new';
-        ikonSvg='<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f5a623" stroke-width="1.5"/><path d="M8 5v3l2 1" stroke="#f5a623" stroke-width="1.5" stroke-linecap="round"/></svg>';
+        ikonSvg='<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f5a623" stroke-width="1.5"/><path d="M8 5v3l2 1" stroke="#f5a623" stroke-width="1.5" stroke-linecap="round"/></svg>';
         pillHtml='<span class="pill p-mudur">müdürde</span>';
       }
-      var zaman = a.gonZaman&&a.gonZaman!=='-'?a.gonZaman.split(' ')[1]:'-';
-      html+='<div class="feed-item"><div class="f-icon '+ikonSinif+'">'+ikonSvg+'</div>'
-        +'<div style="flex:1"><div class="f-main">'+a.igu+' — '+a.okul+pillHtml+'</div>'
-        +'<div class="f-meta">'+a.tarih+'</div></div>'
-        +'<div class="f-time">'+zaman+'</div></div>';
+      var zaman=a.gonZaman&&a.gonZaman!=='-'?a.gonZaman.split(' ')[1]:'-';
+      var pdfBtn = (a.durum==='Onaylandı' && a.pdfUrl)
+        ? '<a href="'+a.pdfUrl+'" target="_blank" class="pdf-link">PDF</a>' : '';
+
+      html+='<div class="feed-item">'
+        +'<div class="f-icon '+ikonSinif+'">'+ikonSvg+'</div>'
+        +'<div class="f-body">'
+        +'<div class="f-main">'+a.igu+' — '+a.okul+pillHtml+'</div>'
+        +'<div class="f-meta">'+a.tarih+'</div>'
+        +'</div>'
+        +'<div class="f-sag">'+pdfBtn+'<span class="f-time">'+zaman+'</span></div>'
+        +'</div>';
     });
     document.getElementById('feedList').innerHTML=html;
+  }
+
+  // Yıllık Rapor
+  function yillikRaporuRender(aktiviteler, yil) {
+    var el = document.getElementById('yillikRapor');
+    var yilStr = String(yil);
+
+    // IGU bazında istatistik
+    var iguIstat = {};
+    (aktiviteler||[]).forEach(function(a){
+      if (!a.tarih || !a.tarih.includes(yilStr.slice(2))) return; // yılı filtrele
+      if (!iguIstat[a.igu]) iguIstat[a.igu] = { toplam:0, onaylanan:0, bekleyen:0 };
+      iguIstat[a.igu].toplam++;
+      if (a.durum === 'Onaylandı') iguIstat[a.igu].onaylanan++;
+      else iguIstat[a.igu].bekleyen++;
+    });
+
+    var liste = Object.keys(iguIstat).map(function(ad){
+      var s = iguIstat[ad];
+      var oran = s.toplam > 0 ? Math.round((s.onaylanan/s.toplam)*100) : 0;
+      return { ad:ad, toplam:s.toplam, onaylanan:s.onaylanan, bekleyen:s.bekleyen, oran:oran };
+    }).sort(function(a,b){ return b.toplam-a.toplam; });
+
+    if (!liste.length) {
+      el.innerHTML='<div class="bos">'+yil+' yılına ait veri bulunamadı.</div>';
+      return;
+    }
+
+    var toplamToplam   = liste.reduce(function(s,r){return s+r.toplam;},0);
+    var toplamOnaylanan= liste.reduce(function(s,r){return s+r.onaylanan;},0);
+    var genelOran      = toplamToplam>0 ? Math.round((toplamOnaylanan/toplamToplam)*100) : 0;
+
+    var html = '<table class="rapor-tablo">'
+      +'<thead><tr>'
+      +'<th>IGU Adı Soyadı</th>'
+      +'<th>Toplam Ziyaret</th>'
+      +'<th>Onaylanan</th>'
+      +'<th>Bekleyen</th>'
+      +'<th>Onay Oranı</th>'
+      +'</tr></thead><tbody>';
+
+    liste.forEach(function(r){
+      var oranSinif = r.oran>=80?'oran-yuksek':r.oran>=50?'oran-orta':'oran-dusuk';
+      html+='<tr>'
+        +'<td style="font-weight:500">'+r.ad+'</td>'
+        +'<td>'+r.toplam+'</td>'
+        +'<td style="color:var(--teal)">'+r.onaylanan+'</td>'
+        +'<td style="color:var(--amber)">'+r.bekleyen+'</td>'
+        +'<td><span class="oran-badge '+oranSinif+'">%'+r.oran+'</span></td>'
+        +'</tr>';
+    });
+
+    // Toplam satırı
+    var topOranSinif = genelOran>=80?'oran-yuksek':genelOran>=50?'oran-orta':'oran-dusuk';
+    html+='<tr style="border-top:1px solid var(--border2);">'
+      +'<td style="font-weight:700;color:var(--text)">Genel Toplam</td>'
+      +'<td style="font-weight:700">'+toplamToplam+'</td>'
+      +'<td style="font-weight:700;color:var(--teal)">'+toplamOnaylanan+'</td>'
+      +'<td style="font-weight:700;color:var(--amber)">'+(toplamToplam-toplamOnaylanan)+'</td>'
+      +'<td><span class="oran-badge '+topOranSinif+'">%'+genelOran+'</span></td>'
+      +'</tr>';
+
+    html+='</tbody></table>';
+    el.innerHTML=html;
   }
 
   function renderIGU(liste) {
@@ -480,6 +576,13 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'<div class="seg-val" style="color:'+renk+'">'+s.sayi+'</div></div>';
     });
     document.getElementById('okulSegs').innerHTML=html;
+  }
+
+  function toastGoster(mesaj,tip){
+    var el=document.getElementById('toast');
+    el.textContent=mesaj; el.className='toast '+(tip||'');
+    el.style.display='block';
+    setTimeout(function(){el.style.display='none';},3500);
   }
 
 })();
