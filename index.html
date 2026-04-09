@@ -17,60 +17,44 @@
   --r:12px;--rs:8px;
 }
 html{-webkit-text-size-adjust:100%;touch-action:manipulation}
-body{
-  background:var(--bg);color:var(--t1);
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  font-size:15px;min-height:100vh;padding:16px 12px 60px;
-  -webkit-tap-highlight-color:transparent;
-}
+body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;min-height:100vh;padding:16px 12px 60px;-webkit-tap-highlight-color:transparent}
 .hdr{text-align:center;margin-bottom:18px}
 .badge{width:42px;height:42px;border-radius:11px;background:var(--pu);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:#fff;margin:0 auto 9px}
-.hdr h1{font-size:16px;font-weight:600}
-.hdr p{font-size:11px;color:var(--t2);margin-top:2px}
+.hdr h1{font-size:16px;font-weight:600}.hdr p{font-size:11px;color:var(--t2);margin-top:2px}
 .wrap{max-width:560px;margin:0 auto}
 .sec{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:14px;margin-bottom:10px}
 .stitle{font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;display:flex;align-items:center;gap:7px}
-.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.req{color:var(--re);margin-left:2px}
-.fld{margin-bottom:11px}
-.fld:last-child{margin-bottom:0}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}.req{color:var(--re);margin-left:2px}
+.fld{margin-bottom:11px}.fld:last-child{margin-bottom:0}
 .fld label{display:block;font-size:12px;color:var(--t2);margin-bottom:4px}
 input,select,textarea{width:100%;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);color:var(--t1);font-size:15px;padding:11px 12px;outline:none;-webkit-appearance:none;appearance:none;font-family:inherit}
 input:focus,select:focus,textarea:focus{border-color:var(--pu)}
 input::placeholder,textarea::placeholder{color:var(--t3)}
 select option{background:#181c27;color:var(--t1)}
 textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
-.erow{display:flex;gap:8px}
-.erow input{flex:1;min-width:0}
+.erow{display:flex;gap:8px}.erow input{flex:1;min-width:0}
 #yukleBtn{background:var(--pu);color:#fff;border:none;border-radius:var(--rs);padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:inherit;min-width:64px}
 #yukleBtn:disabled{opacity:.5}
 .odurum{font-size:11px;margin-top:4px;display:none;padding:3px 0}
 .odurum.y{color:var(--t3)}.odurum.ok{color:var(--te)}.odurum.w{color:var(--am)}.odurum.e{color:var(--re)}
 .gkart{background:var(--bg3);border:1.5px solid var(--b1);border-radius:var(--rs);margin-bottom:7px}
-.gkart:last-child{margin-bottom:0}
-.gkart.on{border-color:var(--pu)}
+.gkart:last-child{margin-bottom:0}.gkart.on{border-color:var(--pu)}
 .gbas{display:flex;align-items:center;gap:10px;padding:12px;min-height:46px;cursor:pointer}
 .cb{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--b2);flex-shrink:0;display:flex;align-items:center;justify-content:center;background:transparent}
 .gkart.on .cb{background:var(--pu);border-color:var(--pu)}
-.cbt{display:none}
-.gkart.on .cbt{display:block}
+.cbt{display:none}.gkart.on .cbt{display:block}
 .gno{font-size:10px;font-weight:700;color:var(--t3);background:var(--bg2);padding:2px 7px;border-radius:20px;flex-shrink:0}
 .gkart.on .gno{color:var(--pu);background:rgba(124,111,247,0.12)}
-.gad{font-size:13px;color:var(--t2);flex:1;line-height:1.3}
-.gkart.on .gad{color:var(--t1)}
-.gac{display:none;padding:0 12px 12px}
-.gkart.on .gac{display:block}
-.gac textarea{font-size:14px;border-color:rgba(124,111,247,0.2)}
-.gac textarea:focus{border-color:var(--pu)}
+.gad{font-size:13px;color:var(--t2);flex:1;line-height:1.3}.gkart.on .gad{color:var(--t1)}
+.gac{display:none;padding:0 12px 12px}.gkart.on .gac{display:block}
+.gac textarea{font-size:14px;border-color:rgba(124,111,247,0.2)}.gac textarea:focus{border-color:var(--pu)}
 .rgrid{display:grid;gap:7px}
 .ri{display:flex;align-items:flex-start;gap:10px;background:var(--bg3);border:1.5px solid var(--b1);border-radius:var(--rs);padding:11px 12px;cursor:pointer;min-height:44px}
 .ri.on{border-color:var(--te);background:rgba(29,184,138,0.06)}
 .rdot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--b2);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px}
 .ri.on .rdot{border-color:var(--te)}
-.rdi{width:10px;height:10px;border-radius:50%;background:var(--te);display:none}
-.ri.on .rdi{display:block}
-.rl{font-size:13px;color:var(--t2);line-height:1.4}
-.ri.on .rl{color:var(--t1)}
+.rdi{width:10px;height:10px;border-radius:50%;background:var(--te);display:none}.ri.on .rdi{display:block}
+.rl{font-size:13px;color:var(--t2);line-height:1.4}.ri.on .rl{color:var(--t1)}
 .sbtn{width:100%;padding:15px;background:var(--pu);color:#fff;border:none;border-radius:var(--rs);font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;min-height:50px;font-family:inherit}
 .sbtn:disabled{opacity:.4}
 .errmsg{background:rgba(240,101,90,0.1);border:1px solid rgba(240,101,90,0.3);border-radius:var(--rs);padding:10px 12px;color:var(--re);font-size:13px;margin-bottom:10px;display:none}
@@ -78,8 +62,7 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 .iload.on{display:block}
 .msp{display:inline-block;width:18px;height:18px;border:2px solid var(--b2);border-top-color:var(--pu);border-radius:50%;animation:sp .6s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
-.suc{display:none;text-align:center;max-width:340px;margin:60px auto}
-.suc.on{display:block}
+.suc{display:none;text-align:center;max-width:340px;margin:60px auto}.suc.on{display:block}
 .si{width:66px;height:66px;border-radius:50%;background:rgba(29,184,138,0.12);border:2px solid var(--te);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
 .suc h2{font-size:18px;font-weight:600;margin-bottom:9px}
 .suc p{font-size:13px;color:var(--t2);line-height:1.7}
@@ -94,10 +77,8 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     <h1>İş Güvenliği Uzmanı Görev Formu</h1>
     <p>T.C. Gaziantep Valiliği — İl MEM / İşyeri Sağlık ve Güvenlik Birimi</p>
   </div>
-
   <div class="wrap">
     <div id="errmsg" class="errmsg"></div>
-
     <div class="sec">
       <div class="stitle"><span class="dot" style="background:var(--pu)"></span>uzman bilgileri</div>
       <div class="fld">
@@ -117,7 +98,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
         <input type="tel" id="iguTel" placeholder="05XX XXX XX XX" autocomplete="tel">
       </div>
     </div>
-
     <div class="sec">
       <div class="stitle"><span class="dot" style="background:var(--bl)"></span>ziyaret bilgileri</div>
       <div class="fld">
@@ -129,7 +109,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
         <input type="date" id="ziyaretTarih">
       </div>
     </div>
-
     <div class="sec">
       <div class="stitle"><span class="dot" style="background:var(--am)"></span>görev maddeleri <span style="color:var(--re);font-size:10px">* en az 1</span></div>
       <div class="gkart" id="g21"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.1</span><span class="gad">Risk Değerlendirmesi</span></div><div class="gac"><textarea id="a21" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
@@ -139,7 +118,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
       <div class="gkart" id="g28"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.8</span><span class="gad">Genel Rehberlik Hizmetleri</span></div><div class="gac"><textarea id="a28" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
       <div class="gkart" id="gdig"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">Diğer</span><span class="gad">Diğer Faaliyetler</span></div><div class="gac"><textarea id="adig" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
     </div>
-
     <div class="sec">
       <div class="stitle"><span class="dot" style="background:var(--te)"></span>genel değerlendirme <span style="color:var(--re);font-size:10px">*</span></div>
       <div class="rgrid">
@@ -149,7 +127,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
         <div class="ri" id="r4"><div class="rdot"><div class="rdi"></div></div><span class="rl">İşveren ve işveren vekili olmadığı için imza alınamamıştır</span></div>
       </div>
     </div>
-
     <div class="sec">
       <div class="stitle"><span class="dot" style="background:var(--re)"></span>ikaz ve öneriler</div>
       <div class="fld">
@@ -157,7 +134,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
         <textarea id="ikaz" placeholder="Boş bırakabilirsiniz..."></textarea>
       </div>
     </div>
-
     <div class="iload" id="iload"><span class="msp"></span><span id="iloadmsg">İşleniyor...</span></div>
     <button class="sbtn" id="gonderBtn">Formu Gönder</button>
   </div>
@@ -179,7 +155,7 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 (function(){
 
   // ============================================================
-  // ⚠️ BURAYA WEB APP URL'İNİZİ YAZIN
+  // WEB APP URL — Apps Script URL'niz
   // ============================================================
   var API = 'https://script.google.com/macros/s/AKfycbzHGBxhANKebvlt9pX5tKcTZDLvrQTpdQ2UnLFFZR11m4sYjc4vuEtWZxeJobEHUUJX/exec';
   // ============================================================
@@ -191,6 +167,7 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     r4:'İşveren ve işveren vekili olmadığı için imza alınamamıştır'
   };
   var seciliR = null;
+  var cbSayac = 0;
 
   // Bugünün tarihi
   var b = new Date();
@@ -199,16 +176,16 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 
   // Textarea otomatik boyut
   document.querySelectorAll('textarea').forEach(function(ta){
-    ta.addEventListener('input', function(){ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; });
+    ta.addEventListener('input',function(){ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; });
   });
 
   // Görev kartları toggle
   document.querySelectorAll('.gbas').forEach(function(bas){
-    bas.addEventListener('click', function(){
-      var kart = bas.parentElement;
+    bas.addEventListener('click',function(){
+      var kart=bas.parentElement;
       kart.classList.toggle('on');
       if(kart.classList.contains('on')){
-        var ta = kart.querySelector('textarea');
+        var ta=kart.querySelector('textarea');
         if(ta) requestAnimationFrame(function(){ ta.focus(); });
       }
     });
@@ -216,62 +193,74 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 
   // Radio seçimi
   document.querySelectorAll('.ri').forEach(function(ri){
-    ri.addEventListener('click', function(){
+    ri.addEventListener('click',function(){
       document.querySelectorAll('.ri').forEach(function(x){ x.classList.remove('on'); });
       ri.classList.add('on');
-      seciliR = ri.id;
+      seciliR=ri.id;
     });
   });
 
-  // ── API ÇAĞRI FONKSİYONLARI ──────────────────────────────
+  // ── JSONP ile API çağrısı (CORS sorunu yok) ──────────────
 
-  function apiGet(params) {
+  function jsonpCagri(params, callback) {
+    var cbAd = 'cb_' + (++cbSayac) + '_' + Date.now();
+    params.callback = cbAd;
+
     var url = API + '?' + Object.keys(params).map(function(k){
       return encodeURIComponent(k) + '=' + encodeURIComponent(
-        typeof params[k] === 'object' ? JSON.stringify(params[k]) : params[k]
+        typeof params[k] === 'object' ? JSON.stringify(params[k]) : String(params[k])
       );
     }).join('&');
-    return fetch(url).then(function(r){ return r.json(); });
+
+    window[cbAd] = function(data) {
+      delete window[cbAd];
+      document.head.removeChild(script);
+      callback(null, data);
+    };
+
+    var script = document.createElement('script');
+    script.src = url;
+    script.onerror = function() {
+      delete window[cbAd];
+      try { document.head.removeChild(script); } catch(e){}
+      callback(new Error('Bağlantı hatası'));
+    };
+    document.head.appendChild(script);
   }
 
-  // ── YÜKLE BUTONU ─────────────────────────────────────────
+  // ── Yükle butonu ─────────────────────────────────────────
 
-  document.getElementById('yukleBtn').addEventListener('click', function(){
+  document.getElementById('yukleBtn').addEventListener('click',function(){
     var email = document.getElementById('iguEmail').value.trim();
     if(!email){ hata('Lütfen e-posta adresinizi giriniz.'); return; }
 
-    var dur = document.getElementById('odurum');
-    var sel = document.getElementById('okulSec');
-    var btn = document.getElementById('yukleBtn');
+    var dur=document.getElementById('odurum');
+    var sel=document.getElementById('okulSec');
+    var btn=document.getElementById('yukleBtn');
 
-    btn.disabled = true; btn.textContent = '...';
+    btn.disabled=true; btn.textContent='...';
     dur.className='odurum y'; dur.style.display='block'; dur.textContent='Yükleniyor...';
     sel.innerHTML='<option value="">Yükleniyor...</option>';
 
-    apiGet({ action: 'okulListesi', email: email })
-      .then(function(s){
-        btn.disabled=false; btn.textContent='Yükle';
-        sel.innerHTML='<option value="">-- Okul seçiniz --</option>';
-        if(s.durum==='pasif'){ dur.className='odurum e'; dur.textContent='Hesap pasif. İSGB ile iletişime geçin.'; return; }
-        if(s.durum==='bulunamadi'){ dur.className='odurum w'; dur.textContent='E-posta kayıtlı değil. İSGB ile iletişime geçin.'; return; }
-        if(!s.okullar||!s.okullar.length){ dur.className='odurum w'; dur.textContent='Okul ataması yok. İSGB ile iletişime geçin.'; return; }
-        var f = document.createDocumentFragment();
-        s.okullar.forEach(function(o){ var op=document.createElement('option'); op.value=o; op.textContent=o; f.appendChild(op); });
-        sel.appendChild(f);
-        if(s.iguAd && !document.getElementById('iguAd').value.trim()) document.getElementById('iguAd').value=s.iguAd;
-        dur.className='odurum ok'; dur.textContent='✓ '+s.okullar.length+' okul yüklendi';
-      })
-      .catch(function(err){
-        btn.disabled=false; btn.textContent='Yükle';
-        dur.className='odurum e'; dur.textContent='Bağlantı hatası. Tekrar deneyin.';
-        sel.innerHTML='<option value="">-- Hata --</option>';
-      });
+    jsonpCagri({ action:'okulListesi', email:email }, function(err, s){
+      btn.disabled=false; btn.textContent='Yükle';
+      if(err){ dur.className='odurum e'; dur.textContent='Bağlantı hatası. Tekrar deneyin.'; sel.innerHTML='<option value="">-- Hata --</option>'; return; }
+      sel.innerHTML='<option value="">-- Okul seçiniz --</option>';
+      if(s.durum==='pasif'){ dur.className='odurum e'; dur.textContent='Hesap pasif. İSGB ile iletişime geçin.'; return; }
+      if(s.durum==='bulunamadi'){ dur.className='odurum w'; dur.textContent='E-posta kayıtlı değil. İSGB ile iletişime geçin.'; return; }
+      if(!s.okullar||!s.okullar.length){ dur.className='odurum w'; dur.textContent='Okul ataması yok. İSGB ile iletişime geçin.'; return; }
+      var f=document.createDocumentFragment();
+      s.okullar.forEach(function(o){ var op=document.createElement('option'); op.value=o; op.textContent=o; f.appendChild(op); });
+      sel.appendChild(f);
+      if(s.iguAd&&!document.getElementById('iguAd').value.trim()) document.getElementById('iguAd').value=s.iguAd;
+      dur.className='odurum ok'; dur.textContent='✓ '+s.okullar.length+' okul yüklendi';
+    });
   });
 
-  // ── GÖNDER BUTONU ─────────────────────────────────────────
+  // ── Gönder & Yeni Form ───────────────────────────────────
 
-  document.getElementById('gonderBtn').addEventListener('click', formuGonder);
-  document.getElementById('yeniBtn').addEventListener('click', yeniForm);
+  document.getElementById('gonderBtn').addEventListener('click',formuGonder);
+  document.getElementById('yeniBtn').addEventListener('click',yeniForm);
 
   function hata(m){ var el=document.getElementById('errmsg'); el.textContent=m; el.style.display='block'; window.scrollTo(0,0); }
   function yuklGos(m){ document.getElementById('iloadmsg').textContent=m||'İşleniyor...'; document.getElementById('iload').classList.add('on'); document.getElementById('gonderBtn').style.display='none'; }
@@ -293,17 +282,17 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     if(!tarih) return hata('Ziyaret tarihi zorunludur.');
     if(!hb)    return hata('En az bir görev maddesi seçiniz.');
     if(!deg)   return hata('Genel değerlendirme seçiniz.');
-    if(g21  && !deger('a21'))  return hata('2.1 için açıklama giriniz.');
-    if(g22  && !deger('a22'))  return hata('2.2 için açıklama giriniz.');
-    if(g23  && !deger('a23'))  return hata('2.3 için açıklama giriniz.');
-    if(g257 && !deger('a257')) return hata('2.5-2.7 için açıklama giriniz.');
-    if(g28  && !deger('a28'))  return hata('2.8 için açıklama giriniz.');
-    if(gdig && !deger('adig')) return hata('Diğer için açıklama giriniz.');
+    if(g21  &&!deger('a21'))  return hata('2.1 için açıklama giriniz.');
+    if(g22  &&!deger('a22'))  return hata('2.2 için açıklama giriniz.');
+    if(g23  &&!deger('a23'))  return hata('2.3 için açıklama giriniz.');
+    if(g257 &&!deger('a257')) return hata('2.5-2.7 için açıklama giriniz.');
+    if(g28  &&!deger('a28'))  return hata('2.8 için açıklama giriniz.');
+    if(gdig &&!deger('adig')) return hata('Diğer için açıklama giriniz.');
 
-    var formVerisi = {
-      iguAd:ad, iguEmail:email, iguTel:deger('iguTel'),
-      okul:okul, tarih:tarih, saat:'',
-      gorev21:g21, gorev22:g22, gorev23:g23, gorev257:g257, gorev28:g28, gorevDiger:gdig,
+    var fv = {
+      iguAd:ad,iguEmail:email,iguTel:deger('iguTel'),
+      okul:okul,tarih:tarih,saat:'',
+      gorev21:g21,gorev22:g22,gorev23:g23,gorev257:g257,gorev28:g28,gorevDiger:gdig,
       aciklama21:   g21  ?deger('a21')  :'',
       aciklama22:   g22  ?deger('a22')  :'',
       aciklama23:   g23  ?deger('a23')  :'',
@@ -317,32 +306,26 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     v('gonderBtn').disabled=true;
     yuklGos('Form kaydediliyor...');
 
-    apiGet({ action: 'formGonder', veri: JSON.stringify(formVerisi) })
-      .then(function(s){
-        yuklGizle();
-        if(s.ok){ v('anaForm').style.display='none'; v('basariEkrani').classList.add('on'); }
-        else{ v('gonderBtn').disabled=false; hata('Hata: '+(s.hata||'Bilinmeyen hata')); }
-      })
-      .catch(function(err){
-        yuklGizle(); v('gonderBtn').disabled=false;
-        hata('Bağlantı hatası. İnternet bağlantınızı kontrol edin.');
-      });
+    jsonpCagri({ action:'formGonder', veri:JSON.stringify(fv) }, function(err,s){
+      yuklGizle();
+      if(err){ v('gonderBtn').disabled=false; hata('Bağlantı hatası. İnternet bağlantınızı kontrol edin.'); return; }
+      if(s.ok){ v('anaForm').style.display='none'; v('basariEkrani').classList.add('on'); }
+      else{ v('gonderBtn').disabled=false; hata('Hata: '+(s.hata||'Bilinmeyen hata')); }
+    });
   }
 
   function yeniForm(){
     v('basariEkrani').classList.remove('on');
     v('anaForm').style.display='block';
     v('gonderBtn').disabled=false; v('gonderBtn').style.display='block';
-    v('errmsg').style.display='none';
-    v('iload').classList.remove('on');
+    v('errmsg').style.display='none'; v('iload').classList.remove('on');
     v('odurum').style.display='none';
     ['iguEmail','iguAd','iguTel','ikaz'].forEach(function(id){ v(id).value=''; });
     v('okulSec').innerHTML='<option value="">-- Önce e-posta yükleyiniz --</option>';
     ['g21','g22','g23','g257','g28','gdig'].forEach(function(id){ v(id).classList.remove('on'); });
     ['a21','a22','a23','a257','a28','adig'].forEach(function(id){ var el=v(id); el.value=''; el.style.height='auto'; });
     ['r1','r2','r3','r4'].forEach(function(id){ v(id).classList.remove('on'); });
-    seciliR=null;
-    window.scrollTo(0,0);
+    seciliR=null; window.scrollTo(0,0);
   }
 
 })();
