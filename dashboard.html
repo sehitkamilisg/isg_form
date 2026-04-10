@@ -482,6 +482,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   var RENKLER = ['#7c6ff7','#1db88a','#4096f5','#f5a623','#f0655a','#6b7280','#a78bfa'];
   var tumAktiviteler = [];
   var secilenYil = new Date().getFullYear();
+  var feedGizliIds = JSON.parse(sessionStorage.getItem('feedGizli') || '[]');
 
   // Giriş
   if (sessionStorage.getItem('isgb_auth') === 'ok') girisYap();
@@ -611,7 +612,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         return;
       }
       var satir=document.getElementById('onay_'+ziyaretId);
-      if(satir){satir.style.opacity='0';satir.style.transition='opacity .3s';setTimeout(function(){satir.remove();veriYukle();},300);}
+      if(satir){satir.style.opacity='0';satir.style.transition='opacity .3s';setTimeout(function(){satir.remove();},300);}
+      // PDF oluşturma ~3-5 sn sürer — 8 sn sonra dashboard yenile
+      setTimeout(function(){ veriYukle(); }, 8000);
       toastGoster('✓ Form onaylandı! PDF oluşturuluyor...','ok');
     });
   };
@@ -1500,9 +1503,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       + (v.durum==='Onaylandı' ? '<div style="text-align:center;padding:8px 0"><span class="srk-stamp">✓ ONAYLANDI</span></div>' : '')
       + '</div></div>';
   }
-
-  // Aktivite akışını temizle (sadece görsel — sayfa yenilenince geri gelir)
-  var feedGizliIds = JSON.parse(sessionStorage.getItem('feedGizli') || '[]');
 
   window.feedTemizle = function() {
     var el = document.getElementById('feedList');
