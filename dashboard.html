@@ -171,7 +171,29 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .srow-detail-tablo td:first-child{color:var(--text);}
 .srow-detail-tablo td:not(:first-child){text-align:center;}
 .srow-detail-tablo tr:last-child td{border-bottom:none;}
-.istat-panel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:6px;}
+/* ── Form Sorgulama Paneli ───────────────────────────────── */
+.sorgu-wrap{display:flex;gap:10px;margin-bottom:14px;}
+.sorgu-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:14px;padding:10px 14px;outline:none;font-family:inherit;}
+.sorgu-input:focus{border-color:var(--purple);}
+.sorgu-input::placeholder{color:var(--text3);}
+.sorgu-btn{background:var(--purple);color:white;border:none;border-radius:var(--radius-sm);padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;}
+.sorgu-btn:hover{opacity:.88;} .sorgu-btn:disabled{opacity:.4;cursor:not-allowed;}
+.sorgu-sonuc{display:none;} .sorgu-sonuc.on{display:block;}
+.srk{background:var(--bg3);border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);}
+.srk-header{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);}
+.srk-durum-badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;flex-shrink:0;}
+.srk-id{font-size:10px;color:var(--text3);font-family:monospace;margin-top:3px;}
+.srk-body{padding:4px 16px 14px;}
+.srk-row{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--border);}
+.srk-row:last-child{border-bottom:none;}
+.srk-lbl{font-size:11px;color:var(--text2);flex-shrink:0;width:130px;}
+.srk-val{font-size:12px;color:var(--text);font-weight:500;text-align:right;flex:1;}
+.srk-gorevler{display:flex;flex-wrap:wrap;gap:4px;padding:8px 0;}
+.srk-gorev-tag{font-size:10px;background:rgba(124,111,247,0.12);color:var(--purple);padding:2px 9px;border-radius:20px;}
+.srk-stamp{display:inline-block;border:2px solid var(--teal);color:var(--teal);padding:4px 16px;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:.05em;transform:rotate(-2deg);margin-top:6px;}
+.sorgu-hata{padding:12px 14px;background:rgba(240,101,90,0.08);border:1px solid rgba(240,101,90,0.2);border-radius:var(--radius-sm);color:var(--red);font-size:13px;text-align:center;}
+
+/* ── İstatistik KPI paneli ───────────────────────────────── */
 @media(max-width:800px){.istat-panel-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:500px){.istat-panel-grid{grid-template-columns:1fr;}}
 
@@ -282,6 +304,23 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         <div class="kpi-val" id="kOkul"><div class="spinner"></div></div>
         <div class="kpi-sub">okul / kurum</div>
       </div>
+    </div>
+
+    <!-- FORM SORGULAMA -->
+    <div class="panel" style="margin-bottom:16px">
+      <div class="panel-title">
+        <span class="panel-title-left">
+          <span class="dot" style="background:var(--purple)"></span>
+          form sorgula & doğrula
+        </span>
+      </div>
+      <div class="sorgu-wrap">
+        <input class="sorgu-input" id="sorguInput"
+          placeholder="Doğrulama kodu (ör: 0125110-6209) veya Ziyaret ID girin..."
+          maxlength="60">
+        <button class="sorgu-btn" id="sorguBtn" onclick="formSorgula()">🔍 Sorgula</button>
+      </div>
+      <div class="sorgu-sonuc" id="sorguSonuc"></div>
     </div>
 
     <!-- İSGB Onay + Aktivite -->
@@ -894,8 +933,123 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     detail.classList.toggle('acik', !acik);
   };
 
-  // Panel akordeon aç/kapa — başlığa tıklayınca
-  window.togglePanel = function(titleId, bodyId) {
+  // ══════════════════════════════════════════════════════════════
+  // FORM SORGULA & DOĞRULA
+  // ══════════════════════════════════════════════════════════════
+
+  window.formSorgula = function() {
+    var girdi  = document.getElementById('sorguInput').value.trim();
+    var sonuc  = document.getElementById('sorguSonuc');
+    var btn    = document.getElementById('sorguBtn');
+    if (!girdi) return;
+
+    // Kısa kod (ör: 0125110-6209) → tam ID'yi aktivitelerden bul
+    var ziyaretId = _idBul(girdi);
+
+    if (!ziyaretId) {
+      sonuc.className = 'sorgu-sonuc on';
+      sonuc.innerHTML = '<div class="sorgu-hata">⚠️ "' + girdi + '" ile eşleşen form bulunamadı.</div>';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '...';
+    sonuc.className = 'sorgu-sonuc on';
+    sonuc.innerHTML = '<div class="loading"><div class="spinner"></div> sorgulanıyor</div>';
+
+    // Apps Script'ten doğrudan veri çek
+    jsonpCagri({ action: 'dogrulaVeri', id: ziyaretId }, function(err, veri) {
+      btn.disabled = false;
+      btn.textContent = '🔍 Sorgula';
+
+      if (err || !veri || !veri.ok) {
+        // Fallback: aktivitelerden göster
+        var a = (tumAktiviteler||[]).find(function(x){ return x.id === ziyaretId; });
+        if (a) {
+          sonuc.innerHTML = _sorguSonucHtmlAktivite(a, ziyaretId);
+        } else {
+          sonuc.className = 'sorgu-sonuc on';
+          sonuc.innerHTML = '<div class="sorgu-hata">Veri alınamadı. Lütfen tekrar deneyin.</div>';
+        }
+        return;
+      }
+      sonuc.innerHTML = _sorguSonucHtml(veri);
+    });
+  };
+
+  // Enter tuşu ile de sorgula
+  document.getElementById('sorguInput').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') formSorgula();
+  });
+
+  // Kısa kodu tam ID'ye çevir
+  function _idBul(girdi) {
+    var temiz = girdi.trim().toUpperCase();
+    // Tam ZYR ID ise direkt kullan
+    if (temiz.startsWith('ZYR-')) return temiz.startsWith('ZYR-') ? girdi.trim() : null;
+    // Kısa kod (son 12 karakter) ile aktivitelerden ara
+    var bulunan = (tumAktiviteler||[]).find(function(a){
+      return a.id && a.id.slice(-12).toUpperCase() === temiz;
+    });
+    return bulunan ? bulunan.id : null;
+  }
+
+  // Aktivite verisinden sonuç HTML (hızlı fallback)
+  function _sorguSonucHtmlAktivite(a, id) {
+    var durumRenk  = a.durum==='Onaylandı' ? 'var(--teal)' : a.durum==='İSGB Onayı Bekleniyor' ? '#f97316' : 'var(--amber)';
+    var durumBg    = a.durum==='Onaylandı' ? 'rgba(29,184,138,0.12)' : a.durum==='İSGB Onayı Bekleniyor' ? 'rgba(249,115,22,0.12)' : 'rgba(245,166,35,0.12)';
+    return '<div class="srk">'
+      + '<div class="srk-header">'
+      + '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">' + a.okul + '</div>'
+      + '<div class="srk-id">' + id + '</div></div>'
+      + '<span class="srk-durum-badge" style="background:' + durumBg + ';color:' + durumRenk + '">' + a.durum + '</span>'
+      + '</div>'
+      + '<div class="srk-body">'
+      + '<div class="srk-row"><span class="srk-lbl">İş Güvenliği Uzmanı</span><span class="srk-val">' + a.igu + '</span></div>'
+      + '<div class="srk-row"><span class="srk-lbl">Ziyaret Tarihi</span><span class="srk-val">' + a.tarih + '</span></div>'
+      + '<div class="srk-row"><span class="srk-lbl">Gönderim Zamanı</span><span class="srk-val">' + a.gonZaman + '</span></div>'
+      + (a.durum==='Onaylandı' ? '<div style="text-align:center;padding:8px 0"><span class="srk-stamp">✓ ONAYLANDI</span></div>' : '')
+      + (a.pdfUrl ? '<div style="text-align:center;margin-top:8px"><a href="'+a.pdfUrl+'" target="_blank" class="pdf-link" style="font-size:12px;padding:6px 18px">📄 PDF Görüntüle</a></div>' : '')
+      + '</div></div>';
+  }
+
+  // API'den gelen tam veriyle sonuç HTML
+  function _sorguSonucHtml(v) {
+    var durumRenk = v.durum==='Onaylandı' ? 'var(--teal)' : v.durum==='İSGB Onayı Bekleniyor' ? '#f97316' : 'var(--amber)';
+    var durumBg   = v.durum==='Onaylandı' ? 'rgba(29,184,138,0.12)' : v.durum==='İSGB Onayı Bekleniyor' ? 'rgba(249,115,22,0.12)' : 'rgba(245,166,35,0.12)';
+
+    var gorevler = [];
+    if (v.gorev21)  gorevler.push('2.1 Risk');
+    if (v.gorev22)  gorevler.push('2.2 Eğitim');
+    if (v.gorev23)  gorevler.push('2.3 Ortam');
+    if (v.gorev257) gorevler.push('2.5–2.7 İşbirliği');
+    if (v.gorev28)  gorevler.push('2.8 Rehberlik');
+    if (v.gorevDig) gorevler.push('Diğer');
+
+    var gorevHtml = gorevler.map(function(g){
+      return '<span class="srk-gorev-tag">'+g+'</span>';
+    }).join('');
+
+    return '<div class="srk">'
+      + '<div class="srk-header">'
+      + '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">' + v.okulAd + '</div>'
+      + '<div class="srk-id">' + v.id + '</div></div>'
+      + '<span class="srk-durum-badge" style="background:'+durumBg+';color:'+durumRenk+'">' + v.durum + '</span>'
+      + '</div>'
+      + '<div class="srk-body">'
+      + '<div class="srk-row"><span class="srk-lbl">İş Güvenliği Uzmanı</span><span class="srk-val">' + v.iguAd + '</span></div>'
+      + '<div class="srk-row"><span class="srk-lbl">Ziyaret Tarihi</span><span class="srk-val">' + v.tarih + '</span></div>'
+      + '<div class="srk-row"><span class="srk-lbl">Form Gönderim</span><span class="srk-val">' + v.gonZaman + '</span></div>'
+      + '<div class="srk-row"><span class="srk-lbl">Müdür Onayı</span><span class="srk-val">' + v.mudurOnayTarih + '</span></div>'
+      + '<div class="srk-row"><span class="srk-lbl">İSGB Onayı</span><span class="srk-val">' + v.isgbOnayTarih + '</span></div>'
+      + (gorevHtml ? '<div class="srk-gorevler">'+gorevHtml+'</div>' : '')
+      + (v.degerlendirme && v.degerlendirme!=='-'
+          ? '<div style="font-size:11px;color:var(--text2);padding:6px 0;border-top:1px solid var(--border)">'+v.degerlendirme+'</div>' : '')
+      + (v.durum==='Onaylandı' ? '<div style="text-align:center;padding:8px 0"><span class="srk-stamp">✓ ONAYLANDI</span></div>' : '')
+      + '</div></div>';
+  }
+
+  // ── togglePanel ve diğer fonksiyonlar ───────────────────────
     var title = document.getElementById(titleId);
     var body  = document.getElementById(bodyId);
     if (!title || !body) return;
