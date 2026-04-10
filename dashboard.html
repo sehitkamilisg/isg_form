@@ -106,19 +106,48 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .pdf-link{background:rgba(124,111,247,0.12);color:var(--purple);border:none;border-radius:var(--radius-sm);padding:3px 10px;font-size:10px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;white-space:nowrap;}
 .pdf-link:hover{background:rgba(124,111,247,0.22);}
 
-/* Yıllık Rapor Tablosu */
+/* ══════════════════════════════════════════════════════════════
+   YILLIK RAPOR — AKORDEON TABLO (Soru 5)
+   ══════════════════════════════════════════════════════════════ */
 .rapor-tablo{width:100%;border-collapse:collapse;font-size:12px;}
 .rapor-tablo th{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;}
 .rapor-tablo th:not(:first-child){text-align:center;}
 .rapor-tablo td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text);}
 .rapor-tablo td:not(:first-child){text-align:center;color:var(--text2);}
 .rapor-tablo tr:last-child td{border-bottom:none;}
-.rapor-tablo tr:hover td{background:rgba(255,255,255,0.02);}
 .oran-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;}
 .oran-yuksek{background:rgba(29,184,138,0.12);color:var(--teal);}
 .oran-orta{background:rgba(245,166,35,0.12);color:var(--amber);}
 .oran-dusuk{background:rgba(240,101,90,0.12);color:var(--red);}
 
+/* Akordeon ana satır */
+.rapor-ugu-row{cursor:pointer;transition:background .15s;}
+.rapor-ugu-row:hover td{background:rgba(255,255,255,0.03);}
+.rapor-ugu-row.acik td{background:rgba(124,111,247,0.05);}
+.rapor-ugu-row td:first-child{position:relative;padding-left:28px;}
+/* Ok ikonu */
+.acc-ok{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--text3);transition:transform .2s;display:inline-block;}
+.rapor-ugu-row.acik .acc-ok{transform:translateY(-50%) rotate(90deg);color:var(--purple);}
+
+/* Akordeon içerik satırı */
+.acc-detail-row{display:none;}
+.acc-detail-row.acik{display:table-row;}
+.acc-detail-cell{padding:0 !important;border-bottom:1px solid var(--border);}
+.acc-inner{background:var(--bg3);margin:0;padding:10px 14px 14px 28px;}
+
+/* Okul tablosu (akordeon içi) */
+.okul-tablo{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px;}
+.okul-tablo th{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;padding:5px 8px;border-bottom:1px solid var(--border);text-align:left;}
+.okul-tablo th:not(:first-child){text-align:center;}
+.okul-tablo td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text2);}
+.okul-tablo td:first-child{color:var(--text);}
+.okul-tablo td:not(:first-child){text-align:center;}
+.okul-tablo tr:last-child td{border-bottom:none;}
+.okul-tablo tr:hover td{background:rgba(255,255,255,0.02);}
+
+.acc-loading{color:var(--text3);font-size:11px;padding:8px 0;}
+
+/* ── diğer stiller ─────────────────────────────────────────── */
 .seg-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
 .seg-row:last-child{margin-bottom:0;}
 .seg-label{font-size:11px;color:var(--text2);width:110px;flex-shrink:0;}
@@ -252,10 +281,14 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       </div>
     </div>
 
-    <!-- YILLIK RAPOR -->
+    <!-- YILLIK RAPOR — AKORDEONlu -->
     <div class="panel" style="margin-bottom:16px">
       <div class="panel-title">
-        <span class="panel-title-left"><span class="dot" style="background:var(--teal)"></span>yıllık igu performans raporu</span>
+        <span class="panel-title-left">
+          <span class="dot" style="background:var(--teal)"></span>
+          yıllık igu performans raporu
+          <span style="font-size:10px;color:var(--text3);margin-left:6px;font-weight:400;text-transform:none;letter-spacing:0">— satıra tıklayarak okul detayını görün</span>
+        </span>
         <select class="yil-sec" id="yilSec"></select>
       </div>
       <div id="yillikRapor"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
@@ -301,7 +334,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     }
   }
   function girisYap() {
-    // Yıl seçici doldur
     var yilSec = document.getElementById('yilSec');
     var buYil = new Date().getFullYear();
     yilSec.innerHTML = '';
@@ -410,7 +442,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     });
   };
 
-  // Aktivite akışı — PDF butonu eklendi
+  // Aktivite akışı
   function renderFeed(aktiviteler) {
     if(!aktiviteler||!aktiviteler.length){document.getElementById('feedList').innerHTML='<div class="bos">Henüz aktivite yok</div>';return;}
     var html='';
@@ -449,25 +481,47 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.getElementById('feedList').innerHTML=html;
   }
 
-  // Yıllık Rapor
+  // ══════════════════════════════════════════════════════════════
+  // YILLIK RAPOR — AKORDEONlu (Soru 5)
+  // ══════════════════════════════════════════════════════════════
+
   function yillikRaporuRender(aktiviteler, yil) {
     var el = document.getElementById('yillikRapor');
     var yilStr = String(yil);
 
-    // IGU bazında istatistik
+    // IGU bazında istatistik + okul bazında gruplama
     var iguIstat = {};
     (aktiviteler||[]).forEach(function(a){
-      if (!a.tarih || !a.tarih.includes(yilStr.slice(2))) return; // yılı filtrele
-      if (!iguIstat[a.igu]) iguIstat[a.igu] = { toplam:0, onaylanan:0, bekleyen:0 };
+      // Tarih filtresi: "09/04/26" formatı → yılın son 2 hanesi
+      var tarihYil = '';
+      if (a.tarih && a.tarih.length >= 8) {
+        // dd/MM/yy veya dd/MM/yyyy — yılı sona göre kontrol et
+        var parca = a.tarih.split('/');
+        if (parca.length === 3) {
+          tarihYil = parca[2].length === 2 ? '20'+parca[2] : parca[2];
+        }
+      }
+      if (tarihYil !== yilStr) return;
+
+      if (!iguIstat[a.igu]) iguIstat[a.igu] = { toplam:0, onaylanan:0, bekleyen:0, okullar:{} };
       iguIstat[a.igu].toplam++;
       if (a.durum === 'Onaylandı') iguIstat[a.igu].onaylanan++;
       else iguIstat[a.igu].bekleyen++;
+
+      // Okul bazında sayaç
+      var okulAd = a.okul || 'Bilinmiyor';
+      if (!iguIstat[a.igu].okullar[okulAd]) {
+        iguIstat[a.igu].okullar[okulAd] = { toplam:0, onaylanan:0, bekleyen:0 };
+      }
+      iguIstat[a.igu].okullar[okulAd].toplam++;
+      if (a.durum === 'Onaylandı') iguIstat[a.igu].okullar[okulAd].onaylanan++;
+      else iguIstat[a.igu].okullar[okulAd].bekleyen++;
     });
 
     var liste = Object.keys(iguIstat).map(function(ad){
       var s = iguIstat[ad];
       var oran = s.toplam > 0 ? Math.round((s.onaylanan/s.toplam)*100) : 0;
-      return { ad:ad, toplam:s.toplam, onaylanan:s.onaylanan, bekleyen:s.bekleyen, oran:oran };
+      return { ad:ad, toplam:s.toplam, onaylanan:s.onaylanan, bekleyen:s.bekleyen, oran:oran, okullar:s.okullar };
     }).sort(function(a,b){ return b.toplam-a.toplam; });
 
     if (!liste.length) {
@@ -475,43 +529,83 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       return;
     }
 
-    var toplamToplam   = liste.reduce(function(s,r){return s+r.toplam;},0);
-    var toplamOnaylanan= liste.reduce(function(s,r){return s+r.onaylanan;},0);
-    var genelOran      = toplamToplam>0 ? Math.round((toplamOnaylanan/toplamToplam)*100) : 0;
+    var toplamToplam    = liste.reduce(function(s,r){return s+r.toplam;},0);
+    var toplamOnaylanan = liste.reduce(function(s,r){return s+r.onaylanan;},0);
+    var genelOran       = toplamToplam>0 ? Math.round((toplamOnaylanan/toplamToplam)*100) : 0;
 
-    var html = '<table class="rapor-tablo">'
-      +'<thead><tr>'
+    var html = '<table class="rapor-tablo"><thead><tr>'
       +'<th>IGU Adı Soyadı</th>'
-      +'<th>Toplam Ziyaret</th>'
+      +'<th>Toplam</th>'
       +'<th>Onaylanan</th>'
       +'<th>Bekleyen</th>'
       +'<th>Onay Oranı</th>'
       +'</tr></thead><tbody>';
 
-    liste.forEach(function(r){
+    liste.forEach(function(r, idx){
       var oranSinif = r.oran>=80?'oran-yuksek':r.oran>=50?'oran-orta':'oran-dusuk';
-      html+='<tr>'
-        +'<td style="font-weight:500">'+r.ad+'</td>'
+      var rowId = 'acc_' + idx;
+      var detailId = 'acc_detail_' + idx;
+
+      // Ana satır — tıklanabilir
+      html += '<tr class="rapor-ugu-row" id="'+rowId+'" onclick="toggleAcc(\''+rowId+'\',\''+detailId+'\')">'
+        +'<td style="font-weight:500"><span class="acc-ok">▶</span>'+r.ad+'</td>'
         +'<td>'+r.toplam+'</td>'
         +'<td style="color:var(--teal)">'+r.onaylanan+'</td>'
         +'<td style="color:var(--amber)">'+r.bekleyen+'</td>'
         +'<td><span class="oran-badge '+oranSinif+'">%'+r.oran+'</span></td>'
         +'</tr>';
+
+      // Detay satırı (akordeon içeriği)
+      var okulListesi = Object.keys(r.okullar).sort();
+      var okulHtml = '';
+      if (okulListesi.length === 0) {
+        okulHtml = '<div class="acc-loading">Okul verisi bulunamadı.</div>';
+      } else {
+        okulHtml = '<table class="okul-tablo"><thead><tr>'
+          +'<th>Okul Adı</th><th>Toplam</th><th>Onaylanan</th><th>Bekleyen</th>'
+          +'</tr></thead><tbody>';
+        okulListesi.forEach(function(okulAd){
+          var o = r.okullar[okulAd];
+          okulHtml += '<tr>'
+            +'<td>'+okulAd+'</td>'
+            +'<td>'+o.toplam+'</td>'
+            +'<td style="color:var(--teal)">'+o.onaylanan+'</td>'
+            +'<td style="color:var(--amber)">'+o.bekleyen+'</td>'
+            +'</tr>';
+        });
+        okulHtml += '</tbody></table>';
+      }
+
+      html += '<tr class="acc-detail-row" id="'+detailId+'">'
+        +'<td colspan="5" class="acc-detail-cell">'
+        +'<div class="acc-inner">'+okulHtml+'</div>'
+        +'</td>'
+        +'</tr>';
     });
 
     // Toplam satırı
     var topOranSinif = genelOran>=80?'oran-yuksek':genelOran>=50?'oran-orta':'oran-dusuk';
-    html+='<tr style="border-top:1px solid var(--border2);">'
-      +'<td style="font-weight:700;color:var(--text)">Genel Toplam</td>'
+    html += '<tr style="border-top:2px solid var(--border2);">'
+      +'<td style="font-weight:700;color:var(--text);padding-left:10px">Genel Toplam</td>'
       +'<td style="font-weight:700">'+toplamToplam+'</td>'
       +'<td style="font-weight:700;color:var(--teal)">'+toplamOnaylanan+'</td>'
       +'<td style="font-weight:700;color:var(--amber)">'+(toplamToplam-toplamOnaylanan)+'</td>'
       +'<td><span class="oran-badge '+topOranSinif+'">%'+genelOran+'</span></td>'
       +'</tr>';
 
-    html+='</tbody></table>';
-    el.innerHTML=html;
+    html += '</tbody></table>';
+    el.innerHTML = html;
   }
+
+  // Akordeon aç/kapa
+  window.toggleAcc = function(rowId, detailId) {
+    var row    = document.getElementById(rowId);
+    var detail = document.getElementById(detailId);
+    if (!row || !detail) return;
+    var acik = row.classList.contains('acik');
+    row.classList.toggle('acik', !acik);
+    detail.classList.toggle('acik', !acik);
+  };
 
   function renderIGU(liste) {
     if(!liste||!liste.length){document.getElementById('iguBars').innerHTML='<div class="bos">Henüz veri yok</div>';return;}
