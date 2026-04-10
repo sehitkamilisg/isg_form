@@ -154,6 +154,23 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .panel-title.collapsible.acik .panel-chevron{transform:rotate(90deg);color:var(--purple);}
 .panel-body{overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1),opacity .22s;max-height:0;opacity:0;}
 .panel-body.acik{max-height:2000px;opacity:1;margin-top:14px;}
+
+/* ── Satır akordeon (her satıra tıklayınca alt detay) ───── */
+.srow{cursor:pointer;transition:background .12s;}
+.srow:hover{background:rgba(255,255,255,0.03);}
+.srow.acik{background:rgba(124,111,247,0.05);}
+.srow-ok{font-size:9px;color:var(--text3);transition:transform .18s;display:inline-block;margin-right:6px;}
+.srow.acik .srow-ok{transform:rotate(90deg);color:var(--purple);}
+.srow-detail{display:none;background:var(--bg3);border-radius:var(--radius-sm);margin:4px 0 6px 0;padding:10px 12px;}
+.srow-detail.acik{display:block;}
+.srow-detail-baslik{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
+.srow-detail-tablo{width:100%;border-collapse:collapse;font-size:11px;}
+.srow-detail-tablo th{font-size:10px;color:var(--text3);font-weight:600;padding:4px 8px;border-bottom:1px solid var(--border);text-align:left;}
+.srow-detail-tablo th:not(:first-child){text-align:center;}
+.srow-detail-tablo td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text2);}
+.srow-detail-tablo td:first-child{color:var(--text);}
+.srow-detail-tablo td:not(:first-child){text-align:center;}
+.srow-detail-tablo tr:last-child td{border-bottom:none;}
 .istat-panel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:6px;}
 @media(max-width:800px){.istat-panel-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:500px){.istat-panel-grid{grid-template-columns:1fr;}}
@@ -282,15 +299,8 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     <!-- IGU Perf + Trend -->
     <div class="grid-2">
       <div class="panel">
-        <div class="panel-title collapsible" id="pt_iguBars" onclick="togglePanel('pt_iguBars','pb_iguBars')">
-          <span class="panel-title-left">
-            <span class="dot" style="background:var(--purple)"></span>igu performansı — bu ay
-            <span class="panel-chevron">▶</span>
-          </span>
-        </div>
-        <div class="panel-body" id="pb_iguBars">
-          <div id="iguBars"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
-        </div>
+        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--purple)"></span>igu performansı — bu ay</span></div>
+        <div id="iguBars"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
       </div>
       <div class="panel">
         <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--blue)"></span>aylık ziyaret trendi</span></div>
@@ -310,30 +320,20 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         </div>
       </div>
       <div class="panel">
-        <div class="panel-title collapsible" id="pt_okulSegs" onclick="togglePanel('pt_okulSegs','pb_okulSegs')">
-          <span class="panel-title-left">
-            <span class="dot" style="background:var(--blue)"></span>okul türüne göre ziyaret
-            <span class="panel-chevron">▶</span>
-          </span>
-        </div>
-        <div class="panel-body" id="pb_okulSegs">
-          <div id="okulSegs"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
-        </div>
+        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--blue)"></span>okul türüne göre ziyaret</span></div>
+        <div id="okulSegs"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
       </div>
     </div>
 
     <!-- İSG FAALİYET İSTATİSTİKLERİ KPI PANELİ -->
     <div class="panel" style="margin-bottom:16px">
-      <div class="panel-title collapsible" id="pt_istatPanel" onclick="togglePanel('pt_istatPanel','pb_istatPanel')">
+      <div class="panel-title">
         <span class="panel-title-left">
           <span class="dot" style="background:var(--blue)"></span>
           isg faaliyet istatistikleri — kümülatif toplam
-          <span class="panel-chevron">▶</span>
         </span>
       </div>
-      <div class="panel-body" id="pb_istatPanel">
-        <div id="istatPanel"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
-      </div>
+      <div id="istatPanel"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
     </div>
 
     <!-- YILLIK RAPOR — AKORDEONlu -->
@@ -443,6 +443,8 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       }
       document.getElementById('errorBox').style.display='none';
       tumAktiviteler = d.aktiviteler || [];
+      window.okulTurMap = d.okulTurMap || {};
+      window._iguIstatCache = d.iguIstat || {};
       renderKPI(d.kpi);
       renderIsgbOnayList(tumAktiviteler);
       renderFeed(tumAktiviteler);
@@ -546,49 +548,48 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 
     var gruplar = [
       {
-        baslik: '2.1 Risk Değerlendirmesi', renk: '#7c6ff7',
+        key:'g21', baslik: '2.1 Risk Değerlendirmesi', renk: '#7c6ff7',
         satirlar: [
-          { label: 'Risk Eğitimi Verilen Çalışan', val: ist.s21_1, renk: '#7c6ff7' }
+          { label: 'Risk Eğitimi Verilen Çalışan', val: ist.s21_1, renk: '#7c6ff7', istatKey:'s21_1' }
         ]
       },
       {
-        baslik: '2.2 Eğitim & Bilgilendirme', renk: '#4096f5',
+        key:'g22', baslik: '2.2 Eğitim & Bilgilendirme', renk: '#4096f5',
         satirlar: [
-          { label: 'Temel İSG Eğitimi — Çalışan',          val: ist.s22_1, renk: '#4096f5' },
-          { label: 'İçerik Atamalı Eğitim — Çalışan',       val: ist.s22_2, renk: '#4096f5' },
-          { label: 'İş Kazası/Dönüş Eğitimi — Çalışan',     val: ist.s22_3, renk: '#4096f5' },
-          { label: 'İSG Farkındalık Eğitimi — Öğrenci',     val: ist.s22_4, renk: '#a78bfa' },
-          { label: 'Çalışan Temsilcisi Eğitimi — Çalışan',  val: ist.s22_5, renk: '#4096f5' },
-          { label: 'Acil Durum Ekipleri Eğitimi — Çalışan', val: ist.s22_6, renk: '#f97316' },
-          { label: 'Acil Durum Tatbikatlarına Katılım',      val: ist.s22_7, renk: '#f97316' }
+          { label: 'Temel İSG Eğitimi — Çalışan',           val: ist.s22_1, renk: '#4096f5', istatKey:'s22_1' },
+          { label: 'İçerik Atamalı Eğitim — Çalışan',        val: ist.s22_2, renk: '#4096f5', istatKey:'s22_2' },
+          { label: 'İş Kazası/Dönüş Eğitimi — Çalışan',      val: ist.s22_3, renk: '#4096f5', istatKey:'s22_3' },
+          { label: 'İSG Farkındalık Eğitimi — Öğrenci',      val: ist.s22_4, renk: '#a78bfa', istatKey:'s22_4' },
+          { label: 'Çalışan Temsilcisi Eğitimi — Çalışan',   val: ist.s22_5, renk: '#4096f5', istatKey:'s22_5' },
+          { label: 'Acil Durum Ekipleri Eğitimi — Çalışan',  val: ist.s22_6, renk: '#f97316', istatKey:'s22_6' },
+          { label: 'Acil Durum Tatbikatlarına Katılım',       val: ist.s22_7, renk: '#f97316', istatKey:'s22_7' }
         ]
       },
       {
-        baslik: '2.3 Ortam Gözetimi', renk: '#f0655a',
+        key:'g23', baslik: '2.3 Ortam Gözetimi', renk: '#f0655a',
         satirlar: [
-          { label: 'İş Kazası Sayısı',     val: ist.s23_1, renk: '#f0655a' },
-          { label: 'Ramak Kala Olay Sayısı', val: ist.s23_2, renk: '#f5a623' }
+          { label: 'İş Kazası Sayısı',        val: ist.s23_1, renk: '#f0655a', istatKey:'s23_1' },
+          { label: 'Ramak Kala Olay Sayısı',  val: ist.s23_2, renk: '#f5a623', istatKey:'s23_2' }
         ]
       },
       {
-        baslik: '2.5–2.7 İlgili Birimlerle İşbirliği', renk: '#1db88a',
+        key:'g257', baslik: '2.5–2.7 İlgili Birimlerle İşbirliği', renk: '#1db88a',
         satirlar: [
-          { label: 'İSG Kuruluna Katılım Sayısı',          val: ist.s257_1, renk: '#1db88a' },
-          { label: 'Kurul Üyeleri Eğitime Katılan Kişi',   val: ist.s257_2, renk: '#1db88a' }
+          { label: 'İSG Kuruluna Katılım',         val: ist.s257_1, renk: '#1db88a', istatKey:'s257_1' },
+          { label: 'Kurul Üyesi Eğitim Katılımı',  val: ist.s257_2, renk: '#1db88a', istatKey:'s257_2' }
         ]
       },
       {
-        baslik: '2.8 Genel Rehberlik', renk: '#f5a623',
+        key:'g28', baslik: '2.8 Genel Rehberlik', renk: '#f5a623',
         satirlar: [
-          { label: 'Yazılı Bildirilen Tedbir Sayısı', val: ist.s28_1, renk: '#f5a623' }
+          { label: 'Yazılı Bildirilen Tedbir', val: ist.s28_1, renk: '#f5a623', istatKey:'s28_1' }
         ]
       }
     ];
 
-    // Toplam çalışan eğitimi özet KPI'ları
     var toplamEgitim = (ist.s21_1||0)+(ist.s22_1||0)+(ist.s22_2||0)+(ist.s22_3||0)+(ist.s22_4||0)+(ist.s22_5||0)+(ist.s22_6||0)+(ist.s22_7||0)+(ist.s257_2||0);
-    var toplamKaza   = (ist.s23_1||0);
-    var toplamTedbir = (ist.s28_1||0);
+    var toplamKaza   = ist.s23_1||0;
+    var toplamTedbir = ist.s28_1||0;
 
     var ozet = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">'
       +'<div style="background:rgba(64,150,245,0.08);border:1px solid rgba(64,150,245,0.2);border-radius:8px;padding:10px 12px;text-align:center;">'
@@ -603,20 +604,41 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       +'</div>';
 
     var gridHtml = '<div class="istat-panel-grid">';
-    gruplar.forEach(function(g){
+    gruplar.forEach(function(g, gi){
       gridHtml += '<div class="istat-grup-kart">'
         +'<div class="istat-grup-baslik"><span style="width:6px;height:6px;border-radius:50%;background:'+g.renk+';display:inline-block;flex-shrink:0"></span>'+g.baslik+'</div>';
-      g.satirlar.forEach(function(s){
-        gridHtml += '<div class="istat-satir">'
-          +'<span class="istat-satir-label">'+s.label+'</span>'
+      g.satirlar.forEach(function(s, si){
+        var sid = 'ist_'+gi+'_'+si;
+        var did = 'ist_d_'+gi+'_'+si;
+        gridHtml += '<div class="srow istat-satir" id="'+sid+'" onclick="toggleSrow(\''+sid+'\',\''+did+'\')">'
+          +'<span class="istat-satir-label"><span class="srow-ok">▶</span>'+s.label+'</span>'
           +'<span class="istat-satir-val" style="color:'+s.renk+'">'+(s.val||0)+'</span>'
-          +'</div>';
+          +'</div>'
+          +'<div class="srow-detail" id="'+did+'">'
+          +'<div class="srow-detail-baslik">Okul Bazlı — '+s.label+'</div>'
+          +'<table class="srow-detail-tablo"><thead><tr><th>Okul</th><th>Uzman</th><th style="text-align:right">Değer</th></tr></thead><tbody>'
+          + _istatOkulDetayHtml(s.istatKey)
+          +'</tbody></table></div>';
       });
       gridHtml += '</div>';
     });
     gridHtml += '</div>';
 
     el.innerHTML = ozet + gridHtml;
+  }
+
+  function _istatOkulDetayHtml(istatKey) {
+    // istatKey → aktivitelerdeki istatistik alanı (s21_1 vb.)
+    // Aktivitelerde istatistik verisi yok — iguIstatGlobal'dan okul bazlı değil uzman bazlı var
+    // Bu yüzden uzman bazlı gösteriyoruz
+    var html = '';
+    if (!window._iguIstatCache) return '<tr><td colspan="3" style="color:var(--text3);text-align:center">Veri yok</td></tr>';
+    Object.keys(window._iguIstatCache).forEach(function(iguAd){
+      var val = (window._iguIstatCache[iguAd][istatKey])||0;
+      if (!val) return;
+      html+='<tr><td colspan="2">'+iguAd+'</td><td style="text-align:right;font-weight:700;color:var(--text)">'+val+'</td></tr>';
+    });
+    return html||'<tr><td colspan="3" style="color:var(--text3);text-align:center">Veri girilmemiş</td></tr>';
   }
 
   // ══════════════════════════════════════════════════════════════
@@ -810,6 +832,16 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     el.innerHTML = html;
   }
 
+  // Satır akordeon aç/kapa
+  window.toggleSrow = function(rowId, detailId) {
+    var row    = document.getElementById(rowId);
+    var detail = document.getElementById(detailId);
+    if (!row || !detail) return;
+    var acik = row.classList.contains('acik');
+    row.classList.toggle('acik', !acik);
+    detail.classList.toggle('acik', !acik);
+  };
+
   // Akordeon aç/kapa — yıllık rapor satırları için
   window.toggleAcc = function(rowId, detailId) {
     var row    = document.getElementById(rowId);
@@ -838,12 +870,46 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     liste.forEach(function(ig,i){
       var pct=Math.round((ig.buAy/maks)*100);
       var harf=ig.ad.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
-      html+='<div class="bar-row"><div class="bar-avatar">'+harf+'</div>'
-        +'<div class="bar-name">'+ig.ad+'</div>'
+      var sid='igu_'+i;
+      var did='igu_d_'+i;
+      html+='<div class="srow" id="'+sid+'" onclick="toggleSrow(\''+sid+'\',\''+did+'\')">'
+        +'<div class="bar-row" style="margin-bottom:0">'
+        +'<div class="bar-avatar">'+harf+'</div>'
+        +'<div class="bar-name"><span class="srow-ok">▶</span>'+ig.ad+'</div>'
         +'<div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+bc[i%bc.length]+'"></div></div>'
-        +'<div class="bar-num">'+ig.buAy+'</div></div>';
+        +'<div class="bar-num">'+ig.buAy+'</div>'
+        +'</div>'
+        +'</div>'
+        +'<div class="srow-detail" id="'+did+'">'
+        +'<div class="srow-detail-baslik">'+ig.ad+' — bu ay ziyaret detayı</div>'
+        +'<table class="srow-detail-tablo"><thead><tr><th>Okul</th><th>Tarih</th><th>Durum</th></tr></thead><tbody>'
+        + _iguBuAyDetayHtml(ig.ad)
+        +'</tbody></table></div>';
     });
     document.getElementById('iguBars').innerHTML=html;
+  }
+
+  function _iguBuAyDetayHtml(iguAd) {
+    var simdi = new Date();
+    var ayBasi = new Date(simdi.getFullYear(), simdi.getMonth(), 1);
+    var html='';
+    (tumAktiviteler||[]).filter(function(a){
+      if (a.igu !== iguAd) return false;
+      if (!a.gonZaman || a.gonZaman==='-') return false;
+      var p=a.gonZaman.split(' ')[0].split('/');
+      if (p.length<3) return false;
+      var d=new Date(p[2].length===2?'20'+p[2]:p[2], p[1]-1, p[0]);
+      return d >= ayBasi;
+    }).forEach(function(a){
+      var durumRenk = a.durum==='Onaylandı'?'var(--teal)':a.durum==='İSGB Onayı Bekleniyor'?'#f97316':'var(--amber)';
+      var durumKisa = a.durum==='Onaylandı'?'✓ Onaylı':a.durum==='İSGB Onayı Bekleniyor'?'İSGB\'de':'Müdürde';
+      html+='<tr>'
+        +'<td>'+a.okul+'</td>'
+        +'<td>'+a.tarih+'</td>'
+        +'<td style="color:'+durumRenk+'">'+durumKisa+'</td>'
+        +'</tr>';
+    });
+    return html||'<tr><td colspan="3" style="color:var(--text3);text-align:center">Bu ay ziyaret yok</td></tr>';
   }
 
   function renderTrend(aylar) {
@@ -884,15 +950,55 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   function renderOkulSegs(liste) {
     if(!liste||!liste.length){document.getElementById('okulSegs').innerHTML='<div class="bos">Henüz veri yok</div>';return;}
     var maks=liste[0].sayi||1;
+
+    // Aktivitelerden okul türü → okul listesi eşleşmesi
+    var turOkullar = {};
+    (tumAktiviteler||[]).forEach(function(a){
+      // okulTurListesi'nde tur bilgisi yok, aktivitelerde de yok
+      // Bu yüzden okul adından türü bulamayız — okulTurListesi'ni kullanıyoruz
+    });
+
     var html='';
     liste.forEach(function(s,i){
       var pct=Math.round((s.sayi/maks)*100);
       var renk=RENKLER[i%RENKLER.length];
-      html+='<div class="seg-row"><div class="seg-label">'+s.label+'</div>'
+      var sid='oseg_'+i;
+      var did='oseg_d_'+i;
+      html+='<div class="srow" id="'+sid+'" onclick="toggleSrow(\''+sid+'\',\''+did+'\')">'
+        +'<div class="seg-row" style="margin-bottom:0">'
+        +'<div class="seg-label"><span class="srow-ok">▶</span>'+s.label+'</div>'
         +'<div class="seg-track"><div class="seg-fill" style="width:'+pct+'%;background:'+renk+'"></div></div>'
-        +'<div class="seg-val" style="color:'+renk+'">'+s.sayi+'</div></div>';
+        +'<div class="seg-val" style="color:'+renk+'">'+s.sayi+'</div>'
+        +'</div>'
+        +'</div>'
+        +'<div class="srow-detail" id="'+did+'">'
+        +'<div class="srow-detail-baslik">'+s.label+' okulları — '+s.sayi+' ziyaret</div>'
+        +'<table class="srow-detail-tablo"><thead><tr><th>Okul Adı</th><th>Toplam</th><th>Onaylanan</th><th>Bekleyen</th></tr></thead><tbody>'
+        + _okulTurDetayHtml(s.label)
+        +'</tbody></table></div>';
     });
     document.getElementById('okulSegs').innerHTML=html;
+  }
+
+  // Aktivitelerden okul türü bazlı detay — okulTurMap global değişkeninden beslenir
+  function _okulTurDetayHtml(tur) {
+    var okulMap = {};
+    (tumAktiviteler||[]).forEach(function(a){
+      var t = okulTurMap[a.okul];
+      if (t !== tur) return;
+      if (!okulMap[a.okul]) okulMap[a.okul] = {toplam:0,onaylanan:0,bekleyen:0};
+      okulMap[a.okul].toplam++;
+      if (a.durum==='Onaylandı') okulMap[a.okul].onaylanan++;
+      else okulMap[a.okul].bekleyen++;
+    });
+    var html='';
+    Object.keys(okulMap).sort().forEach(function(ad){
+      var o=okulMap[ad];
+      html+='<tr><td>'+ad+'</td><td>'+o.toplam+'</td>'
+        +'<td style="color:var(--teal)">'+o.onaylanan+'</td>'
+        +'<td style="color:var(--amber)">'+o.bekleyen+'</td></tr>';
+    });
+    return html||'<tr><td colspan="4" style="color:var(--text3);text-align:center">Detay bulunamadı</td></tr>';
   }
 
   function toastGoster(mesaj,tip){
