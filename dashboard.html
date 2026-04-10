@@ -147,7 +147,24 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 
 .acc-loading{color:var(--text3);font-size:11px;padding:8px 0;}
 
-/* ── diğer stiller ─────────────────────────────────────────── */
+/* ── İstatistik KPI paneli ────────────────────────────────── */
+.istat-panel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:6px;}
+@media(max-width:800px){.istat-panel-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:500px){.istat-panel-grid{grid-template-columns:1fr;}}
+
+.istat-grup-kart{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;}
+.istat-grup-baslik{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.istat-satir{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.istat-satir:last-child{border-bottom:none;}
+.istat-satir-label{font-size:11px;color:var(--text2);flex:1;line-height:1.3;}
+.istat-satir-val{font-size:14px;font-weight:700;flex-shrink:0;min-width:28px;text-align:right;}
+
+/* Akordeon içi istatistik */
+.acc-istat-blok{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.acc-istat-baslik{font-size:9px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+.acc-istat-satir{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 0;}
+.acc-istat-label{font-size:11px;color:var(--text2);flex:1;}
+.acc-istat-val{font-size:12px;font-weight:600;color:var(--text);flex-shrink:0;}
 .seg-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
 .seg-row:last-child{margin-bottom:0;}
 .seg-label{font-size:11px;color:var(--text2);width:110px;flex-shrink:0;}
@@ -281,6 +298,17 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       </div>
     </div>
 
+    <!-- İSG FAALİYET İSTATİSTİKLERİ KPI PANELİ -->
+    <div class="panel" style="margin-bottom:16px">
+      <div class="panel-title">
+        <span class="panel-title-left">
+          <span class="dot" style="background:var(--blue)"></span>
+          isg faaliyet istatistikleri — kümülatif toplam
+        </span>
+      </div>
+      <div id="istatPanel"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+    </div>
+
     <!-- YILLIK RAPOR — AKORDEONlu -->
     <div class="panel" style="margin-bottom:16px">
       <div class="panel-title">
@@ -321,7 +349,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   document.getElementById('refreshBtn').addEventListener('click', veriYukle);
   document.getElementById('yilSec').addEventListener('change', function(){
     secilenYil = parseInt(this.value);
-    yillikRaporuRender(tumAktiviteler, secilenYil);
+    yillikRaporuRender(tumAktiviteler, secilenYil, null);
   });
 
   function sifreKontrol() {
@@ -395,7 +423,8 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       renderTrend(d.ayTrend);
       renderPie(d.gorevDagilim);
       renderOkulSegs(d.okulTurListesi);
-      yillikRaporuRender(tumAktiviteler, secilenYil);
+      renderIstatPanel(d.istatToplam);
+      yillikRaporuRender(tumAktiviteler, secilenYil, d.iguIstat);
       document.getElementById('updateTime').textContent='güncellendi: '+d.guncelleme;
     });
   }
@@ -482,10 +511,92 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   }
 
   // ══════════════════════════════════════════════════════════════
-  // YILLIK RAPOR — AKORDEONlu (Soru 5)
+  // İSTATİSTİK KPI PANELİ
+  // ══════════════════════════════════════════════════════════════
+  function renderIstatPanel(ist) {
+    var el = document.getElementById('istatPanel');
+    if (!ist) { el.innerHTML='<div class="bos">Henüz istatistik verisi yok</div>'; return; }
+
+    var gruplar = [
+      {
+        baslik: '2.1 Risk Değerlendirmesi', renk: '#7c6ff7',
+        satirlar: [
+          { label: 'Risk Eğitimi Verilen Çalışan', val: ist.s21_1, renk: '#7c6ff7' }
+        ]
+      },
+      {
+        baslik: '2.2 Eğitim & Bilgilendirme', renk: '#4096f5',
+        satirlar: [
+          { label: 'Temel İSG Eğitimi — Çalışan',          val: ist.s22_1, renk: '#4096f5' },
+          { label: 'İçerik Atamalı Eğitim — Çalışan',       val: ist.s22_2, renk: '#4096f5' },
+          { label: 'İş Kazası/Dönüş Eğitimi — Çalışan',     val: ist.s22_3, renk: '#4096f5' },
+          { label: 'İSG Farkındalık Eğitimi — Öğrenci',     val: ist.s22_4, renk: '#a78bfa' },
+          { label: 'Çalışan Temsilcisi Eğitimi — Çalışan',  val: ist.s22_5, renk: '#4096f5' },
+          { label: 'Acil Durum Ekipleri Eğitimi — Çalışan', val: ist.s22_6, renk: '#f97316' },
+          { label: 'Acil Durum Tatbikatlarına Katılım',      val: ist.s22_7, renk: '#f97316' }
+        ]
+      },
+      {
+        baslik: '2.3 Ortam Gözetimi', renk: '#f0655a',
+        satirlar: [
+          { label: 'İş Kazası Sayısı',     val: ist.s23_1, renk: '#f0655a' },
+          { label: 'Ramak Kala Olay Sayısı', val: ist.s23_2, renk: '#f5a623' }
+        ]
+      },
+      {
+        baslik: '2.5–2.7 İlgili Birimlerle İşbirliği', renk: '#1db88a',
+        satirlar: [
+          { label: 'İSG Kuruluna Katılım Sayısı',          val: ist.s257_1, renk: '#1db88a' },
+          { label: 'Kurul Üyeleri Eğitime Katılan Kişi',   val: ist.s257_2, renk: '#1db88a' }
+        ]
+      },
+      {
+        baslik: '2.8 Genel Rehberlik', renk: '#f5a623',
+        satirlar: [
+          { label: 'Yazılı Bildirilen Tedbir Sayısı', val: ist.s28_1, renk: '#f5a623' }
+        ]
+      }
+    ];
+
+    // Toplam çalışan eğitimi özet KPI'ları
+    var toplamEgitim = (ist.s21_1||0)+(ist.s22_1||0)+(ist.s22_2||0)+(ist.s22_3||0)+(ist.s22_4||0)+(ist.s22_5||0)+(ist.s22_6||0)+(ist.s22_7||0)+(ist.s257_2||0);
+    var toplamKaza   = (ist.s23_1||0);
+    var toplamTedbir = (ist.s28_1||0);
+
+    var ozet = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">'
+      +'<div style="background:rgba(64,150,245,0.08);border:1px solid rgba(64,150,245,0.2);border-radius:8px;padding:10px 12px;text-align:center;">'
+      +'<div style="font-size:22px;font-weight:700;color:#4096f5">'+toplamEgitim+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">toplam eğitim alan kişi</div></div>'
+      +'<div style="background:rgba(240,101,90,0.08);border:1px solid rgba(240,101,90,0.2);border-radius:8px;padding:10px 12px;text-align:center;">'
+      +'<div style="font-size:22px;font-weight:700;color:#f0655a">'+toplamKaza+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">toplam iş kazası</div></div>'
+      +'<div style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:8px;padding:10px 12px;text-align:center;">'
+      +'<div style="font-size:22px;font-weight:700;color:#f5a623">'+toplamTedbir+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">toplam yazılı tedbir</div></div>'
+      +'</div>';
+
+    var gridHtml = '<div class="istat-panel-grid">';
+    gruplar.forEach(function(g){
+      gridHtml += '<div class="istat-grup-kart">'
+        +'<div class="istat-grup-baslik"><span style="width:6px;height:6px;border-radius:50%;background:'+g.renk+';display:inline-block;flex-shrink:0"></span>'+g.baslik+'</div>';
+      g.satirlar.forEach(function(s){
+        gridHtml += '<div class="istat-satir">'
+          +'<span class="istat-satir-label">'+s.label+'</span>'
+          +'<span class="istat-satir-val" style="color:'+s.renk+'">'+(s.val||0)+'</span>'
+          +'</div>';
+      });
+      gridHtml += '</div>';
+    });
+    gridHtml += '</div>';
+
+    el.innerHTML = ozet + gridHtml;
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // YILLIK RAPOR — AKORDEONlu (Soru 5 + istatistik detayı)
   // ══════════════════════════════════════════════════════════════
 
-  function yillikRaporuRender(aktiviteler, yil) {
+  function yillikRaporuRender(aktiviteler, yil, iguIstatGlobal) {
     var el = document.getElementById('yillikRapor');
     var yilStr = String(yil);
 
@@ -576,9 +687,42 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         okulHtml += '</tbody></table>';
       }
 
+      // İstatistik bloğu (IGU'ya ait toplam sayısal veriler)
+      var ist = iguIstatGlobal && iguIstatGlobal[r.ad];
+      var istatHtml = '';
+      if (ist) {
+        var istatSatirlar = [
+          { label:'Risk Eğitimi Verilen Çalışan',           val:ist.s21_1,  renk:'#7c6ff7' },
+          { label:'Temel İSG Eğitimi — Çalışan',            val:ist.s22_1,  renk:'#4096f5' },
+          { label:'İçerik Atamalı Eğitim — Çalışan',        val:ist.s22_2,  renk:'#4096f5' },
+          { label:'İş Kazası/Dönüş Eğitimi — Çalışan',      val:ist.s22_3,  renk:'#4096f5' },
+          { label:'İSG Farkındalık — Öğrenci',               val:ist.s22_4,  renk:'#a78bfa' },
+          { label:'Çalışan Temsilcisi Eğitimi',              val:ist.s22_5,  renk:'#4096f5' },
+          { label:'Acil Durum Ekipleri Eğitimi — Çalışan',  val:ist.s22_6,  renk:'#f97316' },
+          { label:'Acil Durum Tatbikatlarına Katılım',       val:ist.s22_7,  renk:'#f97316' },
+          { label:'İş Kazası Sayısı',                        val:ist.s23_1,  renk:'#f0655a' },
+          { label:'Ramak Kala Olay Sayısı',                  val:ist.s23_2,  renk:'#f5a623' },
+          { label:'İSG Kuruluna Katılım',                    val:ist.s257_1, renk:'#1db88a' },
+          { label:'Kurul Üyesi Eğitim Katılımı',             val:ist.s257_2, renk:'#1db88a' },
+          { label:'Yazılı Bildirilen Tedbir',                val:ist.s28_1,  renk:'#f5a623' }
+        ].filter(function(s){ return s.val > 0; });
+
+        if (istatSatirlar.length > 0) {
+          istatHtml = '<div class="acc-istat-blok"><div class="acc-istat-baslik">📊 toplam istatistikler</div>'
+            +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">';
+          istatSatirlar.forEach(function(s){
+            istatHtml += '<div class="acc-istat-satir">'
+              +'<span class="acc-istat-label">'+s.label+'</span>'
+              +'<span class="acc-istat-val" style="color:'+s.renk+'">'+s.val+'</span>'
+              +'</div>';
+          });
+          istatHtml += '</div></div>';
+        }
+      }
+
       html += '<tr class="acc-detail-row" id="'+detailId+'">'
         +'<td colspan="5" class="acc-detail-cell">'
-        +'<div class="acc-inner">'+okulHtml+'</div>'
+        +'<div class="acc-inner">'+okulHtml+istatHtml+'</div>'
         +'</td>'
         +'</tr>';
     });
