@@ -970,30 +970,42 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     var bekleyenSayi  = toplamZiyaret - onaylananSayi;
     var onayOrani     = toplamZiyaret > 0 ? Math.round((onaylananSayi/toplamZiyaret)*100) : 0;
 
-    // IGU performans
+    // IGU performans + okul bazlı kırılım
     var iguPerf = {};
     tumAktiviteler.forEach(function(a){
-      if (!iguPerf[a.igu]) iguPerf[a.igu] = {toplam:0, onaylanan:0};
+      if (!iguPerf[a.igu]) iguPerf[a.igu] = { toplam:0, onaylanan:0, okullar:{} };
       iguPerf[a.igu].toplam++;
       if (a.durum==='Onaylandı') iguPerf[a.igu].onaylanan++;
+      if (!iguPerf[a.igu].okullar[a.okul]) iguPerf[a.igu].okullar[a.okul] = { toplam:0, onaylanan:0 };
+      iguPerf[a.igu].okullar[a.okul].toplam++;
+      if (a.durum==='Onaylandı') iguPerf[a.igu].okullar[a.okul].onaylanan++;
     });
     var iguSirali = Object.keys(iguPerf).map(function(ad){
-      return { ad:ad, toplam:iguPerf[ad].toplam, onaylanan:iguPerf[ad].onaylanan };
+      var okulListesi = Object.keys(iguPerf[ad].okullar).map(function(ok){
+        return { ad:ok, toplam:iguPerf[ad].okullar[ok].toplam, onaylanan:iguPerf[ad].okullar[ok].onaylanan };
+      }).sort(function(a,b){ return b.toplam-a.toplam; });
+      return { ad:ad, toplam:iguPerf[ad].toplam, onaylanan:iguPerf[ad].onaylanan, okullar:okulListesi };
     }).sort(function(a,b){ return b.toplam - a.toplam; });
 
-    // Okul türü dağılımı
+    // Okul türü + okul listesi kırılımı
     var okulTur = {};
     tumAktiviteler.forEach(function(a){
       var tur = (window.okulTurMap && window.okulTurMap[a.okul]) || 'Diğer';
-      if (!okulTur[tur]) okulTur[tur] = 0;
-      okulTur[tur]++;
+      if (!okulTur[tur]) okulTur[tur] = { sayi:0, okullar:{} };
+      okulTur[tur].sayi++;
+      if (!okulTur[tur].okullar[a.okul]) okulTur[tur].okullar[a.okul] = 0;
+      okulTur[tur].okullar[a.okul]++;
     });
     var okulTurSirali = Object.keys(okulTur).map(function(k){
-      return { label:k, sayi:okulTur[k] };
+      var okulListesi = Object.keys(okulTur[k].okullar).map(function(ad){
+        return { ad:ad, sayi:okulTur[k].okullar[ad] };
+      }).sort(function(a,b){ return b.sayi-a.sayi; });
+      return { label:k, sayi:okulTur[k].sayi, okullar:okulListesi };
     }).sort(function(a,b){ return b.sayi-a.sayi; });
 
-    // İstatistikler — istatToplam'dan al (renderIstatPanel ile aynı kaynak)
+    // İstatistikler + uzman bazlı kırılım
     var ist = window._istatToplamCache || null;
+    var istUzmanKirilim = window._iguIstatCache || {};
 
     // Son 5 ziyaret
     var son5 = tumAktiviteler.slice(0,5);
@@ -1012,7 +1024,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       donem, tarihStr, guncelleme,
       toplamZiyaret, onaylananSayi, bekleyenSayi, onayOrani,
       kMudur, kIsgb, kBugun, kIGU, kOkul,
-      iguSirali, okulTurSirali, ist, son5
+      iguSirali, okulTurSirali, ist, istUzmanKirilim, son5
     });
 
     // Yeni sekmede aç
@@ -1029,15 +1041,32 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       var pct = Math.round((ig.toplam/maxIgu)*100);
       var oran = ig.toplam > 0 ? Math.round((ig.onaylanan/ig.toplam)*100) : 0;
       var renk = oran>=80?'#1db88a':oran>=50?'#f5a623':'#f0655a';
-      return '<tr>'
-        +'<td style="padding:5px 8px;font-size:11px;color:#1e293b">'+ig.ad+'</td>'
+      // Ana satır
+      var satirlar = '<tr style="border-top:1px solid #e2e8f0">'
+        +'<td style="padding:5px 8px;font-size:11px;color:#1e293b;font-weight:600">'+ig.ad+'</td>'
         +'<td style="padding:5px 8px;text-align:center;font-size:11px">'+ig.toplam+'</td>'
         +'<td style="padding:5px 8px;text-align:center;font-size:11px;color:#1db88a">'+ig.onaylanan+'</td>'
         +'<td style="padding:5px 8px">'
-        +'<div style="background:#e2e8f0;border-radius:3px;height:8px;overflow:hidden">'
+        +'<div style="background:#e2e8f0;border-radius:3px;height:7px;overflow:hidden">'
         +'<div style="width:'+pct+'%;height:100%;background:#3b5bdb;border-radius:3px"></div></div></td>'
         +'<td style="padding:5px 8px;text-align:center"><span style="background:'+renk+'1a;color:'+renk+';font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px">%'+oran+'</span></td>'
         +'</tr>';
+      // Okul alt kırılımı
+      if (ig.okullar && ig.okullar.length) {
+        ig.okullar.forEach(function(ok){
+          var okOran = ok.toplam > 0 ? Math.round((ok.onaylanan/ok.toplam)*100) : 0;
+          var okRenk = okOran>=80?'#1db88a':okOran>=50?'#f5a623':'#f0655a';
+          satirlar += '<tr>'
+            +'<td style="padding:3px 8px 3px 20px;font-size:10px;color:#64748b">'
+            +'<span style="color:#94a3b8;margin-right:4px">└</span>'+ok.ad+'</td>'
+            +'<td style="padding:3px 8px;text-align:center;font-size:10px;color:#64748b">'+ok.toplam+'</td>'
+            +'<td style="padding:3px 8px;text-align:center;font-size:10px;color:#1db88a">'+ok.onaylanan+'</td>'
+            +'<td style="padding:3px 8px"></td>'
+            +'<td style="padding:3px 8px;text-align:center"><span style="color:'+okRenk+';font-size:9px;font-weight:600">%'+okOran+'</span></td>'
+            +'</tr>';
+        });
+      }
+      return satirlar;
     }).join('');
 
     var okulTurSatirlar = d.okulTurSirali.map(function(o){
@@ -1045,26 +1074,39 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       var renkler = ['#3b5bdb','#1db88a','#f5a623','#f0655a','#7c6ff7','#6b7280'];
       var ri = d.okulTurSirali.indexOf(o);
       var r = renkler[ri % renkler.length];
-      return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">'
-        +'<div style="width:80px;font-size:10px;color:#64748b;flex-shrink:0">'+o.label+'</div>'
+      // Ana tur satırı
+      var html = '<div style="margin-bottom:4px">'
+        +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'
+        +'<div style="width:80px;font-size:10px;color:#1e293b;font-weight:600;flex-shrink:0">'+o.label+'</div>'
         +'<div style="flex:1;background:#e2e8f0;border-radius:3px;height:10px;overflow:hidden">'
         +'<div style="width:'+pct+'%;height:100%;background:'+r+';border-radius:3px"></div></div>'
         +'<div style="width:20px;font-size:11px;font-weight:700;color:'+r+';text-align:right">'+o.sayi+'</div>'
         +'</div>';
+      // Okul alt listesi
+      if (o.okullar && o.okullar.length) {
+        o.okullar.forEach(function(ok){
+          html += '<div style="display:flex;justify-content:space-between;padding:1px 0 1px 16px">'
+            +'<span style="font-size:9px;color:#64748b"><span style="color:#94a3b8;margin-right:3px">└</span>'+ok.ad+'</span>'
+            +'<span style="font-size:9px;font-weight:600;color:'+r+'">'+ok.sayi+'</span>'
+            +'</div>';
+        });
+      }
+      html += '</div>';
+      return html;
     }).join('');
 
     var istSatirlar = '';
     if (d.ist) {
       var istGruplar = [
-        ['Risk Eğitimi Verilen Çalışan', d.ist.s21_1, '#3b5bdb'],
-        ['Temel İSG Eğitimi — Çalışan', d.ist.s22_1, '#3b5bdb'],
-        ['İSG Farkındalık — Öğrenci', d.ist.s22_4, '#7c6ff7'],
-        ['Acil Durum Ekipleri Eğitimi', d.ist.s22_6, '#f97316'],
-        ['Acil Durum Tatbikat Katılımı', d.ist.s22_7, '#f97316'],
-        ['İş Kazası Sayısı', d.ist.s23_1, '#f0655a'],
-        ['Ramak Kala Olay', d.ist.s23_2, '#f5a623'],
-        ['İSG Kuruluna Katılım', d.ist.s257_1, '#1db88a'],
-        ['Yazılı Bildirilen Tedbir', d.ist.s28_1, '#f5a623'],
+        ['Risk Eğitimi Verilen Çalışan',   d.ist.s21_1,  '#3b5bdb', 's21_1'],
+        ['Temel İSG Eğitimi — Çalışan',    d.ist.s22_1,  '#3b5bdb', 's22_1'],
+        ['İSG Farkındalık — Öğrenci',      d.ist.s22_4,  '#7c6ff7', 's22_4'],
+        ['Acil Durum Ekipleri Eğitimi',     d.ist.s22_6,  '#f97316', 's22_6'],
+        ['Acil Durum Tatbikat Katılımı',    d.ist.s22_7,  '#f97316', 's22_7'],
+        ['İş Kazası Sayısı',               d.ist.s23_1,  '#f0655a', 's23_1'],
+        ['Ramak Kala Olay',                d.ist.s23_2,  '#f5a623', 's23_2'],
+        ['İSG Kuruluna Katılım',           d.ist.s257_1, '#1db88a', 's257_1'],
+        ['Yazılı Bildirilen Tedbir',       d.ist.s28_1,  '#f5a623', 's28_1'],
       ].filter(function(g){ return g[1] > 0; });
 
       var toplamEgitim = (d.ist.s21_1||0)+(d.ist.s22_1||0)+(d.ist.s22_2||0)
@@ -1072,10 +1114,30 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +(d.ist.s22_6||0)+(d.ist.s22_7||0)+(d.ist.s257_2||0);
 
       istSatirlar = istGruplar.map(function(g){
-        return '<div style="display:flex;justify-content:space-between;align-items:center;'
-          +'padding:4px 0;border-bottom:1px solid #f1f5f9">'
-          +'<span style="font-size:10px;color:#475569">'+g[0]+'</span>'
+        var istatKey = g[3]; // key eklenecek
+        // Uzman bazlı kırılım
+        var uzmanSatirlar = '';
+        if (d.istUzmanKirilim) {
+          Object.keys(d.istUzmanKirilim).forEach(function(iguAd){
+            var val = d.istUzmanKirilim[iguAd][istatKey] || 0;
+            if (!val) return;
+            var pct = g[1] > 0 ? Math.round((val/g[1])*100) : 0;
+            uzmanSatirlar += '<div style="display:flex;justify-content:space-between;align-items:center;'
+              +'padding:2px 0 2px 14px;border-bottom:1px solid #f8fafc">'
+              +'<span style="font-size:9px;color:#64748b"><span style="color:#94a3b8;margin-right:3px">└</span>'+iguAd+'</span>'
+              +'<div style="display:flex;align-items:center;gap:6px">'
+              +'<div style="width:50px;background:#e2e8f0;border-radius:2px;height:4px;overflow:hidden">'
+              +'<div style="width:'+pct+'%;height:100%;background:'+g[2]+';border-radius:2px"></div></div>'
+              +'<span style="font-size:10px;font-weight:700;color:'+g[2]+'">'+val+'</span>'
+              +'</div></div>';
+          });
+        }
+        return '<div style="border-bottom:1px solid #f1f5f9">'
+          +'<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0">'
+          +'<span style="font-size:10px;color:#475569;font-weight:600">'+g[0]+'</span>'
           +'<span style="font-size:13px;font-weight:700;color:'+g[2]+'">'+g[1]+'</span>'
+          +'</div>'
+          + uzmanSatirlar
           +'</div>';
       }).join('');
     }
