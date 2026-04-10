@@ -147,7 +147,13 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 
 .acc-loading{color:var(--text3);font-size:11px;padding:8px 0;}
 
-/* ── İstatistik KPI paneli ────────────────────────────────── */
+/* ── Panel akordeon (başlığa tıklanınca açılır/kapanır) ─── */
+.panel-title.collapsible{cursor:pointer;user-select:none;-webkit-user-select:none;margin-bottom:0;}
+.panel-title.collapsible:hover .panel-title-left{opacity:.85;}
+.panel-chevron{font-size:11px;color:var(--text3);transition:transform .22s;display:inline-block;margin-left:8px;flex-shrink:0;}
+.panel-title.collapsible.acik .panel-chevron{transform:rotate(90deg);color:var(--purple);}
+.panel-body{overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1),opacity .22s;max-height:0;opacity:0;}
+.panel-body.acik{max-height:2000px;opacity:1;margin-top:14px;}
 .istat-panel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:6px;}
 @media(max-width:800px){.istat-panel-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:500px){.istat-panel-grid{grid-template-columns:1fr;}}
@@ -159,12 +165,16 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .istat-satir-label{font-size:11px;color:var(--text2);flex:1;line-height:1.3;}
 .istat-satir-val{font-size:14px;font-weight:700;flex-shrink:0;min-width:28px;text-align:right;}
 
-/* Akordeon içi istatistik */
-.acc-istat-blok{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+/* Akordeon içi istatistik — gruplu */
+.acc-istat-blok{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
 .acc-istat-baslik{font-size:9px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
-.acc-istat-satir{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 0;}
-.acc-istat-label{font-size:11px;color:var(--text2);flex:1;}
-.acc-istat-val{font-size:12px;font-weight:600;color:var(--text);flex-shrink:0;}
+.acc-istat-gruplar{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:700px){.acc-istat-gruplar{grid-template-columns:1fr;}}
+.acc-istat-grup{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;}
+.acc-istat-grup-baslik{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px;}
+.acc-istat-satir{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:2px 0;}
+.acc-istat-label{font-size:10px;color:var(--text2);flex:1;line-height:1.3;}
+.acc-istat-val{font-size:12px;font-weight:700;flex-shrink:0;min-width:22px;text-align:right;}
 .seg-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
 .seg-row:last-child{margin-bottom:0;}
 .seg-label{font-size:11px;color:var(--text2);width:110px;flex-shrink:0;}
@@ -272,8 +282,15 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     <!-- IGU Perf + Trend -->
     <div class="grid-2">
       <div class="panel">
-        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--purple)"></span>igu performansı — bu ay</span></div>
-        <div id="iguBars"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        <div class="panel-title collapsible" id="pt_iguBars" onclick="togglePanel('pt_iguBars','pb_iguBars')">
+          <span class="panel-title-left">
+            <span class="dot" style="background:var(--purple)"></span>igu performansı — bu ay
+            <span class="panel-chevron">▶</span>
+          </span>
+        </div>
+        <div class="panel-body" id="pb_iguBars">
+          <div id="iguBars"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        </div>
       </div>
       <div class="panel">
         <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--blue)"></span>aylık ziyaret trendi</span></div>
@@ -293,20 +310,30 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         </div>
       </div>
       <div class="panel">
-        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--blue)"></span>okul türüne göre ziyaret</span></div>
-        <div id="okulSegs"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        <div class="panel-title collapsible" id="pt_okulSegs" onclick="togglePanel('pt_okulSegs','pb_okulSegs')">
+          <span class="panel-title-left">
+            <span class="dot" style="background:var(--blue)"></span>okul türüne göre ziyaret
+            <span class="panel-chevron">▶</span>
+          </span>
+        </div>
+        <div class="panel-body" id="pb_okulSegs">
+          <div id="okulSegs"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        </div>
       </div>
     </div>
 
     <!-- İSG FAALİYET İSTATİSTİKLERİ KPI PANELİ -->
     <div class="panel" style="margin-bottom:16px">
-      <div class="panel-title">
+      <div class="panel-title collapsible" id="pt_istatPanel" onclick="togglePanel('pt_istatPanel','pb_istatPanel')">
         <span class="panel-title-left">
           <span class="dot" style="background:var(--blue)"></span>
           isg faaliyet istatistikleri — kümülatif toplam
+          <span class="panel-chevron">▶</span>
         </span>
       </div>
-      <div id="istatPanel"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+      <div class="panel-body" id="pb_istatPanel">
+        <div id="istatPanel"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+      </div>
     </div>
 
     <!-- YILLIK RAPOR — AKORDEONlu -->
@@ -687,35 +714,77 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         okulHtml += '</tbody></table>';
       }
 
-      // İstatistik bloğu (IGU'ya ait toplam sayısal veriler)
+      // İstatistik bloğu — madde başlıklarına göre gruplu
       var ist = iguIstatGlobal && iguIstatGlobal[r.ad];
       var istatHtml = '';
       if (ist) {
-        var istatSatirlar = [
-          { label:'Risk Eğitimi Verilen Çalışan',           val:ist.s21_1,  renk:'#7c6ff7' },
-          { label:'Temel İSG Eğitimi — Çalışan',            val:ist.s22_1,  renk:'#4096f5' },
-          { label:'İçerik Atamalı Eğitim — Çalışan',        val:ist.s22_2,  renk:'#4096f5' },
-          { label:'İş Kazası/Dönüş Eğitimi — Çalışan',      val:ist.s22_3,  renk:'#4096f5' },
-          { label:'İSG Farkındalık — Öğrenci',               val:ist.s22_4,  renk:'#a78bfa' },
-          { label:'Çalışan Temsilcisi Eğitimi',              val:ist.s22_5,  renk:'#4096f5' },
-          { label:'Acil Durum Ekipleri Eğitimi — Çalışan',  val:ist.s22_6,  renk:'#f97316' },
-          { label:'Acil Durum Tatbikatlarına Katılım',       val:ist.s22_7,  renk:'#f97316' },
-          { label:'İş Kazası Sayısı',                        val:ist.s23_1,  renk:'#f0655a' },
-          { label:'Ramak Kala Olay Sayısı',                  val:ist.s23_2,  renk:'#f5a623' },
-          { label:'İSG Kuruluna Katılım',                    val:ist.s257_1, renk:'#1db88a' },
-          { label:'Kurul Üyesi Eğitim Katılımı',             val:ist.s257_2, renk:'#1db88a' },
-          { label:'Yazılı Bildirilen Tedbir',                val:ist.s28_1,  renk:'#f5a623' }
-        ].filter(function(s){ return s.val > 0; });
+        var istatGruplar = [
+          {
+            baslik: '2.1 Risk Değerlendirmesi', renk: '#7c6ff7',
+            satirlar: [
+              { label: 'Risk Eğitimi Verilen Çalışan', val: ist.s21_1, renk: '#7c6ff7' }
+            ]
+          },
+          {
+            baslik: '2.2 Eğitim & Bilgilendirme', renk: '#4096f5',
+            satirlar: [
+              { label: 'Temel İSG Eğitimi — Çalışan',           val: ist.s22_1, renk: '#4096f5' },
+              { label: 'İçerik Atamalı Eğitim — Çalışan',        val: ist.s22_2, renk: '#4096f5' },
+              { label: 'İş Kazası/Dönüş Eğitimi — Çalışan',      val: ist.s22_3, renk: '#4096f5' },
+              { label: 'İSG Farkındalık Eğitimi — Öğrenci',      val: ist.s22_4, renk: '#a78bfa' },
+              { label: 'Çalışan Temsilcisi Eğitimi',              val: ist.s22_5, renk: '#4096f5' },
+              { label: 'Acil Durum Ekipleri Eğitimi — Çalışan',  val: ist.s22_6, renk: '#f97316' },
+              { label: 'Acil Durum Tatbikatlarına Katılım',       val: ist.s22_7, renk: '#f97316' }
+            ]
+          },
+          {
+            baslik: '2.3 Ortam Gözetimi', renk: '#f0655a',
+            satirlar: [
+              { label: 'İş Kazası Sayısı',        val: ist.s23_1, renk: '#f0655a' },
+              { label: 'Ramak Kala Olay Sayısı',  val: ist.s23_2, renk: '#f5a623' }
+            ]
+          },
+          {
+            baslik: '2.5–2.7 İlgili Birimlerle İşbirliği', renk: '#1db88a',
+            satirlar: [
+              { label: 'İSG Kuruluna Katılım',         val: ist.s257_1, renk: '#1db88a' },
+              { label: 'Kurul Üyesi Eğitim Katılımı',  val: ist.s257_2, renk: '#1db88a' }
+            ]
+          },
+          {
+            baslik: '2.8 Genel Rehberlik', renk: '#f5a623',
+            satirlar: [
+              { label: 'Yazılı Bildirilen Tedbir', val: ist.s28_1, renk: '#f5a623' }
+            ]
+          }
+        ];
 
-        if (istatSatirlar.length > 0) {
-          istatHtml = '<div class="acc-istat-blok"><div class="acc-istat-baslik">📊 toplam istatistikler</div>'
-            +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">';
-          istatSatirlar.forEach(function(s){
-            istatHtml += '<div class="acc-istat-satir">'
-              +'<span class="acc-istat-label">'+s.label+'</span>'
-              +'<span class="acc-istat-val" style="color:'+s.renk+'">'+s.val+'</span>'
-              +'</div>';
+        // Sadece en az 1 satırı dolu olan grupları göster
+        var doluGruplar = istatGruplar.filter(function(g){
+          return g.satirlar.some(function(s){ return (s.val||0) > 0; });
+        });
+
+        if (doluGruplar.length > 0) {
+          istatHtml = '<div class="acc-istat-blok">'
+            + '<div class="acc-istat-baslik">📊 toplam istatistikler</div>'
+            + '<div class="acc-istat-gruplar">';
+
+          doluGruplar.forEach(function(g){
+            istatHtml += '<div class="acc-istat-grup">'
+              + '<div class="acc-istat-grup-baslik">'
+              + '<span style="width:5px;height:5px;border-radius:50%;background:'+g.renk+';display:inline-block;flex-shrink:0"></span>'
+              + '<span style="color:'+g.renk+'">'+g.baslik+'</span>'
+              + '</div>';
+            g.satirlar.forEach(function(s){
+              if ((s.val||0) === 0) return; // sıfır olanları gizle
+              istatHtml += '<div class="acc-istat-satir">'
+                + '<span class="acc-istat-label">'+s.label+'</span>'
+                + '<span class="acc-istat-val" style="color:'+s.renk+'">'+s.val+'</span>'
+                + '</div>';
+            });
+            istatHtml += '</div>';
           });
+
           istatHtml += '</div></div>';
         }
       }
@@ -741,7 +810,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     el.innerHTML = html;
   }
 
-  // Akordeon aç/kapa
+  // Akordeon aç/kapa — yıllık rapor satırları için
   window.toggleAcc = function(rowId, detailId) {
     var row    = document.getElementById(rowId);
     var detail = document.getElementById(detailId);
@@ -749,6 +818,16 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     var acik = row.classList.contains('acik');
     row.classList.toggle('acik', !acik);
     detail.classList.toggle('acik', !acik);
+  };
+
+  // Panel akordeon aç/kapa — başlığa tıklayınca
+  window.togglePanel = function(titleId, bodyId) {
+    var title = document.getElementById(titleId);
+    var body  = document.getElementById(bodyId);
+    if (!title || !body) return;
+    var acik = title.classList.contains('acik');
+    title.classList.toggle('acik', !acik);
+    body.classList.toggle('acik', !acik);
   };
 
   function renderIGU(liste) {
