@@ -485,6 +485,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       tumAktiviteler = d.aktiviteler || [];
       window.okulTurMap = d.okulTurMap || {};
       window._iguIstatCache = d.iguIstat || {};
+      window._istatToplamCache = d.istatToplam || null;
       renderKPI(d.kpi);
       renderIsgbOnayList(tumAktiviteler);
       renderFeed(tumAktiviteler);
@@ -981,15 +982,8 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       return { label:k, sayi:okulTur[k] };
     }).sort(function(a,b){ return b.sayi-a.sayi; });
 
-    // İstatistikler
-    var ist = window._iguIstatCache ? (function(){
-      var t = { s21_1:0,s22_1:0,s22_2:0,s22_3:0,s22_4:0,s22_5:0,s22_6:0,s22_7:0,s23_1:0,s23_2:0,s257_1:0,s257_2:0,s28_1:0 };
-      Object.keys(window._iguIstatCache).forEach(function(iguAd){
-        var ig = window._iguIstatCache[iguAd];
-        Object.keys(t).forEach(function(k){ t[k] += (ig[k]||0); });
-      });
-      return t;
-    })() : null;
+    // İstatistikler — istatToplam'dan al (renderIstatPanel ile aynı kaynak)
+    var ist = window._istatToplamCache || null;
 
     // Son 5 ziyaret
     var son5 = tumAktiviteler.slice(0,5);
