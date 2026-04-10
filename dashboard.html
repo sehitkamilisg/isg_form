@@ -1049,7 +1049,8 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       + '</div></div>';
   }
 
-  // ── togglePanel ve diğer fonksiyonlar ───────────────────────
+  // Panel akordeon aç/kapa — başlığa tıklayınca
+  window.togglePanel = function(titleId, bodyId) {
     var title = document.getElementById(titleId);
     var body  = document.getElementById(bodyId);
     if (!title || !body) return;
