@@ -264,6 +264,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     <div class="header-right">
       <div class="live-badge"><span class="live-dot"></span> canlı</div>
       <span class="update-time" id="updateTime">—</span>
+      <button class="action-btn" id="brifingBtn" onclick="brifingPdfAc()" style="background:rgba(29,184,138,0.12);border-color:rgba(29,184,138,0.3);color:var(--teal)">📊 Brifing PDF</button>
       <button class="action-btn" id="refreshBtn">↻ Yenile</button>
       <button class="action-btn" id="cikisBtn">Çıkış</button>
     </div>
@@ -934,8 +935,315 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   };
 
   // ══════════════════════════════════════════════════════════════
-  // FORM SORGULA & DOĞRULA
+  // BRİFİNG PDF
   // ══════════════════════════════════════════════════════════════
+
+  window.brifingPdfAc = function() {
+    if (!tumAktiviteler || !tumAktiviteler.length) {
+      toastGoster('Önce verilerin yüklenmesini bekleyin.', 'err');
+      return;
+    }
+
+    // Mevcut KPI değerlerini topla
+    var kMudur    = document.getElementById('kMudur').textContent.trim();
+    var kIsgb     = document.getElementById('kIsgb').textContent.trim();
+    var kOnaylanan= document.getElementById('kOnaylanan').textContent.trim();
+    var kBugun    = document.getElementById('kBugun').textContent.trim();
+    var kIGU      = document.getElementById('kIGU').textContent.trim();
+    var kOkul     = document.getElementById('kOkul').textContent.trim();
+    var guncelleme= document.getElementById('updateTime').textContent.replace('güncellendi: ','');
+
+    // Toplam ziyaret
+    var toplamZiyaret = tumAktiviteler.length;
+    var onaylananSayi = tumAktiviteler.filter(function(a){ return a.durum==='Onaylandı'; }).length;
+    var bekleyenSayi  = toplamZiyaret - onaylananSayi;
+    var onayOrani     = toplamZiyaret > 0 ? Math.round((onaylananSayi/toplamZiyaret)*100) : 0;
+
+    // IGU performans
+    var iguPerf = {};
+    tumAktiviteler.forEach(function(a){
+      if (!iguPerf[a.igu]) iguPerf[a.igu] = {toplam:0, onaylanan:0};
+      iguPerf[a.igu].toplam++;
+      if (a.durum==='Onaylandı') iguPerf[a.igu].onaylanan++;
+    });
+    var iguSirali = Object.keys(iguPerf).map(function(ad){
+      return { ad:ad, toplam:iguPerf[ad].toplam, onaylanan:iguPerf[ad].onaylanan };
+    }).sort(function(a,b){ return b.toplam - a.toplam; });
+
+    // Okul türü dağılımı
+    var okulTur = {};
+    tumAktiviteler.forEach(function(a){
+      var tur = (window.okulTurMap && window.okulTurMap[a.okul]) || 'Diğer';
+      if (!okulTur[tur]) okulTur[tur] = 0;
+      okulTur[tur]++;
+    });
+    var okulTurSirali = Object.keys(okulTur).map(function(k){
+      return { label:k, sayi:okulTur[k] };
+    }).sort(function(a,b){ return b.sayi-a.sayi; });
+
+    // İstatistikler
+    var ist = window._iguIstatCache ? (function(){
+      var t = { s21_1:0,s22_1:0,s22_2:0,s22_3:0,s22_4:0,s22_5:0,s22_6:0,s22_7:0,s23_1:0,s23_2:0,s257_1:0,s257_2:0,s28_1:0 };
+      Object.keys(window._iguIstatCache).forEach(function(iguAd){
+        var ig = window._iguIstatCache[iguAd];
+        Object.keys(t).forEach(function(k){ t[k] += (ig[k]||0); });
+      });
+      return t;
+    })() : null;
+
+    // Son 5 ziyaret
+    var son5 = tumAktiviteler.slice(0,5);
+
+    // Dönem
+    var simdi = new Date();
+    var donem = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran',
+                 'Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'][simdi.getMonth()]
+                + ' ' + simdi.getFullYear();
+    var tarihStr = String(simdi.getDate()).padStart(2,'0') + '/'
+                 + String(simdi.getMonth()+1).padStart(2,'0') + '/'
+                 + simdi.getFullYear();
+
+    // HTML oluştur
+    var html = _brifingHtmlOlustur({
+      donem, tarihStr, guncelleme,
+      toplamZiyaret, onaylananSayi, bekleyenSayi, onayOrani,
+      kMudur, kIsgb, kBugun, kIGU, kOkul,
+      iguSirali, okulTurSirali, ist, son5
+    });
+
+    // Yeni sekmede aç
+    var win = window.open('', '_blank');
+    win.document.write(html);
+    win.document.close();
+  };
+
+  function _brifingHtmlOlustur(d) {
+    var maxIgu = d.iguSirali.length ? d.iguSirali[0].toplam : 1;
+    var maxOkul = d.okulTurSirali.length ? d.okulTurSirali[0].sayi : 1;
+
+    var iguSatirlar = d.iguSirali.map(function(ig){
+      var pct = Math.round((ig.toplam/maxIgu)*100);
+      var oran = ig.toplam > 0 ? Math.round((ig.onaylanan/ig.toplam)*100) : 0;
+      var renk = oran>=80?'#1db88a':oran>=50?'#f5a623':'#f0655a';
+      return '<tr>'
+        +'<td style="padding:5px 8px;font-size:11px;color:#1e293b">'+ig.ad+'</td>'
+        +'<td style="padding:5px 8px;text-align:center;font-size:11px">'+ig.toplam+'</td>'
+        +'<td style="padding:5px 8px;text-align:center;font-size:11px;color:#1db88a">'+ig.onaylanan+'</td>'
+        +'<td style="padding:5px 8px">'
+        +'<div style="background:#e2e8f0;border-radius:3px;height:8px;overflow:hidden">'
+        +'<div style="width:'+pct+'%;height:100%;background:#3b5bdb;border-radius:3px"></div></div></td>'
+        +'<td style="padding:5px 8px;text-align:center"><span style="background:'+renk+'1a;color:'+renk+';font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px">%'+oran+'</span></td>'
+        +'</tr>';
+    }).join('');
+
+    var okulTurSatirlar = d.okulTurSirali.map(function(o){
+      var pct = Math.round((o.sayi/maxOkul)*100);
+      var renkler = ['#3b5bdb','#1db88a','#f5a623','#f0655a','#7c6ff7','#6b7280'];
+      var ri = d.okulTurSirali.indexOf(o);
+      var r = renkler[ri % renkler.length];
+      return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">'
+        +'<div style="width:80px;font-size:10px;color:#64748b;flex-shrink:0">'+o.label+'</div>'
+        +'<div style="flex:1;background:#e2e8f0;border-radius:3px;height:10px;overflow:hidden">'
+        +'<div style="width:'+pct+'%;height:100%;background:'+r+';border-radius:3px"></div></div>'
+        +'<div style="width:20px;font-size:11px;font-weight:700;color:'+r+';text-align:right">'+o.sayi+'</div>'
+        +'</div>';
+    }).join('');
+
+    var istSatirlar = '';
+    if (d.ist) {
+      var istGruplar = [
+        ['Risk Eğitimi Verilen Çalışan', d.ist.s21_1, '#3b5bdb'],
+        ['Temel İSG Eğitimi — Çalışan', d.ist.s22_1, '#3b5bdb'],
+        ['İSG Farkındalık — Öğrenci', d.ist.s22_4, '#7c6ff7'],
+        ['Acil Durum Ekipleri Eğitimi', d.ist.s22_6, '#f97316'],
+        ['Acil Durum Tatbikat Katılımı', d.ist.s22_7, '#f97316'],
+        ['İş Kazası Sayısı', d.ist.s23_1, '#f0655a'],
+        ['Ramak Kala Olay', d.ist.s23_2, '#f5a623'],
+        ['İSG Kuruluna Katılım', d.ist.s257_1, '#1db88a'],
+        ['Yazılı Bildirilen Tedbir', d.ist.s28_1, '#f5a623'],
+      ].filter(function(g){ return g[1] > 0; });
+
+      var toplamEgitim = (d.ist.s21_1||0)+(d.ist.s22_1||0)+(d.ist.s22_2||0)
+        +(d.ist.s22_3||0)+(d.ist.s22_4||0)+(d.ist.s22_5||0)
+        +(d.ist.s22_6||0)+(d.ist.s22_7||0)+(d.ist.s257_2||0);
+
+      istSatirlar = istGruplar.map(function(g){
+        return '<div style="display:flex;justify-content:space-between;align-items:center;'
+          +'padding:4px 0;border-bottom:1px solid #f1f5f9">'
+          +'<span style="font-size:10px;color:#475569">'+g[0]+'</span>'
+          +'<span style="font-size:13px;font-weight:700;color:'+g[2]+'">'+g[1]+'</span>'
+          +'</div>';
+      }).join('');
+    }
+
+    var son5Satirlar = d.son5.map(function(a){
+      var durumRenk = a.durum==='Onaylandı'?'#1db88a':a.durum==='İSGB Onayı Bekleniyor'?'#f97316':'#f5a623';
+      var durumKisa = a.durum==='Onaylandı'?'✓ Onaylı':a.durum==='İSGB Onayı Bekleniyor'?'İSGB\'de':'Müdürde';
+      return '<tr>'
+        +'<td style="padding:5px 8px;font-size:10px;color:#1e293b">'+a.okul+'</td>'
+        +'<td style="padding:5px 8px;font-size:10px;color:#475569">'+a.igu+'</td>'
+        +'<td style="padding:5px 8px;font-size:10px;color:#475569;text-align:center">'+a.tarih+'</td>'
+        +'<td style="padding:5px 8px;text-align:center"><span style="font-size:9px;font-weight:700;color:'+durumRenk+';background:'+durumRenk+'1a;padding:2px 7px;border-radius:20px">'+durumKisa+'</span></td>'
+        +'</tr>';
+    }).join('');
+
+    var onayOranRenk = d.onayOrani>=80?'#1db88a':d.onayOrani>=50?'#f5a623':'#f0655a';
+
+    return '<!DOCTYPE html><html lang="tr"><head>'
+      +'<meta charset="UTF-8">'
+      +'<title>İSGB Brifing Notu — '+d.donem+'</title>'
+      +'<style>'
+      +'*{box-sizing:border-box;margin:0;padding:0}'
+      +'body{font-family:Arial,sans-serif;background:#f8fafc;color:#1e293b;font-size:12px}'
+      +'@media print{'
+      +'  body{background:white}'
+      +'  .no-print{display:none!important}'
+      +'  @page{size:A4;margin:12mm 10mm}'
+      +'}'
+      +'</style>'
+      +'</head><body>'
+
+      // Yazdır butonu
+      +'<div class="no-print" style="position:fixed;top:16px;right:16px;z-index:99">'
+      +'<button onclick="window.print()" style="background:#1a237e;color:white;border:none;'
+      +'padding:10px 22px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;'
+      +'box-shadow:0 2px 8px rgba(0,0,0,.2)">🖨️ PDF / Yazdır</button>'
+      +'</div>'
+
+      // Ana sayfa
+      +'<div style="max-width:800px;margin:0 auto;padding:16px">'
+
+      // BAŞLIK
+      +'<div style="background:linear-gradient(135deg,#1a237e,#283593);color:white;'
+      +'border-radius:10px;padding:20px 24px;margin-bottom:14px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
+      +'<div>'
+      +'<div style="font-size:10px;opacity:.7;margin-bottom:4px">T.C. GAZİANTEP VALİLİĞİ — İL MİLLİ EĞİTİM MÜDÜRLÜĞÜ</div>'
+      +'<div style="font-size:18px;font-weight:700;margin-bottom:2px">İSGB Faaliyet Brifing Notu</div>'
+      +'<div style="font-size:11px;opacity:.8">Şehitkamil İlçe İşyeri Sağlık ve Güvenlik Birimi</div>'
+      +'</div>'
+      +'<div style="text-align:right">'
+      +'<div style="font-size:13px;font-weight:600">'+d.donem+'</div>'
+      +'<div style="font-size:10px;opacity:.7;margin-top:2px">Tarih: '+d.tarihStr+'</div>'
+      +'<div style="font-size:9px;opacity:.5;margin-top:2px">Veri: '+d.guncelleme+'</div>'
+      +'</div></div></div>'
+
+      // KPI KARTLARI
+      +'<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px">'
+      +_kpiKart('Toplam Ziyaret', d.toplamZiyaret, '#3b5bdb')
+      +_kpiKart('Onaylanan', d.onaylananSayi, '#1db88a')
+      +_kpiKart('Bekleyen', d.bekleyenSayi, '#f5a623')
+      +_kpiKart('Onay Oranı', '%'+d.onayOrani, onayOranRenk)
+      +_kpiKart('Aktif Uzman', d.kIGU, '#7c6ff7')
+      +'</div>'
+
+      // ANA İÇERİK — 2 sütun
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">'
+
+      // Sol: IGU Performans
+      +'<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0">'
+      +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
+      +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">Uzman Performansı</div>'
+      +'<table style="width:100%;border-collapse:collapse">'
+      +'<thead><tr style="background:#f8fafc">'
+      +'<th style="padding:4px 8px;text-align:left;font-size:9px;color:#94a3b8;font-weight:600">UZMAN</th>'
+      +'<th style="padding:4px 8px;text-align:center;font-size:9px;color:#94a3b8;font-weight:600">TOP</th>'
+      +'<th style="padding:4px 8px;text-align:center;font-size:9px;color:#94a3b8;font-weight:600">ONAY</th>'
+      +'<th style="padding:4px 8px;font-size:9px;color:#94a3b8;font-weight:600">ORAN</th>'
+      +'<th style="padding:4px 8px;text-align:center;font-size:9px;color:#94a3b8;font-weight:600">%</th>'
+      +'</tr></thead><tbody>'
+      + iguSatirlar
+      +'</tbody></table></div>'
+
+      // Sağ: Okul Türü + İstatistik
+      +'<div style="display:flex;flex-direction:column;gap:12px">'
+
+      // Okul türü
+      +'<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0;flex:1">'
+      +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
+      +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">Okul Türüne Göre Ziyaret</div>'
+      + okulTurSatirlar
+      +'</div>'
+
+      // Onay durumu mini pasta
+      +'<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0">'
+      +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
+      +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">Onay Durumu</div>'
+      +'<div style="display:flex;gap:16px;align-items:center">'
+      +'<div style="position:relative;width:70px;height:70px">'
+      +_cemberGrafik(d.onayOrani, onayOranRenk)
+      +'</div>'
+      +'<div style="flex:1">'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:5px">'
+      +'<span style="font-size:10px;color:#64748b">✓ Onaylanan</span>'
+      +'<span style="font-size:11px;font-weight:700;color:#1db88a">'+d.onaylananSayi+'</span></div>'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:5px">'
+      +'<span style="font-size:10px;color:#64748b">⏳ Bekleyen</span>'
+      +'<span style="font-size:11px;font-weight:700;color:#f5a623">'+d.bekleyenSayi+'</span></div>'
+      +'<div style="display:flex;justify-content:space-between">'
+      +'<span style="font-size:10px;color:#64748b">Müdürde</span>'
+      +'<span style="font-size:11px;font-weight:700;color:#f97316">'+d.kMudur+'</span></div>'
+      +'</div></div></div>'
+
+      +'</div></div>'
+
+      // Alt satır: İstatistikler + Son ziyaretler
+      +'<div style="display:grid;grid-template-columns:1fr 1.4fr;gap:12px;margin-bottom:12px">'
+
+      // İstatistikler
+      +(d.ist ? '<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0">'
+      +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
+      +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">İSG Faaliyet İstatistikleri</div>'
+      + istSatirlar
+      +'</div>' : '<div></div>')
+
+      // Son ziyaretler
+      +'<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0">'
+      +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
+      +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">Son Ziyaretler</div>'
+      +'<table style="width:100%;border-collapse:collapse">'
+      +'<thead><tr style="background:#f8fafc">'
+      +'<th style="padding:4px 8px;text-align:left;font-size:9px;color:#94a3b8;font-weight:600">OKUL</th>'
+      +'<th style="padding:4px 8px;text-align:left;font-size:9px;color:#94a3b8;font-weight:600">UZMAN</th>'
+      +'<th style="padding:4px 8px;text-align:center;font-size:9px;color:#94a3b8;font-weight:600">TARİH</th>'
+      +'<th style="padding:4px 8px;text-align:center;font-size:9px;color:#94a3b8;font-weight:600">DURUM</th>'
+      +'</tr></thead><tbody>'
+      + son5Satirlar
+      +'</tbody></table></div>'
+      +'</div>'
+
+      // FOOTER
+      +'<div style="text-align:center;padding:10px;border-top:1px solid #e2e8f0;'
+      +'font-size:9px;color:#94a3b8">'
+      +'Şehitkamil İlçe İSGB Dijital Takip Sistemi &nbsp;|&nbsp; '
+      +'Bu rapor '+d.tarihStr+' tarihinde sistem tarafından otomatik oluşturulmuştur.'
+      +'</div>'
+      +'</div>'
+      +'</body></html>';
+  }
+
+  function _kpiKart(label, val, renk) {
+    return '<div style="background:white;border-radius:8px;padding:12px;border:1px solid #e2e8f0;'
+      +'border-top:3px solid '+renk+';text-align:center">'
+      +'<div style="font-size:22px;font-weight:700;color:'+renk+'">'+val+'</div>'
+      +'<div style="font-size:9px;color:#64748b;margin-top:3px;text-transform:uppercase;letter-spacing:.04em">'+label+'</div>'
+      +'</div>';
+  }
+
+  function _cemberGrafik(pct, renk) {
+    // SVG çember grafik
+    var r = 28, cx = 35, cy = 35;
+    var circ = 2 * Math.PI * r;
+    var dolgu = circ * pct / 100;
+    return '<svg viewBox="0 0 70 70" style="width:70px;height:70px">'
+      +'<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="#e2e8f0" stroke-width="8"/>'
+      +'<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="'+renk+'" stroke-width="8"'
+      +' stroke-dasharray="'+dolgu+' '+circ+'"'
+      +' stroke-dashoffset="'+circ/4+'"'
+      +' stroke-linecap="round"/>'
+      +'<text x="'+cx+'" y="'+(cy+4)+'" text-anchor="middle" font-size="12" font-weight="700" fill="'+renk+'">%'+pct+'</text>'
+      +'</svg>';
+  }
 
   window.formSorgula = function() {
     var girdi  = document.getElementById('sorguInput').value.trim();
