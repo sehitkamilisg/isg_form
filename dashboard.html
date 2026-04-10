@@ -80,8 +80,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .onayla-btn:hover{opacity:.85;} .onayla-btn:disabled{opacity:.4;cursor:not-allowed;}
 
 /* Aktivite */
-.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;padding:5px 6px;border-radius:6px;transition:background .12s;}
 .bar-row:last-child{margin-bottom:0;}
+.bar-row.srow:hover{background:rgba(124,111,247,0.08);}
 .bar-avatar{width:28px;height:28px;border-radius:50%;background:rgba(124,111,247,0.15);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--purple);flex-shrink:0;}
 .bar-name{font-size:12px;color:var(--text);width:120px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .bar-track{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
@@ -122,8 +123,10 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 
 /* Akordeon ana satır */
 .rapor-ugu-row{cursor:pointer;transition:background .15s;}
-.rapor-ugu-row:hover td{background:rgba(255,255,255,0.03);}
-.rapor-ugu-row.acik td{background:rgba(124,111,247,0.05);}
+.rapor-ugu-row:hover td{background:rgba(124,111,247,0.07);}
+.rapor-ugu-row:hover td:first-child{box-shadow:inset 2px 0 0 var(--purple);}
+.rapor-ugu-row.acik td{background:rgba(124,111,247,0.1);}
+.rapor-ugu-row.acik td:first-child{box-shadow:inset 2px 0 0 var(--purple);}
 .rapor-ugu-row td:first-child{position:relative;padding-left:28px;}
 /* Ok ikonu */
 .acc-ok{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--text3);transition:transform .2s;display:inline-block;}
@@ -155,22 +158,62 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .panel-body{overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1),opacity .22s;max-height:0;opacity:0;}
 .panel-body.acik{max-height:2000px;opacity:1;margin-top:14px;}
 
-/* ── Satır akordeon (her satıra tıklayınca alt detay) ───── */
-.srow{cursor:pointer;transition:background .12s;}
-.srow:hover{background:rgba(255,255,255,0.03);}
-.srow.acik{background:rgba(124,111,247,0.05);}
-.srow-ok{font-size:9px;color:var(--text3);transition:transform .18s;display:inline-block;margin-right:6px;}
-.srow.acik .srow-ok{transform:rotate(90deg);color:var(--purple);}
-.srow-detail{display:none;background:var(--bg3);border-radius:var(--radius-sm);margin:4px 0 6px 0;padding:10px 12px;}
+/* ── Tıklanabilir satırlar — daha belirgin ─────────────────── */
+.srow{
+  cursor:pointer;
+  transition:background .15s, box-shadow .15s;
+  border-radius:6px;
+  margin-bottom:2px;
+}
+.srow:hover{
+  background:rgba(124,111,247,0.08);
+  box-shadow:inset 2px 0 0 var(--purple);
+}
+.srow.acik{
+  background:rgba(124,111,247,0.1);
+  box-shadow:inset 2px 0 0 var(--purple);
+}
+.srow-ok{
+  font-size:9px;
+  color:var(--purple);
+  transition:transform .18s;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:16px;
+  height:16px;
+  border-radius:4px;
+  background:rgba(124,111,247,0.12);
+  margin-right:7px;
+  flex-shrink:0;
+  vertical-align:middle;
+}
+.srow.acik .srow-ok{transform:rotate(90deg);background:rgba(124,111,247,0.2);}
+.srow-detail{display:none;background:rgba(0,0,0,0.15);border-radius:0 0 6px 6px;margin:0 0 6px 0;padding:10px 12px;border-top:1px solid rgba(124,111,247,0.15);}
 .srow-detail.acik{display:block;}
 .srow-detail-baslik{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
 .srow-detail-tablo{width:100%;border-collapse:collapse;font-size:11px;}
 .srow-detail-tablo th{font-size:10px;color:var(--text3);font-weight:600;padding:4px 8px;border-bottom:1px solid var(--border);text-align:left;}
 .srow-detail-tablo th:not(:first-child){text-align:center;}
-.srow-detail-tablo td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text2);}
+.srow-detail-tablo td{padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text2);}
 .srow-detail-tablo td:first-child{color:var(--text);}
 .srow-detail-tablo td:not(:first-child){text-align:center;}
 .srow-detail-tablo tr:last-child td{border-bottom:none;}
+
+/* İstatistik satırları — tıklanabilir */
+.istat-satir{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;padding:7px 8px;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  border-radius:5px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.istat-satir:hover{background:rgba(124,111,247,0.07);}
+.istat-satir.acik{background:rgba(124,111,247,0.1);border-bottom-color:transparent;}
+.istat-satir:last-child{border-bottom:none;}
+.istat-satir-label{font-size:11px;color:var(--text2);flex:1;line-height:1.3;}
+.istat-satir-val{font-size:14px;font-weight:700;flex-shrink:0;min-width:28px;text-align:right;}
 /* ── Form Sorgulama Paneli ───────────────────────────────── */
 .sorgu-wrap{display:flex;gap:10px;margin-bottom:14px;}
 .sorgu-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:14px;padding:10px 14px;outline:none;font-family:inherit;}
@@ -214,8 +257,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .acc-istat-satir{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:2px 0;}
 .acc-istat-label{font-size:10px;color:var(--text2);flex:1;line-height:1.3;}
 .acc-istat-val{font-size:12px;font-weight:700;flex-shrink:0;min-width:22px;text-align:right;}
-.seg-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.seg-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;padding:5px 6px;border-radius:6px;transition:background .12s;}
 .seg-row:last-child{margin-bottom:0;}
+.seg-row.srow:hover{background:rgba(64,150,245,0.08);}
 .seg-label{font-size:11px;color:var(--text2);width:110px;flex-shrink:0;}
 .seg-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
 .seg-fill{height:100%;border-radius:3px;}
