@@ -403,7 +403,10 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         <div id="isgbOnayList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
       </div>
       <div class="panel">
-        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:var(--teal)"></span>anlık aktivite akışı</span></div>
+        <div class="panel-title">
+          <span class="panel-title-left"><span class="dot" style="background:var(--teal)"></span>anlık aktivite akışı</span>
+          <button class="action-btn" id="feedTemizleBtn" onclick="feedTemizle()" style="font-size:10px;padding:3px 10px">✕ Temizle</button>
+        </div>
         <div id="feedList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
       </div>
     </div>
@@ -615,9 +618,12 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 
   // Aktivite akışı
   function renderFeed(aktiviteler) {
-    if(!aktiviteler||!aktiviteler.length){document.getElementById('feedList').innerHTML='<div class="bos">Henüz aktivite yok</div>';return;}
+    var goruntu = (aktiviteler||[]).filter(function(a){
+      return feedGizliIds.indexOf(a.id) === -1;
+    });
+    if(!goruntu.length){document.getElementById('feedList').innerHTML='<div class="bos">Henüz aktivite yok</div>';return;}
     var html='';
-    aktiviteler.slice(0,8).forEach(function(a){
+    goruntu.slice(0,10).forEach(function(a){
       var ikonSinif,ikonSvg,pillHtml;
       if(a.durum==='Onaylandı'){
         ikonSinif='fi-ok';
@@ -1494,6 +1500,18 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       + (v.durum==='Onaylandı' ? '<div style="text-align:center;padding:8px 0"><span class="srk-stamp">✓ ONAYLANDI</span></div>' : '')
       + '</div></div>';
   }
+
+  // Aktivite akışını temizle (sadece görsel — sayfa yenilenince geri gelir)
+  var feedGizliIds = JSON.parse(sessionStorage.getItem('feedGizli') || '[]');
+
+  window.feedTemizle = function() {
+    var el = document.getElementById('feedList');
+    feedGizliIds = (tumAktiviteler||[]).map(function(a){ return a.id; });
+    sessionStorage.setItem('feedGizli', JSON.stringify(feedGizliIds));
+    el.innerHTML = '<div class="bos">Aktivite akışı temizlendi. Yeni aktiviteler burada görünecek.</div>';
+    document.getElementById('feedTemizleBtn').textContent = '✓ Temizlendi';
+    setTimeout(function(){ document.getElementById('feedTemizleBtn').textContent = '✕ Temizle'; }, 2000);
+  };
 
   // Panel akordeon aç/kapa — başlığa tıklayınca
   window.togglePanel = function(titleId, bodyId) {
