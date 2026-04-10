@@ -49,12 +49,17 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 .gac{display:none;padding:0 12px 12px}.gkart.on .gac{display:block}
 .gac textarea{font-size:14px;border-color:rgba(124,111,247,0.2)}.gac textarea:focus{border-color:var(--pu)}
 .rgrid{display:grid;gap:7px}
-.ri{display:flex;align-items:flex-start;gap:10px;background:var(--bg3);border:1.5px solid var(--b1);border-radius:var(--rs);padding:11px 12px;cursor:pointer;min-height:44px}
+
+/* ── Genel Değerlendirme — toggle radio ─────────────────── */
+.ri{display:flex;align-items:flex-start;gap:10px;background:var(--bg3);border:1.5px solid var(--b1);border-radius:var(--rs);padding:11px 12px;cursor:pointer;min-height:44px;user-select:none;-webkit-user-select:none;transition:border-color .15s,background .15s}
 .ri.on{border-color:var(--te);background:rgba(29,184,138,0.06)}
-.rdot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--b2);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.rdot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--b2);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:border-color .15s}
 .ri.on .rdot{border-color:var(--te)}
-.rdi{width:10px;height:10px;border-radius:50%;background:var(--te);display:none}.ri.on .rdi{display:block}
+.rdi{width:10px;height:10px;border-radius:50%;background:var(--te);display:none;transition:transform .15s}.ri.on .rdi{display:block}
 .rl{font-size:13px;color:var(--t2);line-height:1.4}.ri.on .rl{color:var(--t1)}
+/* Seçim iptal ipucu */
+.ri.on::after{content:'✕';font-size:10px;color:var(--te);opacity:.5;margin-left:auto;padding-left:6px;flex-shrink:0;line-height:1}
+
 .sbtn{width:100%;padding:15px;background:var(--pu);color:#fff;border:none;border-radius:var(--rs);font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;min-height:50px;font-family:inherit}
 .sbtn:disabled{opacity:.4}
 .errmsg{background:rgba(240,101,90,0.1);border:1px solid rgba(240,101,90,0.3);border-radius:var(--rs);padding:10px 12px;color:var(--re);font-size:13px;margin-bottom:10px;display:none}
@@ -119,7 +124,10 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
       <div class="gkart" id="gdig"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">Diğer</span><span class="gad">Diğer Faaliyetler</span></div><div class="gac"><textarea id="adig" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
     </div>
     <div class="sec">
-      <div class="stitle"><span class="dot" style="background:var(--te)"></span>genel değerlendirme <span style="color:var(--re);font-size:10px">*</span></div>
+      <div class="stitle">
+        <span class="dot" style="background:var(--te)"></span>genel değerlendirme
+        <span style="color:var(--re);font-size:10px">* seçmek için tıkla, iptal için tekrar tıkla</span>
+      </div>
       <div class="rgrid">
         <div class="ri" id="r1"><div class="rdot"><div class="rdi"></div></div><span class="rl">Görev olağan şekilde sonuçlanmıştır</span></div>
         <div class="ri" id="r2"><div class="rdot"><div class="rdi"></div></div><span class="rl">Aykırılık ve noksanlıklar tespit edilmiş olup ikaz ve öneriler yapılmıştır</span></div>
@@ -191,12 +199,21 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     });
   });
 
-  // Radio seçimi
+  // ── Genel Değerlendirme — ÇİFT YÖNLÜ TOGGLE ────────────────
+  // Seçiliyse tekrar tıklamak seçimi kaldırır (pasif yapar)
   document.querySelectorAll('.ri').forEach(function(ri){
     ri.addEventListener('click',function(){
+      var zatenSecili = ri.classList.contains('on');
+      // Önce hepsini temizle
       document.querySelectorAll('.ri').forEach(function(x){ x.classList.remove('on'); });
-      ri.classList.add('on');
-      seciliR=ri.id;
+      if(zatenSecili){
+        // Zaten seçiliydi → seçimi kaldır (pasif)
+        seciliR = null;
+      } else {
+        // Yeni seçim
+        ri.classList.add('on');
+        seciliR = ri.id;
+      }
     });
   });
 
