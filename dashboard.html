@@ -587,6 +587,16 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     var el = document.getElementById('istatPanel');
     if (!ist) { el.innerHTML='<div class="bos">Henüz istatistik verisi yok</div>'; return; }
 
+    // Güvenli sayı — tarih/obje değerleri sıfırla
+    function gs(v) { var n=parseInt(v,10); return (!isNaN(n)&&n>=0&&n<100000)?n:0; }
+    ist = {
+      s21_1:gs(ist.s21_1), s22_1:gs(ist.s22_1), s22_2:gs(ist.s22_2),
+      s22_3:gs(ist.s22_3), s22_4:gs(ist.s22_4), s22_5:gs(ist.s22_5),
+      s22_6:gs(ist.s22_6), s22_7:gs(ist.s22_7), s23_1:gs(ist.s23_1),
+      s23_2:gs(ist.s23_2), s257_1:gs(ist.s257_1), s257_2:gs(ist.s257_2),
+      s28_1:gs(ist.s28_1)
+    };
+
     var gruplar = [
       {
         key:'g21', baslik: '2.1 Risk Değerlendirmesi', renk: '#7c6ff7',
