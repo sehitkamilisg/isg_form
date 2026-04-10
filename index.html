@@ -48,6 +48,16 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 .gad{font-size:13px;color:var(--t2);flex:1;line-height:1.3}.gkart.on .gad{color:var(--t1)}
 .gac{display:none;padding:0 12px 12px}.gkart.on .gac{display:block}
 .gac textarea{font-size:14px;border-color:rgba(124,111,247,0.2)}.gac textarea:focus{border-color:var(--pu)}
+
+/* ── İstatistik alt alanları ─────────────────────────────── */
+.istat-grup{margin-top:10px;padding-top:10px;border-top:1px solid rgba(124,111,247,0.15);}
+.istat-baslik{font-size:9px;font-weight:700;color:var(--pu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;opacity:.8;}
+.istat-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.istat-row:last-child{margin-bottom:0;}
+.istat-label{font-size:11px;color:var(--t2);flex:1;line-height:1.35;}
+.istat-input{width:72px;flex-shrink:0;background:var(--bg2);border:1px solid rgba(124,111,247,0.25);border-radius:6px;color:var(--t1);font-size:14px;font-weight:600;padding:6px 8px;outline:none;text-align:center;-webkit-appearance:none;appearance:none;font-family:inherit;}
+.istat-input:focus{border-color:var(--pu);}
+.istat-input::placeholder{color:var(--t3);font-size:12px;font-weight:400;}
 .rgrid{display:grid;gap:7px}
 
 /* ── Genel Değerlendirme — toggle radio ─────────────────── */
@@ -116,11 +126,11 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     </div>
     <div class="sec">
       <div class="stitle"><span class="dot" style="background:var(--am)"></span>görev maddeleri <span style="color:var(--re);font-size:10px">* en az 1</span></div>
-      <div class="gkart" id="g21"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.1</span><span class="gad">Risk Değerlendirmesi</span></div><div class="gac"><textarea id="a21" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
-      <div class="gkart" id="g22"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.2</span><span class="gad">Eğitim, Bilgilendirme ve Kayıt</span></div><div class="gac"><textarea id="a22" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
-      <div class="gkart" id="g23"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.3</span><span class="gad">İşyeri Çalışma Ortamı Gözetimi</span></div><div class="gac"><textarea id="a23" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
-      <div class="gkart" id="g257"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.5–2.7</span><span class="gad">İlgili Birimlerle İşbirliği</span></div><div class="gac"><textarea id="a257" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
-      <div class="gkart" id="g28"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.8</span><span class="gad">Genel Rehberlik Hizmetleri</span></div><div class="gac"><textarea id="a28" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
+      <div class="gkart" id="g21"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.1</span><span class="gad">Risk Değerlendirmesi</span></div><div class="gac"><textarea id="a21" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler (isteğe bağlı)</div><div class="istat-row"><span class="istat-label">Risk Değerlendirmesi Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s21_1" min="0" placeholder="0"></div></div></div></div>
+      <div class="gkart" id="g22"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.2</span><span class="gad">Eğitim, Bilgilendirme ve Kayıt</span></div><div class="gac"><textarea id="a22" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler (isteğe bağlı)</div><div class="istat-row"><span class="istat-label">Temel İSG Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_1" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">İçerik Atamalı Eğitim Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_2" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">İş Kazası / 6 Ay Sonrası İşe Dönüş Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_3" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">İSG Farkındalık Eğitimi Verilen Öğrenci Sayısı</span><input class="istat-input" type="number" id="s22_4" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">Çalışan Temsilcisi Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_5" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">Acil Durum Ekipleri Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_6" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">Acil Durum Tatbikatlarına Katılım Sayısı</span><input class="istat-input" type="number" id="s22_7" min="0" placeholder="0"></div></div></div></div>
+      <div class="gkart" id="g23"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.3</span><span class="gad">İşyeri Çalışma Ortamı Gözetimi</span></div><div class="gac"><textarea id="a23" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler (isteğe bağlı)</div><div class="istat-row"><span class="istat-label">Kurumda Meydana Gelen İş Kazası Sayısı</span><input class="istat-input" type="number" id="s23_1" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">Kurumda Meydana Gelen Ramak Kala Olay Sayısı</span><input class="istat-input" type="number" id="s23_2" min="0" placeholder="0"></div></div></div></div>
+      <div class="gkart" id="g257"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.5–2.7</span><span class="gad">İlgili Birimlerle İşbirliği</span></div><div class="gac"><textarea id="a257" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler (isteğe bağlı)</div><div class="istat-row"><span class="istat-label">Kurum İSG Kuruluna Katılım Sayısı</span><input class="istat-input" type="number" id="s257_1" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">İSG Kurul Üyeleri Eğitime Katılan Kişi Sayısı</span><input class="istat-input" type="number" id="s257_2" min="0" placeholder="0"></div></div></div></div>
+      <div class="gkart" id="g28"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.8</span><span class="gad">Genel Rehberlik Hizmetleri</span></div><div class="gac"><textarea id="a28" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler (isteğe bağlı)</div><div class="istat-row"><span class="istat-label">Kuruma Yazılı Olarak Bildirilen Tedbir Sayısı</span><input class="istat-input" type="number" id="s28_1" min="0" placeholder="0"></div></div></div></div>
       <div class="gkart" id="gdig"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">Diğer</span><span class="gad">Diğer Faaliyetler</span></div><div class="gac"><textarea id="adig" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
     </div>
     <div class="sec">
@@ -317,7 +327,23 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
       aciklama28:   g28  ?deger('a28')  :'',
       aciklamaDiger:gdig ?deger('adig') :'',
       degerlendirme:deg,
-      ikaz:deger('ikaz')
+      ikaz:deger('ikaz'),
+      // ── İstatistik verileri (PDF'e gitmez, sadece dashboard) ──
+      istat: {
+        s21_1:  g21   ? (parseInt(v('s21_1').value)  || 0) : 0,
+        s22_1:  g22   ? (parseInt(v('s22_1').value)  || 0) : 0,
+        s22_2:  g22   ? (parseInt(v('s22_2').value)  || 0) : 0,
+        s22_3:  g22   ? (parseInt(v('s22_3').value)  || 0) : 0,
+        s22_4:  g22   ? (parseInt(v('s22_4').value)  || 0) : 0,
+        s22_5:  g22   ? (parseInt(v('s22_5').value)  || 0) : 0,
+        s22_6:  g22   ? (parseInt(v('s22_6').value)  || 0) : 0,
+        s22_7:  g22   ? (parseInt(v('s22_7').value)  || 0) : 0,
+        s23_1:  g23   ? (parseInt(v('s23_1').value)  || 0) : 0,
+        s23_2:  g23   ? (parseInt(v('s23_2').value)  || 0) : 0,
+        s257_1: g257  ? (parseInt(v('s257_1').value) || 0) : 0,
+        s257_2: g257  ? (parseInt(v('s257_2').value) || 0) : 0,
+        s28_1:  g28   ? (parseInt(v('s28_1').value)  || 0) : 0
+      }
     };
 
     v('gonderBtn').disabled=true;
@@ -342,6 +368,8 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     ['g21','g22','g23','g257','g28','gdig'].forEach(function(id){ v(id).classList.remove('on'); });
     ['a21','a22','a23','a257','a28','adig'].forEach(function(id){ var el=v(id); el.value=''; el.style.height='auto'; });
     ['r1','r2','r3','r4'].forEach(function(id){ v(id).classList.remove('on'); });
+    // istatistik alanlarını sıfırla
+    ['s21_1','s22_1','s22_2','s22_3','s22_4','s22_5','s22_6','s22_7','s23_1','s23_2','s257_1','s257_2','s28_1'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
     seciliR=null; window.scrollTo(0,0);
   }
 
