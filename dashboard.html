@@ -619,6 +619,29 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     });
   };
 
+  // PDF eksik kayıtlar için yeniden oluşturma
+  window.pdfYenile = function(ziyaretId, btn) {
+    btn.disabled=true; btn.textContent='...';
+    toastGoster('PDF oluşturuluyor, lütfen bekleyin...','ok');
+    jsonpCagri({action:'pdfYenile',id:ziyaretId}, function(err,s){
+      if(err||!s||!s.ok){
+        btn.disabled=false; btn.textContent='↻ PDF';
+        toastGoster('PDF oluşturulamadı: '+(s?s.hata:'Bağlantı hatası'),'err');
+        return;
+      }
+      if(s.pdfUrl){
+        // Butonu direkt PDF linkine çevir
+        var link=document.createElement('a');
+        link.href=s.pdfUrl; link.target='_blank';
+        link.className='pdf-link'; link.textContent='PDF';
+        btn.parentNode.replaceChild(link,btn);
+        toastGoster(s.zaten?'PDF zaten mevcut':'✓ PDF oluşturuldu!','ok');
+        // Listeyi 3 sn sonra yenile
+        setTimeout(function(){ veriYukle(); }, 3000);
+      }
+    });
+  };
+
   // Aktivite akışı
   function renderFeed(aktiviteler) {
     var goruntu = (aktiviteler||[]).filter(function(a){
@@ -646,8 +669,12 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         pillHtml='<span class="pill p-mudur">müdürde</span>';
       }
       var zaman=a.gonZaman&&a.gonZaman!=='-'?a.gonZaman.split(' ')[1]:'-';
-      var pdfBtn = (a.durum==='Onaylandı' && a.pdfUrl)
-        ? '<a href="'+a.pdfUrl+'" target="_blank" class="pdf-link">PDF</a>' : '';
+      var pdfBtn = '';
+      if (a.durum==='Onaylandı') {
+        pdfBtn = a.pdfUrl
+          ? '<a href="'+a.pdfUrl+'" target="_blank" class="pdf-link">PDF</a>'
+          : '<button class="pdf-link" style="cursor:pointer;border:none" onclick="pdfYenile(\''+a.id+'\',this)" title="PDF eksik, tıklayarak yeniden oluşturun">↻ PDF</button>';
+      }
 
       html+='<div class="feed-item">'
         +'<div class="f-icon '+ikonSinif+'">'+ikonSvg+'</div>'
