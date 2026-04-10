@@ -337,6 +337,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       <div class="live-badge"><span class="live-dot"></span> canlı</div>
       <span class="update-time" id="updateTime">—</span>
       <button class="action-btn" id="brifingBtn" onclick="brifingPdfAc()" style="background:rgba(29,184,138,0.12);border-color:rgba(29,184,138,0.3);color:var(--teal)">📊 Brifing PDF</button>
+      <button class="action-btn" id="senkronBtn" onclick="driveSenkron(this)" title="Drive'daki silinmiş PDF'leri listeden temizle" style="background:rgba(240,101,90,0.1);border-color:rgba(240,101,90,0.3);color:var(--red)">🗑 Drive Senkron</button>
       <button class="action-btn" id="refreshBtn">↻ Yenile</button>
       <button class="action-btn" id="cikisBtn">Çıkış</button>
     </div>
@@ -639,6 +640,22 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         // Listeyi 3 sn sonra yenile
         setTimeout(function(){ veriYukle(); }, 3000);
       }
+    });
+  };
+
+  // Drive senkron — silinen PDF'leri spreadsheet'ten de temizle
+  window.driveSenkron = function(btn) {
+    btn.disabled=true; btn.textContent='...';
+    toastGoster('Drive kontrol ediliyor, lütfen bekleyin...','ok');
+    jsonpCagri({action:'pdfSenkron'}, function(err,s){
+      btn.disabled=false; btn.textContent='🗑 Drive Senkron';
+      if(err||!s||!s.ok){
+        toastGoster('Senkron hatası: '+(s?s.hata:'Bağlantı sorunu'),'err');
+        return;
+      }
+      var msg = '✓ Senkron tamam — '+(s.temizlenen||0)+' PDF temizlendi, '+(s.gecerli||0)+' geçerli';
+      toastGoster(msg,'ok');
+      if((s.temizlenen||0)>0) setTimeout(function(){ veriYukle(); },1500);
     });
   };
 
