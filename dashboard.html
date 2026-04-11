@@ -172,8 +172,8 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .panel-title.collapsible:hover .panel-title-left{opacity:.85;}
 .panel-chevron{font-size:11px;color:var(--text3);transition:transform .22s;display:inline-block;margin-left:8px;flex-shrink:0;}
 .panel-title.collapsible.acik .panel-chevron{transform:rotate(90deg);color:var(--purple);}
-.panel-body{overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1),opacity .22s;max-height:0;opacity:0;}
-.panel-body.acik{max-height:2000px;opacity:1;margin-top:14px;}
+.panel-body{overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .25s;max-height:0;opacity:0;}
+.panel-body.acik{max-height:4000px;opacity:1;margin-top:14px;}
 
 /* ── Tıklanabilir satırlar — efektli ──────────────────────── */
 .srow{
@@ -417,15 +417,29 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     <!-- İSGB Onay + Aktivite -->
     <div class="grid-2">
       <div class="panel">
-        <div class="panel-title"><span class="panel-title-left"><span class="dot" style="background:#f97316"></span>isgb onayı bekleyenler</span></div>
-        <div id="isgbOnayList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        <div class="panel-title collapsible acik" id="onayPanelTitle" onclick="togglePanel('onayPanelTitle','onayPanelBody')">
+          <span class="panel-title-left">
+            <span class="dot" style="background:#f97316"></span>
+            isgb onayı bekleyenler
+            <span class="panel-chevron">▶</span>
+          </span>
+        </div>
+        <div class="panel-body acik" id="onayPanelBody">
+          <div id="isgbOnayList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        </div>
       </div>
       <div class="panel">
-        <div class="panel-title">
-          <span class="panel-title-left"><span class="dot" style="background:var(--teal)"></span>anlık aktivite akışı</span>
-          <button class="action-btn" id="feedTemizleBtn" onclick="feedTemizle()" style="font-size:10px;padding:3px 10px">✕ Temizle</button>
+        <div class="panel-title collapsible acik" id="feedPanelTitle" onclick="togglePanel('feedPanelTitle','feedPanelBody')">
+          <span class="panel-title-left">
+            <span class="dot" style="background:var(--teal)"></span>
+            anlık aktivite akışı
+            <span class="panel-chevron">▶</span>
+          </span>
+          <button class="action-btn" id="feedTemizleBtn" onclick="event.stopPropagation();feedTemizle()" style="font-size:10px;padding:3px 10px">✕ Temizle</button>
         </div>
-        <div id="feedList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        <div class="panel-body acik" id="feedPanelBody">
+          <div id="feedList"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        </div>
       </div>
     </div>
 
