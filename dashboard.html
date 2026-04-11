@@ -89,8 +89,15 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .bar-fill{height:100%;border-radius:3px;}
 .bar-num{font-size:12px;font-weight:600;color:var(--text2);width:24px;text-align:right;flex-shrink:0;}
 
-.feed-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
-.feed-item:last-child{border-bottom:none;padding-bottom:0;}
+/* ── Feed akordeon ─────────────────────────────────────────── */
+.feed-item{border-bottom:1px solid var(--border);transition:background .15s;}
+.feed-item:last-child{border-bottom:none;}
+.feed-item.acik{background:rgba(124,111,247,0.06);border-radius:var(--radius-sm) var(--radius-sm) 0 0;border-bottom:none;}
+.feed-row{display:flex;align-items:center;gap:10px;padding:9px 8px;cursor:pointer;border-radius:var(--radius-sm);transition:background .15s;}
+.feed-row:hover{background:rgba(124,111,247,0.08);}
+.feed-item.acik .feed-row{background:rgba(124,111,247,0.1);}
+.feed-chevron{font-size:9px;color:var(--text3);transition:transform .2s;flex-shrink:0;margin-left:2px;}
+.feed-item.acik .feed-chevron{transform:rotate(90deg);color:var(--purple);}
 .f-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .fi-new{background:rgba(245,166,35,0.15);} .fi-ok{background:rgba(29,184,138,0.15);}
 .fi-wait{background:rgba(249,115,22,0.15);} .fi-err{background:rgba(240,101,90,0.15);}
@@ -106,6 +113,16 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .p-gec{background:rgba(240,101,90,0.15);color:var(--red);}
 .pdf-link{background:rgba(124,111,247,0.12);color:var(--purple);border:none;border-radius:var(--radius-sm);padding:3px 10px;font-size:10px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;white-space:nowrap;}
 .pdf-link:hover{background:rgba(124,111,247,0.22);}
+/* Feed detay paneli */
+.feed-detay{display:none;padding:10px 12px 12px 48px;background:rgba(124,111,247,0.05);border-radius:0 0 var(--radius-sm) var(--radius-sm);border-top:1px solid rgba(124,111,247,0.15);animation:slideDown .18s ease-out;border-bottom:1px solid var(--border);}
+.feed-item.acik .feed-detay{display:block;}
+.feed-item:last-child .feed-detay{border-bottom:none;}
+.feed-detay-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.feed-detay-row:last-child{border-bottom:none;}
+.feed-detay-lbl{font-size:10px;color:var(--text2);}
+.feed-detay-val{font-size:11px;color:var(--text);font-weight:500;text-align:right;}
+.feed-detay-gorevler{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+.feed-detay-tag{font-size:10px;background:rgba(64,150,245,0.12);color:var(--blue);padding:2px 8px;border-radius:20px;}
 
 /* ══════════════════════════════════════════════════════════════
    YILLIK RAPOR — AKORDEON TABLO (Soru 5)
@@ -659,51 +676,102 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     });
   };
 
-  // Aktivite akışı
+  // Aktivite akışı — akordeon
   function renderFeed(aktiviteler) {
     var goruntu = (aktiviteler||[]).filter(function(a){
       return feedGizliIds.indexOf(a.id) === -1;
     });
     if(!goruntu.length){document.getElementById('feedList').innerHTML='<div class="bos">Henüz aktivite yok</div>';return;}
+
     var html='';
-    goruntu.slice(0,10).forEach(function(a){
-      var ikonSinif,ikonSvg,pillHtml;
+    goruntu.slice(0,10).forEach(function(a, idx){
+      // ── Durum ikon/pill ────────────────────────────────────
+      var ikonSinif, ikonSvg, pillHtml, durumRenk;
       if(a.durum==='Onaylandı'){
-        ikonSinif='fi-ok';
+        ikonSinif='fi-ok'; durumRenk='var(--teal)';
         ikonSvg='<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#1db88a" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="#1db88a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         pillHtml='<span class="pill p-on">onaylandı</span>';
       } else if(a.durum==='İSGB Onayı Bekleniyor'){
-        ikonSinif='fi-wait';
+        ikonSinif='fi-wait'; durumRenk='#f97316';
         ikonSvg='<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f97316" stroke-width="1.5"/><path d="M8 5v3l2 1" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/></svg>';
         pillHtml='<span class="pill p-isgb">isgb onayında</span>';
       } else if(a.bekSure&&a.bekSure>48){
-        ikonSinif='fi-err';
+        ikonSinif='fi-err'; durumRenk='var(--red)';
         ikonSvg='<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f0655a" stroke-width="1.5"/><path d="M8 5v4M8 10.5v.5" stroke="#f0655a" stroke-width="1.5" stroke-linecap="round"/></svg>';
         pillHtml='<span class="pill p-gec">'+a.bekSure+' saat</span>';
       } else {
-        ikonSinif='fi-new';
+        ikonSinif='fi-new'; durumRenk='var(--amber)';
         ikonSvg='<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#f5a623" stroke-width="1.5"/><path d="M8 5v3l2 1" stroke="#f5a623" stroke-width="1.5" stroke-linecap="round"/></svg>';
         pillHtml='<span class="pill p-mudur">müdürde</span>';
       }
-      var zaman=a.gonZaman&&a.gonZaman!=='-'?a.gonZaman.split(' ')[1]:'-';
+
+      var zaman = a.gonZaman&&a.gonZaman!=='-' ? a.gonZaman.split(' ')[1] : '-';
+      var tarihTam = a.gonZaman&&a.gonZaman!=='-' ? a.gonZaman : '-';
+
+      // ── PDF butonu ──────────────────────────────────────────
       var pdfBtn = '';
-      if (a.durum==='Onaylandı') {
+      if(a.durum==='Onaylandı'){
         pdfBtn = a.pdfUrl
-          ? '<a href="'+a.pdfUrl+'" target="_blank" class="pdf-link">PDF</a>'
-          : '<button class="pdf-link" style="cursor:pointer;border:none" onclick="pdfYenile(\''+a.id+'\',this)" title="PDF eksik, tıklayarak yeniden oluşturun">↻ PDF</button>';
+          ? '<a href="'+a.pdfUrl+'" target="_blank" class="pdf-link" onclick="event.stopPropagation()">PDF</a>'
+          : '<button class="pdf-link" style="cursor:pointer;border:none" onclick="event.stopPropagation();pdfYenile(\''+a.id+'\',this)" title="PDF eksik, tıklayın">↻ PDF</button>';
       }
 
-      html+='<div class="feed-item">'
-        +'<div class="f-icon '+ikonSinif+'">'+ikonSvg+'</div>'
-        +'<div class="f-body">'
-        +'<div class="f-main">'+a.igu+' — '+a.okul+pillHtml+'</div>'
-        +'<div class="f-meta">'+a.tarih+'</div>'
+      // ── Görev etiketleri ───────────────────────────────────
+      var gorevler = [];
+      if(a.gorev21)  gorevler.push('2.1 Risk');
+      if(a.gorev22)  gorevler.push('2.2 Eğitim');
+      if(a.gorev23)  gorevler.push('2.3 Ortam');
+      if(a.gorev257) gorevler.push('2.5–2.7 İşbirliği');
+      if(a.gorev28)  gorevler.push('2.8 Rehberlik');
+      if(a.gorevDig) gorevler.push('Diğer');
+      var gorevHtml = gorevler.length
+        ? '<div class="feed-detay-gorevler">'+gorevler.map(function(g){return '<span class="feed-detay-tag">'+g+'</span>';}).join('')+'</div>'
+        : '';
+
+      // ── Kısa ID ────────────────────────────────────────────
+      var kisaId = a.id ? a.id.slice(-12).toUpperCase() : '-';
+
+      var fid = 'feed_'+idx;
+
+      html += '<div class="feed-item" id="'+fid+'">'
+        // Ana satır (tıklanabilir)
+        +'<div class="feed-row" onclick="feedToggle(\''+fid+'\')">'
+          +'<span class="feed-chevron">▶</span>'
+          +'<div class="f-icon '+ikonSinif+'">'+ikonSvg+'</div>'
+          +'<div class="f-body">'
+            +'<div class="f-main">'+a.igu+' — '+a.okul+pillHtml+'</div>'
+            +'<div class="f-meta">'+a.tarih+'</div>'
+          +'</div>'
+          +'<div class="f-sag">'+pdfBtn+'<span class="f-time">'+zaman+'</span></div>'
         +'</div>'
-        +'<div class="f-sag">'+pdfBtn+'<span class="f-time">'+zaman+'</span></div>'
+        // Detay paneli
+        +'<div class="feed-detay">'
+          +'<div class="feed-detay-row"><span class="feed-detay-lbl">Ziyaret ID</span><span class="feed-detay-val" style="font-family:monospace;font-size:10px">'+kisaId+'</span></div>'
+          +'<div class="feed-detay-row"><span class="feed-detay-lbl">İş Güvenliği Uzmanı</span><span class="feed-detay-val">'+a.igu+'</span></div>'
+          +'<div class="feed-detay-row"><span class="feed-detay-lbl">Okul / Kurum</span><span class="feed-detay-val">'+a.okul+'</span></div>'
+          +'<div class="feed-detay-row"><span class="feed-detay-lbl">Ziyaret Tarihi</span><span class="feed-detay-val">'+a.tarih+'</span></div>'
+          +'<div class="feed-detay-row"><span class="feed-detay-lbl">Gönderim Zamanı</span><span class="feed-detay-val">'+tarihTam+'</span></div>'
+          +'<div class="feed-detay-row"><span class="feed-detay-lbl">Durum</span><span class="feed-detay-val" style="color:'+durumRenk+'">'+a.durum+'</span></div>'
+          +(gorevHtml ? '<div class="feed-detay-row" style="flex-direction:column;align-items:flex-start"><span class="feed-detay-lbl" style="margin-bottom:4px">Görev Maddeleri</span>'+gorevHtml+'</div>' : '')
+          +(a.pdfUrl ? '<div style="margin-top:8px"><a href="'+a.pdfUrl+'" target="_blank" class="pdf-link" style="font-size:11px;padding:5px 14px">📄 PDF Görüntüle</a></div>' : '')
+        +'</div>'
         +'</div>';
     });
+
     document.getElementById('feedList').innerHTML=html;
   }
+
+  // Feed akordeon aç/kapa
+  window.feedToggle = function(fid) {
+    var el = document.getElementById(fid);
+    if(!el) return;
+    var acikti = el.classList.contains('acik');
+    // Diğer açık olanları kapat
+    document.querySelectorAll('#feedList .feed-item.acik').forEach(function(x){
+      x.classList.remove('acik');
+    });
+    if(!acikti) el.classList.add('acik');
+  };
 
   // ══════════════════════════════════════════════════════════════
   // İSTATİSTİK KPI PANELİ
