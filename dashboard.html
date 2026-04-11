@@ -355,7 +355,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       <span class="update-time" id="updateTime">—</span>
       <button class="action-btn" id="brifingBtn" onclick="brifingPdfAc()" style="background:rgba(29,184,138,0.12);border-color:rgba(29,184,138,0.3);color:var(--teal)">📊 Brifing PDF</button>
       <button class="action-btn" id="senkronBtn" onclick="driveSenkron(this)" title="Drive'daki silinmiş PDF'leri listeden temizle" style="background:rgba(240,101,90,0.1);border-color:rgba(240,101,90,0.3);color:var(--red)">🗑 Drive Senkron</button>
-      <button class="action-btn" id="refreshBtn">↻ Yenile</button>
+      <button class="action-btn" id="refreshBtn" onclick="yenileBtn(this)">↻ Yenile</button>
       <button class="action-btn" id="cikisBtn">Çıkış</button>
     </div>
   </div>
@@ -521,7 +521,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   document.getElementById('girisBtn').addEventListener('click', sifreKontrol);
   document.getElementById('sifreInput').addEventListener('keydown', function(e){ if(e.key==='Enter') sifreKontrol(); });
   document.getElementById('cikisBtn').addEventListener('click', cikis);
-  document.getElementById('refreshBtn').addEventListener('click', veriYukle);
+  // refreshBtn artık onclick="yenileBtn(this)" ile doğrudan bağlı
   document.getElementById('yilSec').addEventListener('change', function(){
     secilenYil = parseInt(this.value);
     yillikRaporuRender(tumAktiviteler, secilenYil, null);
@@ -674,7 +674,16 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     });
   };
 
-  // Drive senkron — silinen PDF'leri spreadsheet'ten de temizle
+  // Yenile butonu — görsel geri bildirimli
+  window.yenileBtn = function(btn) {
+    btn.disabled = true;
+    btn.textContent = '↻ ...';
+    veriYukle();
+    setTimeout(function() {
+      btn.disabled = false;
+      btn.textContent = '↻ Yenile';
+    }, 3000);
+  };
   window.driveSenkron = function(btn) {
     btn.disabled=true; btn.textContent='...';
     toastGoster('Drive kontrol ediliyor, lütfen bekleyin...','ok');
@@ -1561,6 +1570,20 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   // Enter tuşu ile de sorgula
   document.getElementById('sorguInput').addEventListener('keydown', function(e){
     if (e.key === 'Enter') formSorgula();
+  });
+
+  // Sorgu paneli dışına tıklayınca kapat
+  document.addEventListener('click', function(e) {
+    var panel = document.getElementById('sorguSonuc');
+    var input = document.getElementById('sorguInput');
+    var btn   = document.getElementById('sorguBtn');
+    if (!panel || !panel.classList.contains('on')) return;
+    // Tıklanan yer panel, input veya buton değilse kapat
+    if (!panel.contains(e.target) && e.target !== input && e.target !== btn) {
+      panel.className = 'sorgu-sonuc';
+      panel.innerHTML = '';
+      input.value = '';
+    }
   });
 
   // Kısa kodu tam ID'ye çevir
