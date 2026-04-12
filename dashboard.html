@@ -113,10 +113,8 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .p-gec{background:rgba(240,101,90,0.15);color:var(--red);}
 .pdf-link{background:rgba(124,111,247,0.12);color:var(--purple);border:none;border-radius:var(--radius-sm);padding:3px 10px;font-size:10px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;white-space:nowrap;}
 .pdf-link:hover{background:rgba(124,111,247,0.22);}
-/* Feed detay paneli */
 .feed-detay{display:none;padding:10px 12px 12px 48px;background:rgba(124,111,247,0.05);border-radius:0 0 var(--radius-sm) var(--radius-sm);border-top:1px solid rgba(124,111,247,0.15);animation:slideDown .18s ease-out;border-bottom:1px solid var(--border);}
 .feed-item.acik .feed-detay{display:block;}
-.feed-item:last-child .feed-detay{border-bottom:none;}
 .feed-detay-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
 .feed-detay-row:last-child{border-bottom:none;}
 .feed-detay-lbl{font-size:10px;color:var(--text2);}
@@ -125,7 +123,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .feed-detay-tag{font-size:10px;background:rgba(64,150,245,0.12);color:var(--blue);padding:2px 8px;border-radius:20px;}
 
 /* ══════════════════════════════════════════════════════════════
-   YILLIK RAPOR — AKORDEON TABLO (Soru 5)
+   YILLIK RAPOR — AKORDEON TABLO
    ══════════════════════════════════════════════════════════════ */
 .rapor-tablo{width:100%;border-collapse:collapse;font-size:12px;}
 .rapor-tablo th{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;}
@@ -138,24 +136,20 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .oran-orta{background:rgba(245,166,35,0.12);color:var(--amber);}
 .oran-dusuk{background:rgba(240,101,90,0.12);color:var(--red);}
 
-/* Akordeon ana satır */
 .rapor-ugu-row{cursor:pointer;transition:background .2s;}
 .rapor-ugu-row:hover td{background:rgba(124,111,247,0.08);}
 .rapor-ugu-row:hover td:first-child{box-shadow:inset 3px 0 0 var(--purple);}
 .rapor-ugu-row.acik td{background:rgba(124,111,247,0.12);}
 .rapor-ugu-row.acik td:first-child{box-shadow:inset 3px 0 0 var(--purple);}
 .rapor-ugu-row td:first-child{position:relative;padding-left:28px;transition:box-shadow .2s;}
-/* Ok ikonu */
 .acc-ok{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--text3);transition:transform .2s;display:inline-block;}
 .rapor-ugu-row.acik .acc-ok{transform:translateY(-50%) rotate(90deg);color:var(--purple);}
 
-/* Akordeon içerik satırı */
 .acc-detail-row{display:none;}
 .acc-detail-row.acik{display:table-row;}
 .acc-detail-cell{padding:0 !important;border-bottom:1px solid var(--border);}
 .acc-inner{background:var(--bg3);margin:0;padding:10px 14px 14px 28px;}
 
-/* Okul tablosu (akordeon içi) */
 .okul-tablo{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px;}
 .okul-tablo th{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;padding:5px 8px;border-bottom:1px solid var(--border);text-align:left;}
 .okul-tablo th:not(:first-child){text-align:center;}
@@ -175,7 +169,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .panel-body{overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .25s;max-height:0;opacity:0;}
 .panel-body.acik{max-height:4000px;opacity:1;margin-top:14px;}
 
-/* ── Tıklanabilir satırlar — efektli ──────────────────────── */
+/* ── Tıklanabilir satırlar ──────────────────────── */
 .srow{
   cursor:pointer;
   transition:background .2s, box-shadow .2s, transform .15s;
@@ -236,7 +230,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .srow-detail-tablo td:not(:first-child){text-align:center;}
 .srow-detail-tablo tr:last-child td{border-bottom:none;}
 
-/* İstatistik satırları — efektli */
+/* İstatistik satırları */
 .istat-satir{
   display:flex;align-items:center;justify-content:space-between;
   gap:8px;padding:8px 10px;
@@ -259,6 +253,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .istat-satir-label{font-size:11px;color:var(--text2);flex:1;line-height:1.3;}
 .istat-satir-val{font-size:14px;font-weight:700;flex-shrink:0;min-width:28px;text-align:right;transition:transform .2s;}
 .istat-satir:hover .istat-satir-val{transform:scale(1.1);}
+
 /* ── Form Sorgulama Paneli ───────────────────────────────── */
 .sorgu-wrap{display:flex;gap:10px;margin-bottom:14px;}
 .sorgu-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:14px;padding:10px 14px;outline:none;font-family:inherit;}
@@ -292,7 +287,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .istat-satir-label{font-size:11px;color:var(--text2);flex:1;line-height:1.3;}
 .istat-satir-val{font-size:14px;font-weight:700;flex-shrink:0;min-width:28px;text-align:right;}
 
-/* Akordeon içi istatistik — gruplu */
+/* Akordeon içi istatistik */
 .acc-istat-blok{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
 .acc-istat-baslik{font-size:9px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
 .acc-istat-gruplar{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
@@ -322,6 +317,34 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 .toast.ok{border-color:var(--teal);color:var(--teal);}
 .toast.err{border-color:var(--red);color:var(--red);}
 
+/* ── YENİ: IGU ve OKUL LİSTE PANELLERİ ────────────────────── */
+.liste-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.liste-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;cursor:pointer;background:var(--bg2);transition:background .2s;}
+.liste-header:hover{background:rgba(124,111,247,0.05);}
+.liste-header.acik{background:rgba(124,111,247,0.08);border-bottom:1px solid var(--border);}
+.liste-baslik{font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;}
+.liste-baslik .liste-chevron{font-size:10px;color:var(--text3);transition:transform .22s;}
+.liste-header.acik .liste-chevron{transform:rotate(90deg);color:var(--purple);}
+.liste-sayi{background:var(--bg3);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:600;color:var(--text2);}
+.liste-body{max-height:0;overflow:hidden;transition:max-height .3s ease-out;}
+.liste-body.acik{max-height:800px;overflow-y:auto;}
+.liste-icerik{padding:8px 0;}
+.liste-ogu-item{border-bottom:1px solid var(--border);padding:10px 18px;transition:background .15s;}
+.liste-ogu-item:last-child{border-bottom:none;}
+.liste-ogu-item:hover{background:rgba(124,111,247,0.05);}
+.liste-ogu-ad{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;}
+.liste-ogu-email{font-size:10px;color:var(--text3);margin-top:3px;font-family:monospace;}
+.liste-ogu-okullar{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;padding-left:20px;}
+.liste-okul-tag{background:rgba(64,150,245,0.12);color:var(--blue);font-size:10px;padding:3px 10px;border-radius:20px;}
+.liste-okul-item{border-bottom:1px solid var(--border);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+.liste-okul-item:last-child{border-bottom:none;}
+.liste-okul-ad{font-size:13px;font-weight:500;color:var(--text);}
+.liste-okul-tur{font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 8px;border-radius:20px;}
+.liste-okul-mudur{font-size:10px;color:var(--text2);margin-top:2px;}
+.liste-okul-detay{display:flex;gap:12px;font-size:10px;color:var(--text3);}
+.liste-search{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:12px;padding:8px 12px;margin:12px 16px;width:calc(100% - 32px);}
+.liste-search:focus{border-color:var(--purple);outline:none;}
+
 @media(max-width:1000px){.kpis{grid-template-columns:repeat(3,1fr);}.grid-2,.grid-3{grid-template-columns:1fr;}}
 @media(max-width:600px){.kpis{grid-template-columns:1fr 1fr;}.main{padding:12px;}}
 </style>
@@ -331,9 +354,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 <!-- GİRİŞ -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
-    <div class="login-badge">İSGB</div>
-    <div class="login-title">İSG Büro Takip Paneli</div>
-    <div class="login-sub">Şehitkamil İlçe Kaymakamlığı — İlçe MEM / İşyeri Sağlık ve Güvenlik Bürosu</div>
+    <div class="login-badge">İ</div>
+    <div class="login-title">İSGB Takip Paneli</div>
+    <div class="login-sub">Gaziantep Valiliği — İl MEM / İşyeri Sağlık ve Güvenlik Birimi</div>
     <input type="password" id="sifreInput" placeholder="Şifrenizi giriniz" maxlength="20">
     <button class="login-btn" id="girisBtn">Giriş Yap</button>
     <div class="login-err" id="loginErr">Hatalı şifre. Tekrar deneyin.</div>
@@ -344,10 +367,10 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 <div id="dashboard">
   <div class="header">
     <div class="logo-row">
-      <div class="logo-badge">İGU</div>
+      <div class="logo-badge">İ</div>
       <div>
         <div class="logo-text">İSGB Takip Paneli</div>
-        <div class="logo-sub">Şehitkamil Kaymakamlığı — İlçe MEM / İşyeri Sağlık ve Güvenlik Bürosu</div>
+        <div class="logo-sub">Gaziantep Valiliği — İl MEM / İşyeri Sağlık ve Güvenlik Birimi</div>
       </div>
     </div>
     <div class="header-right">
@@ -483,7 +506,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       <div id="istatPanel"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
     </div>
 
-    <!-- YILLIK RAPOR — AKORDEONlu -->
+    <!-- YILLIK RAPOR + IGU + OKUL LİSTELERİ -->
     <div class="panel" style="margin-bottom:16px">
       <div class="panel-title">
         <span class="panel-title-left">
@@ -494,6 +517,44 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         <select class="yil-sec" id="yilSec"></select>
       </div>
       <div id="yillikRapor"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- YENİ: MEVCUT IGU LİSTESİ (Akordeon)                      -->
+    <!-- ========================================================= -->
+    <div class="liste-panel" id="iguListePanel">
+      <div class="liste-header" id="iguListeHeader" onclick="toggleListePanel('iguListePanel')">
+        <div class="liste-baslik">
+          <span class="liste-chevron">▶</span>
+          <span>👥 Mevcut İş Güvenliği Uzmanları</span>
+        </div>
+        <span class="liste-sayi" id="iguListeSayi">0</span>
+      </div>
+      <div class="liste-body" id="iguListeBody">
+        <div class="liste-icerik">
+          <input type="text" class="liste-search" id="iguSearch" placeholder="🔍 Uzman adı veya e-posta ara..." onkeyup="filterIguListesi()">
+          <div id="iguListeIcerik"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- YENİ: MEVCUT OKUL LİSTESİ (Akordeon)                      -->
+    <!-- ========================================================= -->
+    <div class="liste-panel" id="okulListePanel">
+      <div class="liste-header" id="okulListeHeader" onclick="toggleListePanel('okulListePanel')">
+        <div class="liste-baslik">
+          <span class="liste-chevron">▶</span>
+          <span>🏫 Mevcut Okul / Kurum Listesi</span>
+        </div>
+        <span class="liste-sayi" id="okulListeSayi">0</span>
+      </div>
+      <div class="liste-body" id="okulListeBody">
+        <div class="liste-icerik">
+          <input type="text" class="liste-search" id="okulSearch" placeholder="🔍 Okul adı, türü veya müdür adı ara..." onkeyup="filterOkulListesi()">
+          <div id="okulListeIcerik"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -515,13 +576,16 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   var tumAktiviteler = [];
   var secilenYil = new Date().getFullYear();
   var feedGizliIds = JSON.parse(sessionStorage.getItem('feedGizli') || '[]');
+  
+  // Yeni değişkenler
+  var iguListesiVeri = [];
+  var okulListesiVeri = [];
 
   // Giriş
   if (sessionStorage.getItem('isgb_auth') === 'ok') girisYap();
   document.getElementById('girisBtn').addEventListener('click', sifreKontrol);
   document.getElementById('sifreInput').addEventListener('keydown', function(e){ if(e.key==='Enter') sifreKontrol(); });
   document.getElementById('cikisBtn').addEventListener('click', cikis);
-  // refreshBtn artık onclick="yenileBtn(this)" ile doğrudan bağlı
   document.getElementById('yilSec').addEventListener('change', function(){
     secilenYil = parseInt(this.value);
     yillikRaporuRender(tumAktiviteler, secilenYil, null);
@@ -536,6 +600,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       document.getElementById('sifreInput').value = '';
     }
   }
+  
   function girisYap() {
     var yilSec = document.getElementById('yilSec');
     var buYil = new Date().getFullYear();
@@ -549,8 +614,11 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.getElementById('loginWrap').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     veriYukle();
+    iguOkulListeleriniYukle(); // YENİ: IGU ve OKUL listelerini yükle
     setInterval(veriYukle, 60000);
+    setInterval(iguOkulListeleriniYukle, 300000); // 5 dakikada bir yenile
   }
+  
   function cikis() {
     sessionStorage.removeItem('isgb_auth');
     document.getElementById('dashboard').style.display = 'none';
@@ -580,6 +648,114 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     };
     document.head.appendChild(script);
   }
+
+  // ============================================================
+  // YENİ: IGU ve OKUL Listelerini yükle
+  // ============================================================
+  function iguOkulListeleriniYukle() {
+    // IGU Listesi
+    jsonpCagri({ action: 'iguListesi' }, function(err, data) {
+      if (!err && data && data.ok && data.list) {
+        iguListesiVeri = data.list;
+        document.getElementById('iguListeSayi').textContent = iguListesiVeri.length;
+        renderIguListesi(iguListesiVeri);
+      } else {
+        document.getElementById('iguListeIcerik').innerHTML = '<div class="bos">Liste yüklenemedi.</div>';
+      }
+    });
+    
+    // Okul Listesi
+    jsonpCagri({ action: 'okulListesiTam' }, function(err, data) {
+      if (!err && data && data.ok && data.list) {
+        okulListesiVeri = data.list;
+        document.getElementById('okulListeSayi').textContent = okulListesiVeri.length;
+        renderOkulListesi(okulListesiVeri);
+      } else {
+        document.getElementById('okulListeIcerik').innerHTML = '<div class="bos">Liste yüklenemedi.</div>';
+      }
+    });
+  }
+  
+  function renderIguListesi(liste) {
+    var container = document.getElementById('iguListeIcerik');
+    if (!liste.length) {
+      container.innerHTML = '<div class="bos">Kayıtlı IGU bulunamadı.</div>';
+      return;
+    }
+    var html = '';
+    liste.forEach(function(igu) {
+      var okullarHtml = '';
+      if (igu.okullar && igu.okullar.length) {
+        okullarHtml = '<div class="liste-ogu-okullar">' + 
+          igu.okullar.map(function(o){ return '<span class="liste-okul-tag">' + o + '</span>'; }).join('') +
+          '</div>';
+      }
+      html += '<div class="liste-ogu-item" data-ad="' + (igu.ad || '').toLowerCase() + '" data-email="' + (igu.email || '').toLowerCase() + '">' +
+        '<div class="liste-ogu-ad">' + (igu.ad || '?') + '</div>' +
+        '<div class="liste-ogu-email">' + (igu.email || '-') + '</div>' +
+        okullarHtml +
+        '</div>';
+    });
+    container.innerHTML = html;
+  }
+  
+  function renderOkulListesi(liste) {
+    var container = document.getElementById('okulListeIcerik');
+    if (!liste.length) {
+      container.innerHTML = '<div class="bos">Kayıtlı okul bulunamadı.</div>';
+      return;
+    }
+    var html = '';
+    liste.forEach(function(okul) {
+      html += '<div class="liste-okul-item" data-ad="' + (okul.ad || '').toLowerCase() + '" data-tur="' + (okul.tur || '').toLowerCase() + '" data-mudur="' + (okul.mudurAd || '').toLowerCase() + '">' +
+        '<div style="flex:1">' +
+        '<div class="liste-okul-ad">' + (okul.ad || '?') + '</div>' +
+        '<div class="liste-okul-mudur">👤 ' + (okul.mudurAd || '-') + ' &nbsp;|&nbsp; 📧 ' + (okul.mudurEmail || '-') + '</div>' +
+        '</div>' +
+        '<div class="liste-okul-detay">' +
+        '<span class="liste-okul-tur">' + (okul.tur || '?') + '</span>' +
+        '<span>📞 ' + (okul.telefon || '-') + '</span>' +
+        '<span>👥 ' + (okul.calisanSayisi || '?') + '</span>' +
+        '</div>' +
+        '</div>';
+    });
+    container.innerHTML = html;
+  }
+  
+  // Arama filtreleri
+  window.filterIguListesi = function() {
+    var searchTerm = document.getElementById('iguSearch').value.toLowerCase();
+    var filtered = iguListesiVeri.filter(function(igu) {
+      return (igu.ad || '').toLowerCase().includes(searchTerm) || 
+             (igu.email || '').toLowerCase().includes(searchTerm);
+    });
+    renderIguListesi(filtered);
+  };
+  
+  window.filterOkulListesi = function() {
+    var searchTerm = document.getElementById('okulSearch').value.toLowerCase();
+    var filtered = okulListesiVeri.filter(function(okul) {
+      return (okul.ad || '').toLowerCase().includes(searchTerm) || 
+             (okul.tur || '').toLowerCase().includes(searchTerm) ||
+             (okul.mudurAd || '').toLowerCase().includes(searchTerm);
+    });
+    renderOkulListesi(filtered);
+  };
+  
+  // Akordeon aç/kapa
+  window.toggleListePanel = function(panelId) {
+    var panel = document.getElementById(panelId);
+    var header = panel.querySelector('.liste-header');
+    var body = panel.querySelector('.liste-body');
+    var acik = header.classList.contains('acik');
+    if (acik) {
+      header.classList.remove('acik');
+      body.classList.remove('acik');
+    } else {
+      header.classList.add('acik');
+      body.classList.add('acik');
+    }
+  };
 
   // Veri yükle
   function veriYukle() {
@@ -645,13 +821,11 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       }
       var satir=document.getElementById('onay_'+ziyaretId);
       if(satir){satir.style.opacity='0';satir.style.transition='opacity .3s';setTimeout(function(){satir.remove();},300);}
-      // PDF oluşturma ~3-5 sn sürer — 8 sn sonra dashboard yenile
       setTimeout(function(){ veriYukle(); }, 8000);
       toastGoster('✓ Form onaylandı! PDF oluşturuluyor...','ok');
     });
   };
 
-  // PDF eksik kayıtlar için yeniden oluşturma
   window.pdfYenile = function(ziyaretId, btn) {
     btn.disabled=true; btn.textContent='...';
     toastGoster('PDF oluşturuluyor, lütfen bekleyin...','ok');
@@ -662,28 +836,27 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         return;
       }
       if(s.pdfUrl){
-        // Butonu direkt PDF linkine çevir
         var link=document.createElement('a');
         link.href=s.pdfUrl; link.target='_blank';
         link.className='pdf-link'; link.textContent='PDF';
         btn.parentNode.replaceChild(link,btn);
         toastGoster(s.zaten?'PDF zaten mevcut':'✓ PDF oluşturuldu!','ok');
-        // Listeyi 3 sn sonra yenile
         setTimeout(function(){ veriYukle(); }, 3000);
       }
     });
   };
 
-  // Yenile butonu — görsel geri bildirimli
   window.yenileBtn = function(btn) {
     btn.disabled = true;
     btn.textContent = '↻ ...';
     veriYukle();
+    iguOkulListeleriniYukle();
     setTimeout(function() {
       btn.disabled = false;
       btn.textContent = '↻ Yenile';
     }, 3000);
   };
+  
   window.driveSenkron = function(btn) {
     btn.disabled=true; btn.textContent='...';
     toastGoster('Drive kontrol ediliyor, lütfen bekleyin...','ok');
@@ -699,7 +872,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     });
   };
 
-  // Aktivite akışı — akordeon
   function renderFeed(aktiviteler) {
     var goruntu = (aktiviteler||[]).filter(function(a){
       return feedGizliIds.indexOf(a.id) === -1;
@@ -708,7 +880,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 
     var html='';
     goruntu.slice(0,10).forEach(function(a, idx){
-      // ── Durum ikon/pill ────────────────────────────────────
       var ikonSinif, ikonSvg, pillHtml, durumRenk;
       if(a.durum==='Onaylandı'){
         ikonSinif='fi-ok'; durumRenk='var(--teal)';
@@ -731,7 +902,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       var zaman = a.gonZaman&&a.gonZaman!=='-' ? a.gonZaman.split(' ')[1] : '-';
       var tarihTam = a.gonZaman&&a.gonZaman!=='-' ? a.gonZaman : '-';
 
-      // ── PDF butonu ──────────────────────────────────────────
       var pdfBtn = '';
       if(a.durum==='Onaylandı'){
         pdfBtn = a.pdfUrl
@@ -739,7 +909,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
           : '<button class="pdf-link" style="cursor:pointer;border:none" onclick="event.stopPropagation();pdfYenile(\''+a.id+'\',this)" title="PDF eksik, tıklayın">↻ PDF</button>';
       }
 
-      // ── Görev etiketleri ───────────────────────────────────
       var gorevler = [];
       if(a.gorev21)  gorevler.push('2.1 Risk');
       if(a.gorev22)  gorevler.push('2.2 Eğitim');
@@ -751,13 +920,10 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         ? '<div class="feed-detay-gorevler">'+gorevler.map(function(g){return '<span class="feed-detay-tag">'+g+'</span>';}).join('')+'</div>'
         : '';
 
-      // ── Kısa ID ────────────────────────────────────────────
       var kisaId = a.id ? a.id.slice(-12).toUpperCase() : '-';
-
       var fid = 'feed_'+idx;
 
       html += '<div class="feed-item" id="'+fid+'">'
-        // Ana satır (tıklanabilir)
         +'<div class="feed-row" onclick="feedToggle(\''+fid+'\')">'
           +'<span class="feed-chevron">▶</span>'
           +'<div class="f-icon '+ikonSinif+'">'+ikonSvg+'</div>'
@@ -767,7 +933,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
           +'</div>'
           +'<div class="f-sag">'+pdfBtn+'<span class="f-time">'+zaman+'</span></div>'
         +'</div>'
-        // Detay paneli
         +'<div class="feed-detay">'
           +'<div class="feed-detay-row"><span class="feed-detay-lbl">Ziyaret ID</span><span class="feed-detay-val" style="font-family:monospace;font-size:10px">'+kisaId+'</span></div>'
           +'<div class="feed-detay-row"><span class="feed-detay-lbl">İş Güvenliği Uzmanı</span><span class="feed-detay-val">'+a.igu+'</span></div>'
@@ -780,30 +945,23 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'</div>'
         +'</div>';
     });
-
     document.getElementById('feedList').innerHTML=html;
   }
 
-  // Feed akordeon aç/kapa
   window.feedToggle = function(fid) {
     var el = document.getElementById(fid);
     if(!el) return;
     var acikti = el.classList.contains('acik');
-    // Diğer açık olanları kapat
     document.querySelectorAll('#feedList .feed-item.acik').forEach(function(x){
       x.classList.remove('acik');
     });
     if(!acikti) el.classList.add('acik');
   };
 
-  // ══════════════════════════════════════════════════════════════
-  // İSTATİSTİK KPI PANELİ
-  // ══════════════════════════════════════════════════════════════
   function renderIstatPanel(ist) {
     var el = document.getElementById('istatPanel');
     if (!ist) { el.innerHTML='<div class="bos">Henüz istatistik verisi yok</div>'; return; }
 
-    // Güvenli sayı — tarih/obje değerleri sıfırla
     function gs(v) { var n=parseInt(v,10); return (!isNaN(n)&&n>=0&&n<100000)?n:0; }
     ist = {
       s21_1:gs(ist.s21_1), s22_1:gs(ist.s22_1), s22_2:gs(ist.s22_2),
@@ -890,7 +1048,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       gridHtml += '</div>';
     });
     gridHtml += '</div>';
-
     el.innerHTML = ozet + gridHtml;
   }
 
@@ -908,7 +1065,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       var sid2   = 'ist2_'+istatKey+'_'+ui;
       var did2   = 'ist2_d_'+istatKey+'_'+ui;
 
-      // Uzman satırı — tıklanınca okul detayı açılır
       html += '<tr class="srow" id="'+sid2+'" onclick="event.stopPropagation();toggleSrow(\''+sid2+'\',\''+did2+'\')" style="background:transparent;">'
         +'<td style="padding:5px 8px;">'
         +'<span class="srow-ok" style="font-size:8px">▶</span>'
@@ -917,7 +1073,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'<td></td>'
         +'<td style="text-align:right;font-weight:700;color:var(--text);padding:5px 8px">'+topVal+'</td>'
         +'</tr>'
-        // Okul detay satırı
         +'<tr id="'+did2+'" style="display:none">'
         +'<td colspan="3" style="padding:0 8px 6px 32px">'
         +'<table style="width:100%;border-collapse:collapse;font-size:10px;background:rgba(124,111,247,0.04);border-radius:6px;">'
@@ -926,7 +1081,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'<th style="padding:4px 8px;color:var(--text3);font-weight:600;text-align:right;border-bottom:1px solid var(--border)">Değer</th>'
         +'</tr></thead><tbody>';
 
-      // Okul kırılımı
       var okullar = (cache[iguAd].okullar) || {};
       var okulAdlari = Object.keys(okullar).filter(function(o){ return (okullar[o][istatKey]||0) > 0; }).sort();
       if (okulAdlari.length) {
@@ -945,21 +1099,14 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     return html;
   }
 
-  // ══════════════════════════════════════════════════════════════
-  // YILLIK RAPOR — AKORDEONlu (Soru 5 + istatistik detayı)
-  // ══════════════════════════════════════════════════════════════
-
   function yillikRaporuRender(aktiviteler, yil, iguIstatGlobal) {
     var el = document.getElementById('yillikRapor');
     var yilStr = String(yil);
 
-    // IGU bazında istatistik + okul bazında gruplama
     var iguIstat = {};
     (aktiviteler||[]).forEach(function(a){
-      // Tarih filtresi: "09/04/26" formatı → yılın son 2 hanesi
       var tarihYil = '';
       if (a.tarih && a.tarih.length >= 8) {
-        // dd/MM/yy veya dd/MM/yyyy — yılı sona göre kontrol et
         var parca = a.tarih.split('/');
         if (parca.length === 3) {
           tarihYil = parca[2].length === 2 ? '20'+parca[2] : parca[2];
@@ -972,7 +1119,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       if (a.durum === 'Onaylandı') iguIstat[a.igu].onaylanan++;
       else iguIstat[a.igu].bekleyen++;
 
-      // Okul bazında sayaç
       var okulAd = a.okul || 'Bilinmiyor';
       if (!iguIstat[a.igu].okullar[okulAd]) {
         iguIstat[a.igu].okullar[okulAd] = { toplam:0, onaylanan:0, bekleyen:0 };
@@ -1010,7 +1156,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       var rowId = 'acc_' + idx;
       var detailId = 'acc_detail_' + idx;
 
-      // Ana satır — tıklanabilir
       html += '<tr class="rapor-ugu-row" id="'+rowId+'" onclick="toggleAcc(\''+rowId+'\',\''+detailId+'\')">'
         +'<td style="font-weight:500"><span class="acc-ok">▶</span>'+r.ad+'</td>'
         +'<td>'+r.toplam+'</td>'
@@ -1019,7 +1164,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'<td><span class="oran-badge '+oranSinif+'">%'+r.oran+'</span></td>'
         +'</tr>';
 
-      // Detay satırı (akordeon içeriği)
       var okulListesi = Object.keys(r.okullar).sort();
       var okulHtml = '';
       if (okulListesi.length === 0) {
@@ -1040,61 +1184,35 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         okulHtml += '</tbody></table>';
       }
 
-      // İstatistik bloğu — madde başlıklarına göre gruplu
       var ist = iguIstatGlobal && iguIstatGlobal[r.ad];
       var istatHtml = '';
       if (ist) {
         var istatGruplar = [
-          {
-            baslik: '2.1 Risk Değerlendirmesi', renk: '#7c6ff7',
-            satirlar: [
-              { label: 'Risk Eğitimi Verilen Çalışan', val: ist.s21_1, renk: '#7c6ff7' }
-            ]
-          },
-          {
-            baslik: '2.2 Eğitim & Bilgilendirme', renk: '#4096f5',
-            satirlar: [
-              { label: 'Temel İSG Eğitimi — Çalışan',           val: ist.s22_1, renk: '#4096f5' },
-              { label: 'İçerik Atamalı Eğitim — Çalışan',        val: ist.s22_2, renk: '#4096f5' },
-              { label: 'İş Kazası/Dönüş Eğitimi — Çalışan',      val: ist.s22_3, renk: '#4096f5' },
-              { label: 'İSG Farkındalık Eğitimi — Öğrenci',      val: ist.s22_4, renk: '#a78bfa' },
-              { label: 'Çalışan Temsilcisi Eğitimi',              val: ist.s22_5, renk: '#4096f5' },
-              { label: 'Acil Durum Ekipleri Eğitimi — Çalışan',  val: ist.s22_6, renk: '#f97316' },
-              { label: 'Acil Durum Tatbikatlarına Katılım',       val: ist.s22_7, renk: '#f97316' }
-            ]
-          },
-          {
-            baslik: '2.3 Ortam Gözetimi', renk: '#f0655a',
-            satirlar: [
-              { label: 'İş Kazası Sayısı',        val: ist.s23_1, renk: '#f0655a' },
-              { label: 'Ramak Kala Olay Sayısı',  val: ist.s23_2, renk: '#f5a623' }
-            ]
-          },
-          {
-            baslik: '2.5–2.7 İlgili Birimlerle İşbirliği', renk: '#1db88a',
-            satirlar: [
-              { label: 'İSG Kuruluna Katılım',         val: ist.s257_1, renk: '#1db88a' },
-              { label: 'Kurul Üyesi Eğitim Katılımı',  val: ist.s257_2, renk: '#1db88a' }
-            ]
-          },
-          {
-            baslik: '2.8 Genel Rehberlik', renk: '#f5a623',
-            satirlar: [
+          { baslik: '2.1 Risk Değerlendirmesi', renk: '#7c6ff7', satirlar: [{ label: 'Risk Eğitimi Verilen Çalışan', val: ist.s21_1, renk: '#7c6ff7' }] },
+          { baslik: '2.2 Eğitim & Bilgilendirme', renk: '#4096f5', satirlar: [
+              { label: 'Temel İSG Eğitimi — Çalışan', val: ist.s22_1, renk: '#4096f5' },
+              { label: 'İçerik Atamalı Eğitim — Çalışan', val: ist.s22_2, renk: '#4096f5' },
+              { label: 'İSG Farkındalık Eğitimi — Öğrenci', val: ist.s22_4, renk: '#a78bfa' },
+              { label: 'Acil Durum Tatbikat Katılımı', val: ist.s22_7, renk: '#f97316' }
+          ] },
+          { baslik: '2.3 Ortam Gözetimi', renk: '#f0655a', satirlar: [
+              { label: 'İş Kazası Sayısı', val: ist.s23_1, renk: '#f0655a' },
+              { label: 'Ramak Kala Olay Sayısı', val: ist.s23_2, renk: '#f5a623' }
+          ] },
+          { baslik: '2.5–2.7 İşbirliği', renk: '#1db88a', satirlar: [
+              { label: 'İSG Kuruluna Katılım', val: ist.s257_1, renk: '#1db88a' }
+          ] },
+          { baslik: '2.8 Genel Rehberlik', renk: '#f5a623', satirlar: [
               { label: 'Yazılı Bildirilen Tedbir', val: ist.s28_1, renk: '#f5a623' }
-            ]
-          }
+          ] }
         ];
-
-        // Sadece en az 1 satırı dolu olan grupları göster
         var doluGruplar = istatGruplar.filter(function(g){
           return g.satirlar.some(function(s){ return (s.val||0) > 0; });
         });
-
         if (doluGruplar.length > 0) {
           istatHtml = '<div class="acc-istat-blok">'
             + '<div class="acc-istat-baslik">📊 toplam istatistikler</div>'
             + '<div class="acc-istat-gruplar">';
-
           doluGruplar.forEach(function(g){
             istatHtml += '<div class="acc-istat-grup">'
               + '<div class="acc-istat-grup-baslik">'
@@ -1102,7 +1220,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
               + '<span style="color:'+g.renk+'">'+g.baslik+'</span>'
               + '</div>';
             g.satirlar.forEach(function(s){
-              if ((s.val||0) === 0) return; // sıfır olanları gizle
+              if ((s.val||0) === 0) return;
               istatHtml += '<div class="acc-istat-satir">'
                 + '<span class="acc-istat-label">'+s.label+'</span>'
                 + '<span class="acc-istat-val" style="color:'+s.renk+'">'+s.val+'</span>'
@@ -1110,7 +1228,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
             });
             istatHtml += '</div>';
           });
-
           istatHtml += '</div></div>';
         }
       }
@@ -1122,7 +1239,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'</tr>';
     });
 
-    // Toplam satırı
     var topOranSinif = genelOran>=80?'oran-yuksek':genelOran>=50?'oran-orta':'oran-dusuk';
     html += '<tr style="border-top:2px solid var(--border2);">'
       +'<td style="font-weight:700;color:var(--text);padding-left:10px">Genel Toplam</td>'
@@ -1136,14 +1252,12 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     el.innerHTML = html;
   }
 
-  // Satır akordeon aç/kapa
   window.toggleSrow = function(rowId, detailId) {
     var row    = document.getElementById(rowId);
     var detail = document.getElementById(detailId);
     if (!row || !detail) return;
     var acik = row.classList.contains('acik');
     row.classList.toggle('acik', !acik);
-    // srow-detail div veya tr olabilir
     if (detail.tagName === 'TR') {
       detail.style.display = acik ? 'none' : 'table-row';
     } else {
@@ -1151,7 +1265,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     }
   };
 
-  // Akordeon aç/kapa — yıllık rapor satırları için
   window.toggleAcc = function(rowId, detailId) {
     var row    = document.getElementById(rowId);
     var detail = document.getElementById(detailId);
@@ -1161,17 +1274,11 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     detail.classList.toggle('acik', !acik);
   };
 
-  // ══════════════════════════════════════════════════════════════
-  // BRİFİNG PDF
-  // ══════════════════════════════════════════════════════════════
-
   window.brifingPdfAc = function() {
     if (!tumAktiviteler || !tumAktiviteler.length) {
       toastGoster('Önce verilerin yüklenmesini bekleyin.', 'err');
       return;
     }
-
-    // Mevcut KPI değerlerini topla
     var kMudur    = document.getElementById('kMudur').textContent.trim();
     var kIsgb     = document.getElementById('kIsgb').textContent.trim();
     var kOnaylanan= document.getElementById('kOnaylanan').textContent.trim();
@@ -1179,14 +1286,10 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     var kIGU      = document.getElementById('kIGU').textContent.trim();
     var kOkul     = document.getElementById('kOkul').textContent.trim();
     var guncelleme= document.getElementById('updateTime').textContent.replace('güncellendi: ','');
-
-    // Toplam ziyaret
     var toplamZiyaret = tumAktiviteler.length;
     var onaylananSayi = tumAktiviteler.filter(function(a){ return a.durum==='Onaylandı'; }).length;
     var bekleyenSayi  = toplamZiyaret - onaylananSayi;
     var onayOrani     = toplamZiyaret > 0 ? Math.round((onaylananSayi/toplamZiyaret)*100) : 0;
-
-    // IGU performans + okul bazlı kırılım
     var iguPerf = {};
     tumAktiviteler.forEach(function(a){
       if (!iguPerf[a.igu]) iguPerf[a.igu] = { toplam:0, onaylanan:0, okullar:{} };
@@ -1202,8 +1305,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       }).sort(function(a,b){ return b.toplam-a.toplam; });
       return { ad:ad, toplam:iguPerf[ad].toplam, onaylanan:iguPerf[ad].onaylanan, okullar:okulListesi };
     }).sort(function(a,b){ return b.toplam - a.toplam; });
-
-    // Okul türü + okul listesi kırılımı
     var okulTur = {};
     tumAktiviteler.forEach(function(a){
       var tur = (window.okulTurMap && window.okulTurMap[a.okul]) || 'Diğer';
@@ -1218,15 +1319,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       }).sort(function(a,b){ return b.sayi-a.sayi; });
       return { label:k, sayi:okulTur[k].sayi, okullar:okulListesi };
     }).sort(function(a,b){ return b.sayi-a.sayi; });
-
-    // İstatistikler + uzman bazlı kırılım
     var ist = window._istatToplamCache || null;
     var istUzmanKirilim = window._iguIstatCache || {};
-
-    // Son 5 ziyaret
     var son5 = tumAktiviteler.slice(0,5);
-
-    // Dönem
     var simdi = new Date();
     var donem = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran',
                  'Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'][simdi.getMonth()]
@@ -1234,16 +1329,12 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     var tarihStr = String(simdi.getDate()).padStart(2,'0') + '/'
                  + String(simdi.getMonth()+1).padStart(2,'0') + '/'
                  + simdi.getFullYear();
-
-    // HTML oluştur
     var html = _brifingHtmlOlustur({
       donem, tarihStr, guncelleme,
       toplamZiyaret, onaylananSayi, bekleyenSayi, onayOrani,
       kMudur, kIsgb, kBugun, kIGU, kOkul,
       iguSirali, okulTurSirali, ist, istUzmanKirilim, son5
     });
-
-    // Yeni sekmede aç
     var win = window.open('', '_blank');
     win.document.write(html);
     win.document.close();
@@ -1252,12 +1343,10 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   function _brifingHtmlOlustur(d) {
     var maxIgu = d.iguSirali.length ? d.iguSirali[0].toplam : 1;
     var maxOkul = d.okulTurSirali.length ? d.okulTurSirali[0].sayi : 1;
-
     var iguSatirlar = d.iguSirali.map(function(ig){
       var pct = Math.round((ig.toplam/maxIgu)*100);
       var oran = ig.toplam > 0 ? Math.round((ig.onaylanan/ig.toplam)*100) : 0;
       var renk = oran>=80?'#1db88a':oran>=50?'#f5a623':'#f0655a';
-      // Ana satır
       var satirlar = '<tr style="border-top:1px solid #e2e8f0">'
         +'<td style="padding:5px 8px;font-size:11px;color:#1e293b;font-weight:600">'+ig.ad+'</td>'
         +'<td style="padding:5px 8px;text-align:center;font-size:11px">'+ig.toplam+'</td>'
@@ -1267,7 +1356,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'<div style="width:'+pct+'%;height:100%;background:#3b5bdb;border-radius:3px"></div></div></td>'
         +'<td style="padding:5px 8px;text-align:center"><span style="background:'+renk+'1a;color:'+renk+';font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px">%'+oran+'</span></td>'
         +'</tr>';
-      // Okul alt kırılımı
       if (ig.okullar && ig.okullar.length) {
         ig.okullar.forEach(function(ok){
           var okOran = ok.toplam > 0 ? Math.round((ok.onaylanan/ok.toplam)*100) : 0;
@@ -1284,13 +1372,11 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       }
       return satirlar;
     }).join('');
-
     var okulTurSatirlar = d.okulTurSirali.map(function(o){
       var pct = Math.round((o.sayi/maxOkul)*100);
       var renkler = ['#3b5bdb','#1db88a','#f5a623','#f0655a','#7c6ff7','#6b7280'];
       var ri = d.okulTurSirali.indexOf(o);
       var r = renkler[ri % renkler.length];
-      // Ana tur satırı
       var html = '<div style="margin-bottom:4px">'
         +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'
         +'<div style="width:80px;font-size:10px;color:#1e293b;font-weight:600;flex-shrink:0">'+o.label+'</div>'
@@ -1298,7 +1384,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'<div style="width:'+pct+'%;height:100%;background:'+r+';border-radius:3px"></div></div>'
         +'<div style="width:20px;font-size:11px;font-weight:700;color:'+r+';text-align:right">'+o.sayi+'</div>'
         +'</div>';
-      // Okul alt listesi
       if (o.okullar && o.okullar.length) {
         o.okullar.forEach(function(ok){
           html += '<div style="display:flex;justify-content:space-between;padding:1px 0 1px 16px">'
@@ -1310,28 +1395,20 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       html += '</div>';
       return html;
     }).join('');
-
     var istSatirlar = '';
     if (d.ist) {
       var istGruplar = [
         ['Risk Eğitimi Verilen Çalışan',   d.ist.s21_1,  '#3b5bdb', 's21_1'],
         ['Temel İSG Eğitimi — Çalışan',    d.ist.s22_1,  '#3b5bdb', 's22_1'],
         ['İSG Farkındalık — Öğrenci',      d.ist.s22_4,  '#7c6ff7', 's22_4'],
-        ['Acil Durum Ekipleri Eğitimi',     d.ist.s22_6,  '#f97316', 's22_6'],
         ['Acil Durum Tatbikat Katılımı',    d.ist.s22_7,  '#f97316', 's22_7'],
         ['İş Kazası Sayısı',               d.ist.s23_1,  '#f0655a', 's23_1'],
         ['Ramak Kala Olay',                d.ist.s23_2,  '#f5a623', 's23_2'],
         ['İSG Kuruluna Katılım',           d.ist.s257_1, '#1db88a', 's257_1'],
         ['Yazılı Bildirilen Tedbir',       d.ist.s28_1,  '#f5a623', 's28_1'],
       ].filter(function(g){ return g[1] > 0; });
-
-      var toplamEgitim = (d.ist.s21_1||0)+(d.ist.s22_1||0)+(d.ist.s22_2||0)
-        +(d.ist.s22_3||0)+(d.ist.s22_4||0)+(d.ist.s22_5||0)
-        +(d.ist.s22_6||0)+(d.ist.s22_7||0)+(d.ist.s257_2||0);
-
       istSatirlar = istGruplar.map(function(g){
-        var istatKey = g[3]; // key eklenecek
-        // Uzman bazlı kırılım
+        var istatKey = g[3];
         var uzmanSatirlar = '';
         if (d.istUzmanKirilim) {
           Object.keys(d.istUzmanKirilim).forEach(function(iguAd){
@@ -1357,7 +1434,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
           +'</div>';
       }).join('');
     }
-
     var son5Satirlar = d.son5.map(function(a){
       var durumRenk = a.durum==='Onaylandı'?'#1db88a':a.durum==='İSGB Onayı Bekleniyor'?'#f97316':'#f5a623';
       var durumKisa = a.durum==='Onaylandı'?'✓ Onaylı':a.durum==='İSGB Onayı Bekleniyor'?'İSGB\'de':'Müdürde';
@@ -1368,9 +1444,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'<td style="padding:5px 8px;text-align:center"><span style="font-size:9px;font-weight:700;color:'+durumRenk+';background:'+durumRenk+'1a;padding:2px 7px;border-radius:20px">'+durumKisa+'</span></td>'
         +'</tr>';
     }).join('');
-
     var onayOranRenk = d.onayOrani>=80?'#1db88a':d.onayOrani>=50?'#f5a623':'#f0655a';
-
     return '<!DOCTYPE html><html lang="tr"><head>'
       +'<meta charset="UTF-8">'
       +'<title>İSGB Brifing Notu — '+d.donem+'</title>'
@@ -1384,18 +1458,12 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       +'}'
       +'</style>'
       +'</head><body>'
-
-      // Yazdır butonu
       +'<div class="no-print" style="position:fixed;top:16px;right:16px;z-index:99">'
       +'<button onclick="window.print()" style="background:#1a237e;color:white;border:none;'
       +'padding:10px 22px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;'
       +'box-shadow:0 2px 8px rgba(0,0,0,.2)">🖨️ PDF / Yazdır</button>'
       +'</div>'
-
-      // Ana sayfa
       +'<div style="max-width:800px;margin:0 auto;padding:16px">'
-
-      // BAŞLIK
       +'<div style="background:linear-gradient(135deg,#1a237e,#283593);color:white;'
       +'border-radius:10px;padding:20px 24px;margin-bottom:14px">'
       +'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
@@ -1409,8 +1477,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       +'<div style="font-size:10px;opacity:.7;margin-top:2px">Tarih: '+d.tarihStr+'</div>'
       +'<div style="font-size:9px;opacity:.5;margin-top:2px">Veri: '+d.guncelleme+'</div>'
       +'</div></div></div>'
-
-      // KPI KARTLARI
       +'<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px">'
       +_kpiKart('Toplam Ziyaret', d.toplamZiyaret, '#3b5bdb')
       +_kpiKart('Onaylanan', d.onaylananSayi, '#1db88a')
@@ -1418,11 +1484,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       +_kpiKart('Onay Oranı', '%'+d.onayOrani, onayOranRenk)
       +_kpiKart('Aktif Uzman', d.kIGU, '#7c6ff7')
       +'</div>'
-
-      // ANA İÇERİK — 2 sütun
       +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">'
-
-      // Sol: IGU Performans
       +'<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0">'
       +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
       +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">Uzman Performansı</div>'
@@ -1436,18 +1498,12 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       +'</tr></thead><tbody>'
       + iguSatirlar
       +'</tbody></table></div>'
-
-      // Sağ: Okul Türü + İstatistik
       +'<div style="display:flex;flex-direction:column;gap:12px">'
-
-      // Okul türü
       +'<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0;flex:1">'
       +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
       +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">Okul Türüne Göre Ziyaret</div>'
       + okulTurSatirlar
       +'</div>'
-
-      // Onay durumu mini pasta
       +'<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0">'
       +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
       +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">Onay Durumu</div>'
@@ -1466,20 +1522,13 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       +'<span style="font-size:10px;color:#64748b">Müdürde</span>'
       +'<span style="font-size:11px;font-weight:700;color:#f97316">'+d.kMudur+'</span></div>'
       +'</div></div></div>'
-
       +'</div></div>'
-
-      // Alt satır: İstatistikler + Son ziyaretler
       +'<div style="display:grid;grid-template-columns:1fr 1.4fr;gap:12px;margin-bottom:12px">'
-
-      // İstatistikler
       +(d.ist ? '<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0">'
       +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
       +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">İSG Faaliyet İstatistikleri</div>'
       + istSatirlar
       +'</div>' : '<div></div>')
-
-      // Son ziyaretler
       +'<div style="background:white;border-radius:8px;padding:14px;border:1px solid #e2e8f0">'
       +'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
       +'letter-spacing:.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #1a237e">Son Ziyaretler</div>'
@@ -1493,8 +1542,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       + son5Satirlar
       +'</tbody></table></div>'
       +'</div>'
-
-      // FOOTER
       +'<div style="text-align:center;padding:10px;border-top:1px solid #e2e8f0;'
       +'font-size:9px;color:#94a3b8">'
       +'Şehitkamil İlçe İSGB Dijital Takip Sistemi &nbsp;|&nbsp; '
@@ -1513,7 +1560,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   }
 
   function _cemberGrafik(pct, renk) {
-    // SVG çember grafik
     var r = 28, cx = 35, cy = 35;
     var circ = 2 * Math.PI * r;
     var dolgu = circ * pct / 100;
@@ -1532,28 +1578,20 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     var sonuc  = document.getElementById('sorguSonuc');
     var btn    = document.getElementById('sorguBtn');
     if (!girdi) return;
-
-    // Kısa kod (ör: 0125110-6209) → tam ID'yi aktivitelerden bul
     var ziyaretId = _idBul(girdi);
-
     if (!ziyaretId) {
       sonuc.className = 'sorgu-sonuc on';
       sonuc.innerHTML = '<div class="sorgu-hata">⚠️ "' + girdi + '" ile eşleşen form bulunamadı.</div>';
       return;
     }
-
     btn.disabled = true;
     btn.textContent = '...';
     sonuc.className = 'sorgu-sonuc on';
     sonuc.innerHTML = '<div class="loading"><div class="spinner"></div> sorgulanıyor</div>';
-
-    // Apps Script'ten doğrudan veri çek
     jsonpCagri({ action: 'dogrulaVeri', id: ziyaretId }, function(err, veri) {
       btn.disabled = false;
       btn.textContent = '🔍 Sorgula';
-
       if (err || !veri || !veri.ok) {
-        // Fallback: aktivitelerden göster
         var a = (tumAktiviteler||[]).find(function(x){ return x.id === ziyaretId; });
         if (a) {
           sonuc.innerHTML = _sorguSonucHtmlAktivite(a, ziyaretId);
@@ -1567,18 +1605,15 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     });
   };
 
-  // Enter tuşu ile de sorgula
   document.getElementById('sorguInput').addEventListener('keydown', function(e){
     if (e.key === 'Enter') formSorgula();
   });
 
-  // Sorgu paneli dışına tıklayınca kapat
   document.addEventListener('click', function(e) {
     var panel = document.getElementById('sorguSonuc');
     var input = document.getElementById('sorguInput');
     var btn   = document.getElementById('sorguBtn');
     if (!panel || !panel.classList.contains('on')) return;
-    // Tıklanan yer panel, input veya buton değilse kapat
     if (!panel.contains(e.target) && e.target !== input && e.target !== btn) {
       panel.className = 'sorgu-sonuc';
       panel.innerHTML = '';
@@ -1586,19 +1621,15 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     }
   });
 
-  // Kısa kodu tam ID'ye çevir
   function _idBul(girdi) {
     var temiz = girdi.trim().toUpperCase();
-    // Tam ZYR ID ise direkt kullan
-    if (temiz.startsWith('ZYR-')) return temiz.startsWith('ZYR-') ? girdi.trim() : null;
-    // Kısa kod (son 12 karakter) ile aktivitelerden ara
+    if (temiz.startsWith('ZYR-')) return girdi.trim();
     var bulunan = (tumAktiviteler||[]).find(function(a){
       return a.id && a.id.slice(-12).toUpperCase() === temiz;
     });
     return bulunan ? bulunan.id : null;
   }
 
-  // Aktivite verisinden sonuç HTML (hızlı fallback)
   function _sorguSonucHtmlAktivite(a, id) {
     var durumRenk  = a.durum==='Onaylandı' ? 'var(--teal)' : a.durum==='İSGB Onayı Bekleniyor' ? '#f97316' : 'var(--amber)';
     var durumBg    = a.durum==='Onaylandı' ? 'rgba(29,184,138,0.12)' : a.durum==='İSGB Onayı Bekleniyor' ? 'rgba(249,115,22,0.12)' : 'rgba(245,166,35,0.12)';
@@ -1617,11 +1648,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       + '</div></div>';
   }
 
-  // API'den gelen tam veriyle sonuç HTML
   function _sorguSonucHtml(v) {
     var durumRenk = v.durum==='Onaylandı' ? 'var(--teal)' : v.durum==='İSGB Onayı Bekleniyor' ? '#f97316' : 'var(--amber)';
     var durumBg   = v.durum==='Onaylandı' ? 'rgba(29,184,138,0.12)' : v.durum==='İSGB Onayı Bekleniyor' ? 'rgba(249,115,22,0.12)' : 'rgba(245,166,35,0.12)';
-
     var gorevler = [];
     if (v.gorev21)  gorevler.push('2.1 Risk');
     if (v.gorev22)  gorevler.push('2.2 Eğitim');
@@ -1629,11 +1658,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     if (v.gorev257) gorevler.push('2.5–2.7 İşbirliği');
     if (v.gorev28)  gorevler.push('2.8 Rehberlik');
     if (v.gorevDig) gorevler.push('Diğer');
-
     var gorevHtml = gorevler.map(function(g){
       return '<span class="srk-gorev-tag">'+g+'</span>';
     }).join('');
-
     return '<div class="srk">'
       + '<div class="srk-header">'
       + '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">' + v.okulAd + '</div>'
@@ -1662,7 +1689,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     setTimeout(function(){ document.getElementById('feedTemizleBtn').textContent = '✕ Temizle'; }, 2000);
   };
 
-  // Panel akordeon aç/kapa — başlığa tıklayınca
   window.togglePanel = function(titleId, bodyId) {
     var title = document.getElementById(titleId);
     var body  = document.getElementById(bodyId);
@@ -1714,9 +1740,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       var durumRenk = a.durum==='Onaylandı'?'var(--teal)':a.durum==='İSGB Onayı Bekleniyor'?'#f97316':'var(--amber)';
       var durumKisa = a.durum==='Onaylandı'?'✓ Onaylı':a.durum==='İSGB Onayı Bekleniyor'?'İSGB\'de':'Müdürde';
       html+='<tr>'
-        +'<td>'+a.okul+'</td>'
-        +'<td>'+a.tarih+'</td>'
-        +'<td style="color:'+durumRenk+'">'+durumKisa+'</td>'
+        +'<td style="padding:5px 8px">'+a.okul+'</td>'
+        +'<td style="padding:5px 8px">'+a.tarih+'</td>'
+        +'<td style="padding:5px 8px;color:'+durumRenk+'">'+durumKisa+'</td>'
         +'</tr>';
     });
     return html||'<tr><td colspan="3" style="color:var(--text3);text-align:center">Bu ay ziyaret yok</td></tr>';
@@ -1760,14 +1786,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   function renderOkulSegs(liste) {
     if(!liste||!liste.length){document.getElementById('okulSegs').innerHTML='<div class="bos">Henüz veri yok</div>';return;}
     var maks=liste[0].sayi||1;
-
-    // Aktivitelerden okul türü → okul listesi eşleşmesi
-    var turOkullar = {};
-    (tumAktiviteler||[]).forEach(function(a){
-      // okulTurListesi'nde tur bilgisi yok, aktivitelerde de yok
-      // Bu yüzden okul adından türü bulamayız — okulTurListesi'ni kullanıyoruz
-    });
-
     var html='';
     liste.forEach(function(s,i){
       var pct=Math.round((s.sayi/maks)*100);
@@ -1790,7 +1808,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.getElementById('okulSegs').innerHTML=html;
   }
 
-  // Aktivitelerden okul türü bazlı detay — okulTurMap global değişkeninden beslenir
   function _okulTurDetayHtml(tur) {
     var okulMap = {};
     (tumAktiviteler||[]).forEach(function(a){
@@ -1804,9 +1821,12 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     var html='';
     Object.keys(okulMap).sort().forEach(function(ad){
       var o=okulMap[ad];
-      html+='<tr><td>'+ad+'</td><td>'+o.toplam+'</td>'
-        +'<td style="color:var(--teal)">'+o.onaylanan+'</td>'
-        +'<td style="color:var(--amber)">'+o.bekleyen+'</td></tr>';
+      html+='<tr>'
+        +'<td style="padding:5px 8px">'+ad+'</td>'
+        +'<td style="padding:5px 8px">'+o.toplam+'</td>'
+        +'<td style="padding:5px 8px;color:var(--teal)">'+o.onaylanan+'</td>'
+        +'<td style="padding:5px 8px;color:var(--amber)">'+o.bekleyen+'</td>'
+        +'</tr>';
     });
     return html||'<tr><td colspan="4" style="color:var(--text3);text-align:center">Detay bulunamadı</td></tr>';
   }
