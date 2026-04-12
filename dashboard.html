@@ -506,7 +506,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       <div id="istatPanel"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
     </div>
 
-       <!-- YILLIK RAPOR + IGU + OKUL LİSTELERİ (AKORDEON İÇ İÇE) -->
+    <!-- YILLIK RAPOR + IGU + OKUL LİSTELERİ (AKORDEON İÇ İÇE) -->
     <div class="panel" style="margin-bottom:16px">
       <div class="panel-title">
         <span class="panel-title-left">
@@ -518,9 +518,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       </div>
       <div id="yillikRapor"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
       
-      <!-- ========================================================= -->
-      <!-- AKORDEON 1: MEVCUT İŞ GÜVENLİĞİ UZMANLARI                -->
-      <!-- ========================================================= -->
+      <!-- AKORDEON 1: MEVCUT İŞ GÜVENLİĞİ UZMANLARI -->
       <div class="liste-panel" style="margin-top:16px;border-top:1px solid var(--border);border-radius:0">
         <div class="liste-header" id="iguListeHeader" onclick="toggleListePanel('iguListePanel')">
           <div class="liste-baslik">
@@ -537,9 +535,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         </div>
       </div>
       
-      <!-- ========================================================= -->
-      <!-- AKORDEON 2: MEVCUT OKUL LİSTESİ                          -->
-      <!-- ========================================================= -->
+      <!-- AKORDEON 2: MEVCUT OKUL LİSTESİ -->
       <div class="liste-panel" style="border-top:1px solid var(--border);border-radius:0">
         <div class="liste-header" id="okulListeHeader" onclick="toggleListePanel('okulListePanel')">
           <div class="liste-baslik">
@@ -555,8 +551,10 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
           </div>
         </div>
       </div>
-      
     </div>
+
+  </div> <!-- main kapatma -->
+</div> <!-- dashboard kapatma -->
 
 <div class="toast" id="toast"></div>
 
@@ -612,9 +610,9 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.getElementById('loginWrap').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     veriYukle();
-    iguOkulListeleriniYukle(); // YENİ: IGU ve OKUL listelerini yükle
+    iguOkulListeleriniYukle();
     setInterval(veriYukle, 60000);
-    setInterval(iguOkulListeleriniYukle, 300000); // 5 dakikada bir yenile
+    setInterval(iguOkulListeleriniYukle, 300000);
   }
   
   function cikis() {
@@ -647,11 +645,8 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.head.appendChild(script);
   }
 
-  // ============================================================
-  // YENİ: IGU ve OKUL Listelerini yükle
-  // ============================================================
+  // IGU ve OKUL Listelerini yükle
   function iguOkulListeleriniYukle() {
-    // IGU Listesi
     jsonpCagri({ action: 'iguListesi' }, function(err, data) {
       if (!err && data && data.ok && data.list) {
         iguListesiVeri = data.list;
@@ -662,7 +657,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       }
     });
     
-    // Okul Listesi
     jsonpCagri({ action: 'okulListesiTam' }, function(err, data) {
       if (!err && data && data.ok && data.list) {
         okulListesiVeri = data.list;
@@ -720,7 +714,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     container.innerHTML = html;
   }
   
-  // Arama filtreleri
   window.filterIguListesi = function() {
     var searchTerm = document.getElementById('iguSearch').value.toLowerCase();
     var filtered = iguListesiVeri.filter(function(igu) {
@@ -740,7 +733,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     renderOkulListesi(filtered);
   };
   
-  // Akordeon aç/kapa
   window.toggleListePanel = function(panelId) {
     var panel = document.getElementById(panelId);
     var header = panel.querySelector('.liste-header');
@@ -790,7 +782,6 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.getElementById('kOkul').textContent     = k.toplamOkul    || 0;
   }
 
-  // İSGB Onay Listesi
   function renderIsgbOnayList(aktiviteler) {
     var liste = (aktiviteler||[]).filter(function(a){ return a.durum==='İSGB Onayı Bekleniyor'; });
     var el = document.getElementById('isgbOnayList');
@@ -1074,7 +1065,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         +'<tr id="'+did2+'" style="display:none">'
         +'<td colspan="3" style="padding:0 8px 6px 32px">'
         +'<table style="width:100%;border-collapse:collapse;font-size:10px;background:rgba(124,111,247,0.04);border-radius:6px;">'
-        +'<thead><tr>'
+        +'<thead>'
         +'<th style="padding:4px 8px;color:var(--text3);font-weight:600;text-align:left;border-bottom:1px solid var(--border)">Okul</th>'
         +'<th style="padding:4px 8px;color:var(--text3);font-weight:600;text-align:right;border-bottom:1px solid var(--border)">Değer</th>'
         +'</tr></thead><tbody>';
@@ -1493,7 +1484,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       +'<th style="padding:4px 8px;text-align:center;font-size:9px;color:#94a3b8;font-weight:600">ONAY</th>'
       +'<th style="padding:4px 8px;font-size:9px;color:#94a3b8;font-weight:600">ORAN</th>'
       +'<th style="padding:4px 8px;text-align:center;font-size:9px;color:#94a3b8;font-weight:600">%</th>'
-      +'</tr></thead><tbody>'
+      +'<tr></thead><tbody>'
       + iguSatirlar
       +'</tbody></table></div>'
       +'<div style="display:flex;flex-direction:column;gap:12px">'
@@ -1536,7 +1527,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       +'<th style="padding:4px 8px;text-align:left;font-size:9px;color:#94a3b8;font-weight:600">UZMAN</th>'
       +'<th style="padding:4px 8px;text-align:center;font-size:9px;color:#94a3b8;font-weight:600">TARİH</th>'
       +'<th style="padding:4px 8px;text-align:center;font-size:9px;color:#94a3b8;font-weight:600">DURUM</th>'
-      +'</tr></thead><tbody>'
+      +'<tr></thead><tbody>'
       + son5Satirlar
       +'</tbody></table></div>'
       +'</div>'
