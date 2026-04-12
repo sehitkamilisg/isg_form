@@ -506,7 +506,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
       <div id="istatPanel"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
     </div>
 
-    <!-- YILLIK RAPOR + IGU + OKUL LİSTELERİ -->
+       <!-- YILLIK RAPOR + IGU + OKUL LİSTELERİ (AKORDEON İÇ İÇE) -->
     <div class="panel" style="margin-bottom:16px">
       <div class="panel-title">
         <span class="panel-title-left">
@@ -517,48 +517,46 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
         <select class="yil-sec" id="yilSec"></select>
       </div>
       <div id="yillikRapor"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+      
+      <!-- ========================================================= -->
+      <!-- AKORDEON 1: MEVCUT İŞ GÜVENLİĞİ UZMANLARI                -->
+      <!-- ========================================================= -->
+      <div class="liste-panel" style="margin-top:16px;border-top:1px solid var(--border);border-radius:0">
+        <div class="liste-header" id="iguListeHeader" onclick="toggleListePanel('iguListePanel')">
+          <div class="liste-baslik">
+            <span class="liste-chevron">▶</span>
+            <span>👥 Mevcut İş Güvenliği Uzmanları</span>
+          </div>
+          <span class="liste-sayi" id="iguListeSayi">0</span>
+        </div>
+        <div class="liste-body" id="iguListeBody">
+          <div class="liste-icerik">
+            <input type="text" class="liste-search" id="iguSearch" placeholder="🔍 Uzman adı veya e-posta ara..." onkeyup="filterIguListesi()">
+            <div id="iguListeIcerik"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ========================================================= -->
+      <!-- AKORDEON 2: MEVCUT OKUL LİSTESİ                          -->
+      <!-- ========================================================= -->
+      <div class="liste-panel" style="border-top:1px solid var(--border);border-radius:0">
+        <div class="liste-header" id="okulListeHeader" onclick="toggleListePanel('okulListePanel')">
+          <div class="liste-baslik">
+            <span class="liste-chevron">▶</span>
+            <span>🏫 Mevcut Okul / Kurum Listesi</span>
+          </div>
+          <span class="liste-sayi" id="okulListeSayi">0</span>
+        </div>
+        <div class="liste-body" id="okulListeBody">
+          <div class="liste-icerik">
+            <input type="text" class="liste-search" id="okulSearch" placeholder="🔍 Okul adı, türü veya müdür adı ara..." onkeyup="filterOkulListesi()">
+            <div id="okulListeIcerik"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
+          </div>
+        </div>
+      </div>
+      
     </div>
-
-    <!-- ========================================================= -->
-    <!-- YENİ: MEVCUT IGU LİSTESİ (Akordeon)                      -->
-    <!-- ========================================================= -->
-    <div class="liste-panel" id="iguListePanel">
-      <div class="liste-header" id="iguListeHeader" onclick="toggleListePanel('iguListePanel')">
-        <div class="liste-baslik">
-          <span class="liste-chevron">▶</span>
-          <span>👥 Mevcut İş Güvenliği Uzmanları</span>
-        </div>
-        <span class="liste-sayi" id="iguListeSayi">0</span>
-      </div>
-      <div class="liste-body" id="iguListeBody">
-        <div class="liste-icerik">
-          <input type="text" class="liste-search" id="iguSearch" placeholder="🔍 Uzman adı veya e-posta ara..." onkeyup="filterIguListesi()">
-          <div id="iguListeIcerik"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================================= -->
-    <!-- YENİ: MEVCUT OKUL LİSTESİ (Akordeon)                      -->
-    <!-- ========================================================= -->
-    <div class="liste-panel" id="okulListePanel">
-      <div class="liste-header" id="okulListeHeader" onclick="toggleListePanel('okulListePanel')">
-        <div class="liste-baslik">
-          <span class="liste-chevron">▶</span>
-          <span>🏫 Mevcut Okul / Kurum Listesi</span>
-        </div>
-        <span class="liste-sayi" id="okulListeSayi">0</span>
-      </div>
-      <div class="liste-body" id="okulListeBody">
-        <div class="liste-icerik">
-          <input type="text" class="liste-search" id="okulSearch" placeholder="🔍 Okul adı, türü veya müdür adı ara..." onkeyup="filterOkulListesi()">
-          <div id="okulListeIcerik"><div class="loading"><div class="spinner"></div> yükleniyor</div></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 <div class="toast" id="toast"></div>
 
