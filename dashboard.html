@@ -1817,7 +1817,212 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     el.style.display='block';
     setTimeout(function(){el.style.display='none';},3500);
   }
+/* ================= KPI AKORDEON (TEK PARÇA EK) ================= */
+(function kpiAkordeonTekParca() {
+  // CSS'i JS ile enjekte et (eklemediysen de çalışır)
+  var kpiCss = `
+  .kpi{cursor:pointer;transition:all .18s ease;}
+  .kpi:hover{transform:translateY(-1px);}
+  .kpi.acik{box-shadow:inset 0 0 0 1px var(--purple);}
+  .kpi-acc{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin:-6px 0 16px;overflow:hidden;}
+  .kpi-acc.on{display:block;}
+  .kpi-acc-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;}
+  .kpi-acc-close{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);font-size:11px;padding:4px 10px;cursor:pointer;}
+  .kpi-acc-body{max-height:260px;overflow:auto;}
+  .kpi-acc-item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:9px 14px;border-bottom:1px solid var(--border);}
+  .kpi-acc-item:last-child{border-bottom:none;}
+  .kpi-acc-main{font-size:12px;color:var(--text);}
+  .kpi-acc-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+  .kpi-acc-right{font-size:11px;color:var(--text3);white-space:nowrap;}
+  `;
+  var st = document.createElement('style');
+  st.textContent = kpiCss;
+  document.head.appendChild(st);
 
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function parseTrDate(dateStr) {
+    // dd/MM/yyyy veya dd/MM/yy
+    if (!dateStr || typeof dateStr !== 'string') return null;
+    var p = dateStr.split('/');
+    if (p.length !== 3) return null;
+    var d = parseInt(p[0], 10), m = parseInt(p[1], 10), yRaw = p[2];
+    var y = yRaw.length === 2 ? parseInt('20' + yRaw, 10) : parseInt(yRaw, 10);
+    var dt = new Date(y, m - 1, d);
+    return isNaN(dt.getTime()) ? null : dt;
+  }
+
+  function trTodayStr() {
+    var t = new Date();
+    return String(t.getDate()).padStart(2, '0') + '/' + String(t.getMonth() + 1).padStart(2, '0') + '/' + t.getFullYear();
+  }
+
+  function trTodayShortStr() {
+    var t = new Date();
+    return String(t.getDate()).padStart(2, '0') + '/' + String(t.getMonth() + 1).padStart(2, '0') + '/' + String(t.getFullYear()).slice(-2);
+  }
+
+  function ensureAccHtml() {
+    if (document.getElementById('kpiAcc')) return;
+    var kpisEl = document.querySelector('.kpis');
+    if (!kpisEl) return;
+
+    var box = document.createElement('div');
+    box.className = 'kpi-acc';
+    box.id = 'kpiAcc';
+    box.innerHTML =
+      '<div class="kpi-acc-head">' +
+        '<span id="kpiAccTitle">Detay</span>' +
+        '<button class="kpi-acc-close" id="kpiAccClose" type="button">Kapat</button>' +
+      '</div>' +
+      '<div class="kpi-acc-body" id="kpiAccBody"></div>';
+
+    kpisEl.insertAdjacentElement('afterend', box);
+
+    document.getElementById('kpiAccClose').addEventListener('click', function() {
+      document.getElementById('kpiAcc').classList.remove('on');
+      document.querySelectorAll('.kpi').forEach(function(k){ k.classList.remove('acik'); });
+    });
+  }
+
+  function buildIguFromAktiviteler() {
+    var map = {};
+    var ayBasi = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+
+    (window.tumAktiviteler || tumAktiviteler || []).forEach(function(a) {
+      var ad = a.igu || 'Bilinmiyor';
+      if (!map[ad]) map[ad] = { ad: ad, toplam: 0, onaylanan: 0, buAy: 0 };
+      map[ad].toplam++;
+      if (a.durum === 'Onaylandı') map[ad].onaylanan++;
+      var dt = parseTrDate(a.tarih);
+      if (dt && dt >= ayBasi) map[ad].buAy++;
+    });
+
+    return Object.keys(map).map(function(k){ return map[k]; })
+      .sort(function(a,b){ return b.toplam - a.toplam; });
+  }
+
+  function getItemsByKey(key) {
+    var akt = (window.tumAktiviteler || tumAktiviteler || []);
+    var okulTurMapLocal = (window.okulTurMap || {});
+    var items = [];
+    var title = '';
+
+    if (key === 'mudur') {
+      title = 'Müdür Onayı Bekleyen Formlar';
+      items = akt.filter(function(a){ return a.durum === 'Müdür Onayı Bekleniyor'; })
+        .map(function(a){
+          return { main: a.okul || '-', sub: (a.igu || '-') + ' • ' + (a.tarih || '-'), right: ((a.bekSure || 0) + ' saat') };
+        });
+    } else if (key === 'isgb') {
+      title = 'İSGB Onayı Bekleyen Formlar';
+      items = akt.filter(function(a){ return a.durum === 'İSGB Onayı Bekleniyor'; })
+        .map(function(a){
+          return { main: a.okul || '-', sub: (a.igu || '-') + ' • ' + (a.tarih || '-'), right: ((a.bekSure || 0) + ' saat') };
+        });
+    } else if (key === 'onaylananAy') {
+      title = 'Bu Ay Onaylanan Formlar';
+      var ayBasi = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+      items = akt.filter(function(a){
+          if (a.durum !== 'Onaylandı') return false;
+          var dt = parseTrDate(a.tarih);
+          return dt && dt >= ayBasi;
+        })
+        .map(function(a){
+          return { main: a.okul || '-', sub: (a.igu || '-') + ' • ' + (a.tarih || '-'), right: 'Onaylandı' };
+        });
+    } else if (key === 'bugun') {
+      title = 'Bugün Gelen Formlar';
+      var b1 = trTodayStr(), b2 = trTodayShortStr();
+      items = akt.filter(function(a){ return a.tarih === b1 || a.tarih === b2; })
+        .map(function(a){
+          return { main: a.okul || '-', sub: (a.igu || '-') + ' • ' + (a.gonZaman || '-'), right: (a.durum || '-') };
+        });
+    } else if (key === 'igu') {
+      title = 'Aktif İGU Listesi';
+      items = buildIguFromAktiviteler().map(function(i){
+        return { main: i.ad, sub: 'Toplam: ' + i.toplam + ' • Bu ay: ' + i.buAy, right: 'Onay: ' + i.onaylanan };
+      });
+    } else if (key === 'okul') {
+      title = 'Toplam Okul Listesi';
+      items = Object.keys(okulTurMapLocal).sort()
+        .map(function(okulAdi){
+          return { main: okulAdi, sub: 'Tür: ' + (okulTurMapLocal[okulAdi] || 'Diğer'), right: '' };
+        });
+    }
+
+    return { title: title, items: items };
+  }
+
+  function openKpiAcc(key, cardEl) {
+    ensureAccHtml();
+    var acc = document.getElementById('kpiAcc');
+    var body = document.getElementById('kpiAccBody');
+    var titleEl = document.getElementById('kpiAccTitle');
+    if (!acc || !body || !titleEl) return;
+
+    document.querySelectorAll('.kpi').forEach(function(k){ k.classList.remove('acik'); });
+    if (cardEl) cardEl.classList.add('acik');
+
+    var data = getItemsByKey(key);
+    titleEl.textContent = data.title + ' (' + data.items.length + ')';
+
+    if (!data.items.length) {
+      body.innerHTML = '<div class="bos">Listelenecek kayıt yok.</div>';
+    } else {
+      body.innerHTML = data.items.map(function(it){
+        return '<div class="kpi-acc-item">' +
+          '<div>' +
+            '<div class="kpi-acc-main">' + esc(it.main) + '</div>' +
+            '<div class="kpi-acc-sub">' + esc(it.sub || '') + '</div>' +
+          '</div>' +
+          '<div class="kpi-acc-right">' + esc(it.right || '') + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    acc.classList.add('on');
+    acc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function bindKpiClicks() {
+    ensureAccHtml();
+
+    var cards = document.querySelectorAll('.kpis .kpi');
+    if (!cards.length) return;
+
+    // Kart sırasına göre anahtarlar
+    var keys = ['mudur', 'isgb', 'onaylananAy', 'bugun', 'igu', 'okul'];
+
+    cards.forEach(function(card, idx) {
+      card.setAttribute('data-kpi', keys[idx] || '');
+      if (card._kpiBound) return;
+      card._kpiBound = true;
+      card.addEventListener('click', function() {
+        var key = card.getAttribute('data-kpi');
+        if (!key) return;
+        openKpiAcc(key, card);
+      });
+    });
+  }
+
+  // İlk bağlama
+  setTimeout(bindKpiClicks, 0);
+
+  // Veri yenilendikçe DOM değişirse tekrar bağla
+  var mainEl = document.querySelector('.main');
+  if (mainEl) {
+    var mo = new MutationObserver(function() { bindKpiClicks(); });
+    mo.observe(mainEl, { childList: true, subtree: true });
+  }
+})();
 })();
 </script>
 </body>
