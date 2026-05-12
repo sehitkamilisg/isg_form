@@ -506,7 +506,16 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
 (function(){
 
   // ============================================================
-  var API   = 'https://script.google.com/macros/s/AKfycbxY-RZNYTCYHOj1-Gfh56v28GJy9C_pBU4EZGEltP6ITevB-S7dWab0cQm4SlyR7buh/exec';
+  // WEB APP URL — Apps Script URL'niz
+  // Apps Script üzerinden açıldığında URL otomatik algılanır.
+  // GitHub Pages'tan açıldığında sabit URL kullanılır.
+  // ============================================================
+  var _origin = window.location.href;
+  var _cleanOrigin = _origin.split('?')[0].replace(/\/u\/\d+\/s\//, '/s/');
+  var API = (_origin.indexOf('script.google.com') !== -1)
+    ? _cleanOrigin   // Apps Script'ten açıldı — /u/N/ temizlenmiş endpoint
+    : 'https://script.google.com/macros/s/AKfycbxY-RZNYTCYHOj1-Gfh56v28GJy9C_pBU4EZGEltP6ITevB-S7dWab0cQm4SlyR7buh/exec';
+  var _appsScriptMode = (_origin.indexOf('script.google.com') !== -1);
   var SIFRE = 'isgb2708';
   // ============================================================
 
@@ -560,7 +569,22 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   }
 
   // JSONP
+  // ── API çağrısı: Apps Script'ten açıldıysa fetch, GitHub'dan açıldıysa JSONP ──
   function jsonpCagri(params, callback) {
+    if (_appsScriptMode) {
+      // Apps Script origin: fetch kullanılabilir (CORS yok, aynı domain)
+      var url = API + '?' + Object.keys(params).map(function(k){
+        return encodeURIComponent(k) + '=' + encodeURIComponent(
+          typeof params[k] === 'object' ? JSON.stringify(params[k]) : String(params[k])
+        );
+      }).join('&');
+      fetch(url)
+        .then(function(r){ return r.json(); })
+        .then(function(data){ callback(null, data); })
+        .catch(function(err){ callback(new Error('Bağlantı hatası: ' + err.message)); });
+      return;
+    }
+    // GitHub Pages origin: JSONP (mevcut yöntem)
     var cbAd = 'cb_'+(++cbSayac)+'_'+Date.now();
     params.callback = cbAd;
     var url = API+'?'+Object.keys(params).map(function(k){
