@@ -532,8 +532,12 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
           <select class="filtre-sec" id="uzmanSec">
             <option value="">Tüm Uzmanlar</option>
           </select>
-          <button class="filtre-btn" id="filtreBtn" onclick="filtreUygula()">🔍 Filtrele</button>
+         <button class="filtre-btn" id="filtreBtn" onclick="filtreUygula()">🔍 Filtrele</button>
           <button class="filtre-sifirla" id="sifirlaBtn" onclick="filtreSifirla()">✕ Sıfırla</button>
+          <button class="filtre-btn" id="aylikPdfBtn" onclick="aylikPdfRaporOlustur()" disabled
+            style="background:var(--teal);display:none;align-items:center;gap:5px">
+            📄 Aylık PDF Rapor Oluştur
+          </button>
           <span class="filtre-bilgi" id="filtreBilgi"></span>
         </div>
       </div>
@@ -710,11 +714,18 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
   }
 
   // Filtre uygula butonu
-  window.filtreUygula = function() {
+ window.filtreUygula = function() {
     secilenYil = parseInt(document.getElementById('yilSec').value);
     secilenAy = parseInt(document.getElementById('aySec').value);
     secilenUzman = document.getElementById('uzmanSec').value;
     yillikRaporuRender(tumAktiviteler, secilenYil, secilenAy, secilenUzman, window._iguIstatCache);
+    // PDF butonu: sadece tek uzman VE tek ay seçilince göster
+    var btn = document.getElementById('aylikPdfBtn');
+    if (btn) {
+      var aktif = secilenUzman && secilenUzman !== '' && secilenAy && secilenAy > 0;
+      btn.style.display = aktif ? 'inline-flex' : 'none';
+      btn.disabled = !aktif;
+    }
   };
 
   // Filtre sıfırla
@@ -722,10 +733,10 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     document.getElementById('yilSec').value = new Date().getFullYear();
     document.getElementById('aySec').value = '0';
     document.getElementById('uzmanSec').value = '';
-    secilenYil = new Date().getFullYear();
-    secilenAy = 0;
+    secilenYil = new Date().getFullYear(); secilenAy = 0;
     secilenUzman = '';
     yillikRaporuRender(tumAktiviteler, secilenYil, 0, '', window._iguIstatCache);
+    var btn = document.getElementById('aylikPdfBtn'); if (btn) { btn.style.display='none'; btn.disabled=true; }
   };
 
   // Yıl değişince otomatik uygula (opsiyonel, isterseniz kaldırabilirsiniz)
@@ -1266,7 +1277,51 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     row.classList.toggle('acik', !acik);
     detail.classList.toggle('acik', !acik);
   };
+// ── Aylık PDF Rapor Oluştur ──────────────────────────────────
+ window.aylikPdfRaporOlustur = function() {
+    var uzman  = document.getElementById('uzmanSec').value;
+    var ay     = document.getElementById('aySec').value;
+    var yil    = document.getElementById('yilSec').value;
+    if (!uzman || !ay || ay === '0') {
+      toastGoster('Lütfen önce bir uzman ve ay seçiniz.', 'err'); return;
+    }
+    var ayPad  = String(ay).padStart(2,'0');
+    var secilenAyYil = yil + '-' + ayPad;
+    var btn = document.getElementById('aylikPdfBtn');
 
+    // Popup engelleyiciyi aşmak için sekmeyi hemen aç, sonra URL'yi yaz
+    var yeniSekme = window.open('', '_blank');
+    if (yeniSekme) {
+      yeniSekme.document.write('<html><body style="background:#111;color:#fff;font-family:Arial;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><div style="font-size:32px;margin-bottom:16px">⏳</div><div style="font-size:16px">PDF raporu hazırlanıyor...<br><small style="color:#aaa">Lütfen birkaç saniye bekleyin</small></div></div></body></html>');
+    }
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Oluşturuluyor...';
+    toastGoster('PDF raporu hazırlanıyor, lütfen bekleyin...', '');
+google.script.run
+      .withSuccessHandler(function(d) {
+        btn.disabled = false;
+        btn.textContent = '📄 Aylık PDF Rapor Oluştur';
+        if (d && d.ok && d.pdfUrl) {
+          toastGoster('✅ PDF oluşturuldu! Drive\'a kaydedildi.', 'ok');
+          if (yeniSekme && !yeniSekme.closed) {
+            yeniSekme.location.href = d.pdfUrl;
+          } else {
+            window.open(d.pdfUrl, '_blank');
+          }
+        } else {
+          if (yeniSekme && !yeniSekme.closed) yeniSekme.close();
+          toastGoster('❌ Hata: ' + (d ? d.hata : 'Yanıt alınamadı'), 'err');
+        }
+      })
+      .withFailureHandler(function(err) {
+        btn.disabled = false;
+        btn.textContent = '📄 Aylık PDF Rapor Oluştur';
+        if (yeniSekme && !yeniSekme.closed) yeniSekme.close();
+        toastGoster('❌ Hata: ' + err.message, 'err');
+      })
+      .uzmanAylikRaporClient(uzman, secilenAyYil);
+  };
   // ══════════════════════════════════════════════════════════════
   // BRİFİNG PDF
   // ══════════════════════════════════════════════════════════════
