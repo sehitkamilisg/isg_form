@@ -831,7 +831,7 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     if(!goruntu.length){document.getElementById('feedList').innerHTML='<div class="bos">Henüz aktivite yok</div>';return;}
 
     var html='';
-    goruntu.slice(0,10).forEach(function(a, idx){
+    goruntu.slice(0,50).forEach(function(a, idx){
       var ikonSinif, ikonSvg, pillHtml, durumRenk;
       if(a.durum==='Onaylandı'){
         ikonSinif='fi-ok'; durumRenk='var(--teal)';
@@ -1298,46 +1298,29 @@ body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkM
     btn.disabled = true;
     btn.textContent = '⏳ Oluşturuluyor...';
     toastGoster('PDF raporu hazırlanıyor, lütfen bekleyin...', '');
-var pdfCallback = function(d) {
-      btn.disabled = false;
-      btn.textContent = '📄 Aylık PDF Rapor Oluştur';
-      if (d && d.ok && d.pdfUrl) {
-        toastGoster('✅ PDF oluşturuldu! Drive\'a kaydedildi.', 'ok');
-        if (yeniSekme && !yeniSekme.closed) {
-          yeniSekme.location.href = d.pdfUrl;
+google.script.run
+      .withSuccessHandler(function(d) {
+        btn.disabled = false;
+        btn.textContent = '📄 Aylık PDF Rapor Oluştur';
+        if (d && d.ok && d.pdfUrl) {
+          toastGoster('✅ PDF oluşturuldu! Drive\'a kaydedildi.', 'ok');
+          if (yeniSekme && !yeniSekme.closed) {
+            yeniSekme.location.href = d.pdfUrl;
+          } else {
+            window.open(d.pdfUrl, '_blank');
+          }
         } else {
-          window.open(d.pdfUrl, '_blank');
+          if (yeniSekme && !yeniSekme.closed) yeniSekme.close();
+          toastGoster('❌ Hata: ' + (d ? d.hata : 'Yanıt alınamadı'), 'err');
         }
-      } else {
+      })
+      .withFailureHandler(function(err) {
+        btn.disabled = false;
+        btn.textContent = '📄 Aylık PDF Rapor Oluştur';
         if (yeniSekme && !yeniSekme.closed) yeniSekme.close();
-        toastGoster('❌ Hata: ' + (d ? d.hata : 'Yanıt alınamadı'), 'err');
-      }
-    };
-
-    if (_appsScriptMode && typeof google !== 'undefined' && google.script) {
-      // Apps Script ortamı — google.script.run kullan
-      google.script.run
-        .withSuccessHandler(pdfCallback)
-        .withFailureHandler(function(err) {
-          btn.disabled = false;
-          btn.textContent = '📄 Aylık PDF Rapor Oluştur';
-          if (yeniSekme && !yeniSekme.closed) yeniSekme.close();
-          toastGoster('❌ Hata: ' + err.message, 'err');
-        })
-        .uzmanAylikRaporClient(uzman, secilenAyYil);
-    } else {
-      // GitHub / harici ortam — JSONP kullan
-      jsonpCagri({ action: 'uzmanAylikRapor', uzmanAd: uzman, ay: secilenAyYil }, function(err, d) {
-        if (err || !d) {
-          btn.disabled = false;
-          btn.textContent = '📄 Aylık PDF Rapor Oluştur';
-          if (yeniSekme && !yeniSekme.closed) yeniSekme.close();
-          toastGoster('❌ Bağlantı hatası: ' + (err ? err.message : 'Yanıt alınamadı'), 'err');
-          return;
-        }
-        pdfCallback(d);
-      });
-    }
+        toastGoster('❌ Hata: ' + err.message, 'err');
+      })
+      .uzmanAylikRaporClient(uzman, secilenAyYil);
   };
   // ══════════════════════════════════════════════════════════════
   // BRİFİNG PDF
