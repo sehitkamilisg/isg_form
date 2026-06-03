@@ -67,7 +67,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 .ri.on .rdot{border-color:var(--te)}
 .rdi{width:10px;height:10px;border-radius:50%;background:var(--te);display:none;transition:transform .15s}.ri.on .rdi{display:block}
 .rl{font-size:13px;color:var(--t2);line-height:1.4}.ri.on .rl{color:var(--t1)}
-/* Seçim iptal ipucu */
 .ri.on::after{content:'✕';font-size:10px;color:var(--te);opacity:.5;margin-left:auto;padding-left:6px;flex-shrink:0;line-height:1}
 
 .sbtn{width:100%;padding:15px;background:var(--pu);color:#fff;border:none;border-radius:var(--rs);font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;min-height:50px;font-family:inherit}
@@ -104,14 +103,17 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
         </div>
         <div id="odurum" class="odurum"></div>
       </div>
+      
+      <!-- İSİM VE TELEFON ALANLARI KİLİTLENDİ (readonly eklendi) -->
       <div class="fld">
         <label>Ad Soyad <span class="req">*</span></label>
-        <input type="text" id="iguAd" placeholder="E-posta yüklenince otomatik dolar" autocomplete="name">
+        <input type="text" id="iguAd" placeholder="E-posta yüklenince otomatik dolar" autocomplete="name" readonly style="opacity:0.6; cursor:not-allowed;">
       </div>
       <div class="fld">
         <label>Telefon</label>
-        <input type="tel" id="iguTel" placeholder="05XX XXX XX XX" autocomplete="tel">
+        <input type="tel" id="iguTel" placeholder="E-posta yüklenince otomatik dolar" autocomplete="tel" readonly style="opacity:0.6; cursor:not-allowed;">
       </div>
+      
     </div>
     <div class="sec">
       <div class="stitle"><span class="dot" style="background:var(--bl)"></span>ziyaret bilgileri</div>
@@ -216,29 +218,22 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
   });
 
   // ── Genel Değerlendirme — ÇİFT YÖNLÜ TOGGLE ────────────────
-  // Seçiliyse tekrar tıklamak seçimi kaldırır (pasif yapar)
   document.querySelectorAll('.ri').forEach(function(ri){
     ri.addEventListener('click',function(){
       var zatenSecili = ri.classList.contains('on');
-      // Önce hepsini temizle
       document.querySelectorAll('.ri').forEach(function(x){ x.classList.remove('on'); });
       if(zatenSecili){
-        // Zaten seçiliydi → seçimi kaldır (pasif)
         seciliR = null;
       } else {
-        // Yeni seçim
         ri.classList.add('on');
         seciliR = ri.id;
       }
     });
   });
 
-  // ── JSONP ile API çağrısı (CORS sorunu yok) ──────────────
-
   // ── API çağrısı: Apps Script'ten açıldıysa fetch, GitHub'dan açıldıysa JSONP ──
   function jsonpCagri(params, callback) {
     if (_origin.indexOf('script.google.com') !== -1) {
-      // Apps Script origin: fetch kullanılabilir
       var url = API + '?' + Object.keys(params).map(function(k){
         return encodeURIComponent(k) + '=' + encodeURIComponent(
           typeof params[k] === 'object' ? JSON.stringify(params[k]) : String(params[k])
@@ -250,7 +245,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
         .catch(function(err){ callback(new Error('Bağlantı hatası: ' + err.message)); });
       return;
     }
-    // GitHub Pages origin: JSONP (mevcut yöntem)
     var cbAd = 'cb_' + (++cbSayac) + '_' + Date.now();
     params.callback = cbAd;
 
@@ -282,6 +276,10 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     var email = document.getElementById('iguEmail').value.trim();
     if(!email){ hata('Lütfen e-posta adresinizi giriniz.'); return; }
 
+    // Yeni e-posta aranırken önceki isim ve telefonları temizle
+    document.getElementById('iguAd').value = '';
+    document.getElementById('iguTel').value = '';
+
     var dur=document.getElementById('odurum');
     var sel=document.getElementById('okulSec');
     var btn=document.getElementById('yukleBtn');
@@ -300,7 +298,11 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
       var f=document.createDocumentFragment();
       s.okullar.forEach(function(o){ var op=document.createElement('option'); op.value=o; op.textContent=o; f.appendChild(op); });
       sel.appendChild(f);
-      if(s.iguAd&&!document.getElementById('iguAd').value.trim()) document.getElementById('iguAd').value=s.iguAd;
+      
+      // YENİ: İsim ve telefonu otomatik dolduruyoruz
+      if(s.iguAd) document.getElementById('iguAd').value = s.iguAd;
+      if(s.iguTel) document.getElementById('iguTel').value = s.iguTel;
+      
       dur.className='odurum ok'; dur.textContent='✓ '+s.okullar.length+' okul yüklendi';
     });
   });
@@ -349,7 +351,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
       aciklamaDiger:gdig ?deger('adig') :'',
       degerlendirme:deg,
       ikaz:deger('ikaz'),
-      // ── İstatistik verileri (PDF'e gitmez, sadece dashboard) ──
       istat: {
         s21_1:  g21   ? (parseInt(v('s21_1').value)  || 0) : 0,
         s22_1:  g22   ? (parseInt(v('s22_1').value)  || 0) : 0,
@@ -389,7 +390,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     ['g21','g22','g23','g257','g28','gdig'].forEach(function(id){ v(id).classList.remove('on'); });
     ['a21','a22','a23','a257','a28','adig'].forEach(function(id){ var el=v(id); el.value=''; el.style.height='auto'; });
     ['r1','r2','r3','r4'].forEach(function(id){ v(id).classList.remove('on'); });
-    // istatistik alanlarını sıfırla
     ['s21_1','s22_1','s22_2','s22_3','s22_4','s22_5','s22_6','s22_7','s23_1','s23_2','s257_1','s257_2','s28_1'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
     seciliR=null; window.scrollTo(0,0);
   }
