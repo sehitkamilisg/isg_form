@@ -22,6 +22,14 @@ body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMacSyst
 .badge{width:42px;height:42px;border-radius:11px;background:var(--pu);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:#fff;margin:0 auto 9px}
 .hdr h1{font-size:16px;font-weight:600}.hdr p{font-size:11px;color:var(--t2);margin-top:2px}
 .wrap{max-width:560px;margin:0 auto}
+
+/* ── SEKME NAVİGASYONU ─────────────────────────────────── */
+.tab-nav{display:flex;gap:6px;margin-bottom:14px;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:5px}
+.tab-btn{flex:1;padding:9px 12px;border:none;border-radius:var(--rs);background:transparent;color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,color .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tab-btn.aktif{background:var(--bg3);color:var(--t1);box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.tab-btn .tb-ikon{font-size:14px}
+.tab-panel{display:none}.tab-panel.aktif{display:block}
+
 .sec{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:14px;margin-bottom:10px}
 .stitle{font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;display:flex;align-items:center;gap:7px}
 .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}.req{color:var(--re);margin-left:2px}
@@ -48,8 +56,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 .gad{font-size:13px;color:var(--t2);flex:1;line-height:1.3}.gkart.on .gad{color:var(--t1)}
 .gac{display:none;padding:0 12px 12px}.gkart.on .gac{display:block}
 .gac textarea{font-size:14px;border-color:rgba(124,111,247,0.2)}.gac textarea:focus{border-color:var(--pu)}
-
-/* ── İstatistik alt alanları ─────────────────────────────── */
 .istat-grup{margin-top:10px;padding-top:10px;border-top:1px solid rgba(124,111,247,0.15);}
 .istat-baslik{font-size:9px;font-weight:700;color:var(--pu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;opacity:.8;}
 .istat-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
@@ -59,8 +65,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 .istat-input:focus{border-color:var(--pu);}
 .istat-input::placeholder{color:var(--t3);font-size:12px;font-weight:400;}
 .rgrid{display:grid;gap:7px}
-
-/* ── Genel Değerlendirme — toggle radio ─────────────────── */
 .ri{display:flex;align-items:flex-start;gap:10px;background:var(--bg3);border:1.5px solid var(--b1);border-radius:var(--rs);padding:11px 12px;cursor:pointer;min-height:44px;user-select:none;-webkit-user-select:none;transition:border-color .15s,background .15s}
 .ri.on{border-color:var(--te);background:rgba(29,184,138,0.06)}
 .rdot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--b2);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:border-color .15s}
@@ -68,7 +72,6 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 .rdi{width:10px;height:10px;border-radius:50%;background:var(--te);display:none;transition:transform .15s}.ri.on .rdi{display:block}
 .rl{font-size:13px;color:var(--t2);line-height:1.4}.ri.on .rl{color:var(--t1)}
 .ri.on::after{content:'✕';font-size:10px;color:var(--te);opacity:.5;margin-left:auto;padding-left:6px;flex-shrink:0;line-height:1}
-
 .sbtn{width:100%;padding:15px;background:var(--pu);color:#fff;border:none;border-radius:var(--rs);font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;min-height:50px;font-family:inherit}
 .sbtn:disabled{opacity:.4}
 .errmsg{background:rgba(240,101,90,0.1);border:1px solid rgba(240,101,90,0.3);border-radius:var(--rs);padding:10px 12px;color:var(--re);font-size:13px;margin-bottom:10px;display:none}
@@ -81,6 +84,39 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
 .suc h2{font-size:18px;font-weight:600;margin-bottom:9px}
 .suc p{font-size:13px;color:var(--t2);line-height:1.7}
 .nbtn{display:inline-block;margin-top:20px;padding:12px 26px;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--rs);color:var(--t2);font-size:14px;cursor:pointer;min-height:44px}
+input[type="date"]:invalid{border-color:var(--re);}
+
+/* ── GEÇMİŞ PANELİ ────────────────────────────────────── */
+.gecmis-sor{display:flex;gap:8px;margin-bottom:12px}
+.gecmis-sor input{flex:1}
+#gecmisSorBtn{background:var(--pu);color:#fff;border:none;border-radius:var(--rs);padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;min-width:64px}
+#gecmisSorBtn:disabled{opacity:.5}
+
+.ozet-band{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.ozet-kart{background:var(--bg3);border:1px solid var(--b1);border-radius:var(--rs);padding:10px;text-align:center}
+.ozet-sayi{font-size:22px;font-weight:700;line-height:1}
+.ozet-label{font-size:10px;color:var(--t2);margin-top:3px}
+
+.zkart{background:var(--bg3);border:1px solid var(--b1);border-radius:var(--rs);padding:12px;margin-bottom:8px;position:relative}
+.zkart:last-child{margin-bottom:0}
+.zkart-ust{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.zkart-okul{font-size:13px;font-weight:600;color:var(--t1);line-height:1.3;flex:1}
+.zkart-tarih{font-size:11px;color:var(--t3);white-space:nowrap;flex-shrink:0;margin-top:2px}
+.durum-rozet{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px}
+.durum-rozet.onaylandi{background:rgba(29,184,138,0.12);color:var(--te)}
+.durum-rozet.isgb{background:rgba(64,150,245,0.12);color:var(--bl)}
+.durum-rozet.mudur{background:rgba(245,166,35,0.12);color:var(--am)}
+.zkart-alt{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)}
+.pdf-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--pu);text-decoration:none;font-weight:600}
+.pdf-link:hover{opacity:.8}
+.pdf-yok{font-size:11px;color:var(--t3)}
+
+.gecmis-bos{text-align:center;padding:32px 16px;color:var(--t3)}
+.gecmis-bos .gi{font-size:32px;margin-bottom:10px}
+.gecmis-bos p{font-size:13px;line-height:1.6}
+
+.gecmis-yukleniyor{text-align:center;padding:24px;color:var(--t2);font-size:13px;display:none}
+.gecmis-yukleniyor.on{display:block}
 </style>
 </head>
 <body>
@@ -92,73 +128,129 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     <p>T.C. Gaziantep Valiliği — İl MEM / İşyeri Sağlık ve Güvenlik Birimi</p>
   </div>
   <div class="wrap">
-    <div id="errmsg" class="errmsg"></div>
-    <div class="sec">
-      <div class="stitle"><span class="dot" style="background:var(--pu)"></span>uzman bilgileri</div>
-      <div class="fld">
-        <label>E-posta <span class="req">*</span></label>
-        <div class="erow">
-          <input type="email" id="iguEmail" placeholder="ornek@meb.gov.tr" inputmode="email" autocomplete="email">
-          <button id="yukleBtn">Yükle</button>
+
+    <!-- ── SEKME NAVİGASYONU ── -->
+    <div class="tab-nav">
+      <button class="tab-btn aktif" id="tabFormBtn" onclick="sekmeGec('form')">
+        <span class="tb-ikon">📝</span> Yeni Form
+      </button>
+      <button class="tab-btn" id="tabGecmisBtn" onclick="sekmeGec('gecmis')">
+        <span class="tb-ikon">📋</span> Geçmişim
+      </button>
+    </div>
+
+    <!-- ══ FORM PANELİ ══════════════════════════════════════ -->
+    <div class="tab-panel aktif" id="panelForm">
+      <div id="errmsg" class="errmsg"></div>
+      <div class="sec">
+        <div class="stitle"><span class="dot" style="background:var(--pu)"></span>uzman bilgileri</div>
+        <div class="fld">
+          <label>E-posta <span class="req">*</span></label>
+          <div class="erow">
+            <input type="email" id="iguEmail" placeholder="ornek@meb.gov.tr" inputmode="email" autocomplete="off">
+            <button id="yukleBtn">Yükle</button>
+          </div>
+          <div id="odurum" class="odurum"></div>
         </div>
-        <div id="odurum" class="odurum"></div>
+        <div class="fld">
+          <label>Ad Soyad <span class="req">*</span></label>
+          <input type="text" id="iguAd" placeholder="E-posta yüklenince otomatik dolar" autocomplete="off" readonly style="opacity:0.6;cursor:not-allowed;">
+        </div>
+        <div class="fld">
+          <label>Telefon</label>
+          <input type="tel" id="iguTel" placeholder="E-posta yüklenince otomatik dolar" autocomplete="off" readonly style="opacity:0.6;cursor:not-allowed;">
+        </div>
       </div>
-      
-      <!-- İSİM VE TELEFON ALANLARI KİLİTLENDİ (readonly eklendi) -->
-      <div class="fld">
-        <label>Ad Soyad <span class="req">*</span></label>
-        <input type="text" id="iguAd" placeholder="E-posta yüklenince otomatik dolar" autocomplete="name" readonly style="opacity:0.6; cursor:not-allowed;">
+
+      <div class="sec">
+        <div class="stitle"><span class="dot" style="background:var(--bl)"></span>ziyaret bilgileri</div>
+        <div class="fld">
+          <label>Ziyaret Edilen Okul <span class="req">*</span></label>
+          <select id="okulSec"><option value="">-- Önce e-posta yükleyiniz --</option></select>
+        </div>
+        <div class="fld">
+          <label>Ziyaret Tarihi <span class="req">*</span> <span style="font-size:10px;color:var(--t3);">(bugün veya öncesi)</span></label>
+          <input type="date" id="ziyaretTarih">
+        </div>
       </div>
-      <div class="fld">
-        <label>Telefon</label>
-        <input type="tel" id="iguTel" placeholder="E-posta yüklenince otomatik dolar" autocomplete="tel" readonly style="opacity:0.6; cursor:not-allowed;">
+
+      <div class="sec">
+        <div class="stitle"><span class="dot" style="background:var(--am)"></span>görev maddeleri <span style="color:var(--re);font-size:10px">* en az 1</span></div>
+        <div class="gkart" id="g21"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.1</span><span class="gad">Risk Değerlendirmesi</span></div><div class="gac"><textarea id="a21" placeholder="Yapılan çalışmaları yazınız..." maxlength="500"></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Risk Değerlendirmesi Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s21_1" min="0" max="9999" placeholder="0"></div></div></div></div>
+        <div class="gkart" id="g22"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.2</span><span class="gad">Eğitim, Bilgilendirme ve Kayıt</span></div><div class="gac"><textarea id="a22" placeholder="Yapılan çalışmaları yazınız..." maxlength="500"></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Temel İSG Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_1" min="0" max="9999" placeholder="0"></div><div class="istat-row"><span class="istat-label">İçerik Atamalı Eğitim Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_2" min="0" max="9999" placeholder="0"></div><div class="istat-row"><span class="istat-label">İş Kazası / 6 Ay Sonrası İşe Dönüş Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_3" min="0" max="9999" placeholder="0"></div><div class="istat-row"><span class="istat-label">İSG Farkındalık Eğitimi Verilen Öğrenci Sayısı</span><input class="istat-input" type="number" id="s22_4" min="0" max="9999" placeholder="0"></div><div class="istat-row"><span class="istat-label">Çalışan Temsilcisi Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_5" min="0" max="9999" placeholder="0"></div><div class="istat-row"><span class="istat-label">Acil Durum Ekipleri Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_6" min="0" max="9999" placeholder="0"></div><div class="istat-row"><span class="istat-label">Acil Durum Tatbikatlarına Katılım Sayısı</span><input class="istat-input" type="number" id="s22_7" min="0" max="9999" placeholder="0"></div></div></div></div>
+        <div class="gkart" id="g23"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.3</span><span class="gad">İşyeri Çalışma Ortamı Gözetimi</span></div><div class="gac"><textarea id="a23" placeholder="Yapılan çalışmaları yazınız..." maxlength="500"></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Kurumda Meydana Gelen İş Kazası Sayısı</span><input class="istat-input" type="number" id="s23_1" min="0" max="9999" placeholder="0"></div><div class="istat-row"><span class="istat-label">Kurumda Meydana Gelen Ramak Kala Olay Sayısı</span><input class="istat-input" type="number" id="s23_2" min="0" max="9999" placeholder="0"></div></div></div></div>
+        <div class="gkart" id="g257"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.5–2.7</span><span class="gad">İlgili Birimlerle İşbirliği</span></div><div class="gac"><textarea id="a257" placeholder="Yapılan çalışmaları yazınız..." maxlength="500"></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Kurum İSG Kuruluna Katılım Sayısı</span><input class="istat-input" type="number" id="s257_1" min="0" max="9999" placeholder="0"></div><div class="istat-row"><span class="istat-label">İSG Kurul Üyeleri Eğitime Katılan Kişi Sayısı</span><input class="istat-input" type="number" id="s257_2" min="0" max="9999" placeholder="0"></div></div></div></div>
+        <div class="gkart" id="g28"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.8</span><span class="gad">Genel Rehberlik Hizmetleri</span></div><div class="gac"><textarea id="a28" placeholder="Yapılan çalışmaları yazınız..." maxlength="500"></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Kuruma Yazılı Olarak Bildirilen Tedbir Sayısı</span><input class="istat-input" type="number" id="s28_1" min="0" max="9999" placeholder="0"></div></div></div></div>
+        <div class="gkart" id="gdig"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">Diğer</span><span class="gad">Diğer Faaliyetler</span></div><div class="gac"><textarea id="adig" placeholder="Yapılan çalışmaları yazınız..." maxlength="500"></textarea></div></div>
       </div>
-      
+
+      <div class="sec">
+        <div class="stitle"><span class="dot" style="background:var(--te)"></span>genel değerlendirme <span style="color:var(--re);font-size:10px">* seçmek için tıkla, iptal için tekrar tıkla</span></div>
+        <div class="rgrid">
+          <div class="ri" id="r1"><div class="rdot"><div class="rdi"></div></div><span class="rl">Görev olağan şekilde sonuçlanmıştır</span></div>
+          <div class="ri" id="r2"><div class="rdot"><div class="rdi"></div></div><span class="rl">Aykırılık ve noksanlıklar tespit edilmiş olup ikaz ve öneriler yapılmıştır</span></div>
+          <div class="ri" id="r3"><div class="rdot"><div class="rdi"></div></div><span class="rl">Daha önce yapılmış tespitlere ait düzeltici faaliyetlerin durumu incelenmiştir</span></div>
+          <div class="ri" id="r4"><div class="rdot"><div class="rdi"></div></div><span class="rl">İşveren ve işveren vekili olmadığı için imza alınamamıştır</span></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="stitle"><span class="dot" style="background:var(--re)"></span>ikaz ve öneriler</div>
+        <div class="fld">
+          <label>Varsa ikaz ve önerilerinizi yazınız</label>
+          <textarea id="ikaz" placeholder="Boş bırakabilirsiniz..." maxlength="500"></textarea>
+        </div>
+      </div>
+
+      <div class="iload" id="iload"><span class="msp"></span><span id="iloadmsg">İşleniyor...</span></div>
+      <button class="sbtn" id="gonderBtn">Formu Gönder</button>
     </div>
-    <div class="sec">
-      <div class="stitle"><span class="dot" style="background:var(--bl)"></span>ziyaret bilgileri</div>
-      <div class="fld">
-        <label>Ziyaret Edilen Okul <span class="req">*</span></label>
-        <select id="okulSec"><option value="">-- Önce e-posta yükleyiniz --</option></select>
+
+    <!-- ══ GEÇMİŞ PANELİ ════════════════════════════════════ -->
+    <div class="tab-panel" id="panelGecmis">
+      <div class="sec">
+        <div class="stitle"><span class="dot" style="background:var(--bl)"></span>e-posta ile sorgula</div>
+        <div class="gecmis-sor">
+          <input type="email" id="gecmisEmail" placeholder="ornek@meb.gov.tr" inputmode="email" autocomplete="off">
+          <button id="gecmisSorBtn">Getir</button>
+        </div>
+        <div id="gecmisDurum" class="odurum"></div>
       </div>
-      <div class="fld">
-        <label>Ziyaret Tarihi <span class="req">*</span></label>
-        <input type="date" id="ziyaretTarih">
+
+      <div class="gecmis-yukleniyor" id="gecmisYukleniyor">
+        <span class="msp"></span> Kayıtlar yükleniyor...
+      </div>
+
+      <div id="gecmisIcerik" style="display:none">
+        <!-- Özet band -->
+        <div class="ozet-band">
+          <div class="ozet-kart">
+            <div class="ozet-sayi" id="ozToplam">0</div>
+            <div class="ozet-label">Toplam Form</div>
+          </div>
+          <div class="ozet-kart">
+            <div class="ozet-sayi" style="color:var(--te)" id="ozOnaylanan">0</div>
+            <div class="ozet-label">Onaylanan</div>
+          </div>
+          <div class="ozet-kart">
+            <div class="ozet-sayi" style="color:var(--am)" id="ozBekleyen">0</div>
+            <div class="ozet-label">Bekleyen</div>
+          </div>
+        </div>
+        <!-- Kart listesi -->
+        <div id="zkartListesi"></div>
+      </div>
+
+      <div class="gecmis-bos" id="gecmisBos" style="display:none">
+        <div class="gi">📭</div>
+        <p>Henüz kayıt bulunamadı.<br>E-posta adresinizi girerek sorgulayın.</p>
       </div>
     </div>
-    <div class="sec">
-      <div class="stitle"><span class="dot" style="background:var(--am)"></span>görev maddeleri <span style="color:var(--re);font-size:10px">* en az 1</span></div>
-      <div class="gkart" id="g21"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.1</span><span class="gad">Risk Değerlendirmesi</span></div><div class="gac"><textarea id="a21" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Risk Değerlendirmesi Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s21_1" min="0" placeholder="0"></div></div></div></div>
-      <div class="gkart" id="g22"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.2</span><span class="gad">Eğitim, Bilgilendirme ve Kayıt</span></div><div class="gac"><textarea id="a22" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Temel İSG Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_1" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">İçerik Atamalı Eğitim Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_2" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">İş Kazası / 6 Ay Sonrası İşe Dönüş Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_3" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">İSG Farkındalık Eğitimi Verilen Öğrenci Sayısı</span><input class="istat-input" type="number" id="s22_4" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">Çalışan Temsilcisi Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_5" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">Acil Durum Ekipleri Eğitimi Verilen Çalışan Sayısı</span><input class="istat-input" type="number" id="s22_6" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">Acil Durum Tatbikatlarına Katılım Sayısı</span><input class="istat-input" type="number" id="s22_7" min="0" placeholder="0"></div></div></div></div>
-      <div class="gkart" id="g23"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.3</span><span class="gad">İşyeri Çalışma Ortamı Gözetimi</span></div><div class="gac"><textarea id="a23" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Kurumda Meydana Gelen İş Kazası Sayısı</span><input class="istat-input" type="number" id="s23_1" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">Kurumda Meydana Gelen Ramak Kala Olay Sayısı</span><input class="istat-input" type="number" id="s23_2" min="0" placeholder="0"></div></div></div></div>
-      <div class="gkart" id="g257"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.5–2.7</span><span class="gad">İlgili Birimlerle İşbirliği</span></div><div class="gac"><textarea id="a257" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Kurum İSG Kuruluna Katılım Sayısı</span><input class="istat-input" type="number" id="s257_1" min="0" placeholder="0"></div><div class="istat-row"><span class="istat-label">İSG Kurul Üyeleri Eğitime Katılan Kişi Sayısı</span><input class="istat-input" type="number" id="s257_2" min="0" placeholder="0"></div></div></div></div>
-      <div class="gkart" id="g28"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">2.8</span><span class="gad">Genel Rehberlik Hizmetleri</span></div><div class="gac"><textarea id="a28" placeholder="Yapılan çalışmaları yazınız..."></textarea><div class="istat-grup"><div class="istat-baslik">📊 sayısal veriler</div><div class="istat-row"><span class="istat-label">Kuruma Yazılı Olarak Bildirilen Tedbir Sayısı</span><input class="istat-input" type="number" id="s28_1" min="0" placeholder="0"></div></div></div></div>
-      <div class="gkart" id="gdig"><div class="gbas"><div class="cb"><svg class="cbt" width="11" height="11" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="gno">Diğer</span><span class="gad">Diğer Faaliyetler</span></div><div class="gac"><textarea id="adig" placeholder="Yapılan çalışmaları yazınız..."></textarea></div></div>
-    </div>
-    <div class="sec">
-      <div class="stitle">
-        <span class="dot" style="background:var(--te)"></span>genel değerlendirme
-        <span style="color:var(--re);font-size:10px">* seçmek için tıkla, iptal için tekrar tıkla</span>
-      </div>
-      <div class="rgrid">
-        <div class="ri" id="r1"><div class="rdot"><div class="rdi"></div></div><span class="rl">Görev olağan şekilde sonuçlanmıştır</span></div>
-        <div class="ri" id="r2"><div class="rdot"><div class="rdi"></div></div><span class="rl">Aykırılık ve noksanlıklar tespit edilmiş olup ikaz ve öneriler yapılmıştır</span></div>
-        <div class="ri" id="r3"><div class="rdot"><div class="rdi"></div></div><span class="rl">Daha önce yapılmış tespitlere ait düzeltici faaliyetlerin durumu incelenmiştir</span></div>
-        <div class="ri" id="r4"><div class="rdot"><div class="rdi"></div></div><span class="rl">İşveren ve işveren vekili olmadığı için imza alınamamıştır</span></div>
-      </div>
-    </div>
-    <div class="sec">
-      <div class="stitle"><span class="dot" style="background:var(--re)"></span>ikaz ve öneriler</div>
-      <div class="fld">
-        <label>Varsa ikaz ve önerilerinizi yazınız</label>
-        <textarea id="ikaz" placeholder="Boş bırakabilirsiniz..."></textarea>
-      </div>
-    </div>
-    <div class="iload" id="iload"><span class="msp"></span><span id="iloadmsg">İşleniyor...</span></div>
-    <button class="sbtn" id="gonderBtn">Formu Gönder</button>
+
   </div>
 </div>
 
+<!-- Başarı Ekranı -->
 <div class="suc" id="basariEkrani">
   <div class="si">
     <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
@@ -168,23 +260,19 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
   </div>
   <h2>Form Gönderildi!</h2>
   <p>Görev formunuz kaydedildi.<br>Okul müdürüne onay kodu gönderildi.<br>Müdür onayı sonrası PDF oluşacak.</p>
-  <div class="nbtn" id="yeniBtn">Yeni Form Gir</div>
+  <div class="nbtn" id="yeniBtn" style="opacity:0.4;cursor:not-allowed;pointer-events:none;">
+    Yeni Form Gir <span id="geriSayim">(15)</span>
+  </div>
 </div>
 
 <script>
 (function(){
 
-  // ============================================================
-  // WEB APP URL — Apps Script URL'niz
-  // Apps Script üzerinden açıldığında URL otomatik algılanır.
-  // GitHub Pages'tan açıldığında sabit URL kullanılır.
-  // ============================================================
   var _origin = window.location.href;
   var _cleanOrigin = _origin.split('?')[0].replace(/\/u\/\d+\/s\//, '/s/');
   var API = (_origin.indexOf('script.google.com') !== -1)
-    ? _cleanOrigin   // Apps Script'ten açıldı — /u/N/ temizlenmiş endpoint
+    ? _cleanOrigin
     : 'https://script.google.com/macros/s/AKfycbxY-RZNYTCYHOj1-Gfh56v28GJy9C_pBU4EZGEltP6ITevB-S7dWab0cQm4SlyR7buh/exec';
-  // ============================================================
 
   var RD = {
     r1:'Görev olağan şekilde sonuçlanmıştır',
@@ -195,10 +283,35 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
   var seciliR = null;
   var cbSayac = 0;
 
-  // Bugünün tarihi
-  var b = new Date();
-  document.getElementById('ziyaretTarih').value =
-    b.getFullYear()+'-'+String(b.getMonth()+1).padStart(2,'0')+'-'+String(b.getDate()).padStart(2,'0');
+  // ── Tarih kısıtlaması ───────────────────────────────────
+  function bugunStr() {
+    var b = new Date();
+    return b.getFullYear() + '-'
+      + String(b.getMonth()+1).padStart(2,'0') + '-'
+      + String(b.getDate()).padStart(2,'0');
+  }
+  var tarihInput = document.getElementById('ziyaretTarih');
+  tarihInput.max   = bugunStr();
+  tarihInput.value = bugunStr();
+
+  // ── Sekme geçişi ────────────────────────────────────────
+  window.sekmeGec = function(sekme) {
+    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('aktif'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('aktif'); });
+    if (sekme === 'form') {
+      document.getElementById('tabFormBtn').classList.add('aktif');
+      document.getElementById('panelForm').classList.add('aktif');
+    } else {
+      document.getElementById('tabGecmisBtn').classList.add('aktif');
+      document.getElementById('panelGecmis').classList.add('aktif');
+      // Form'da email yüklendiyse geçmiş emailini otomatik doldur
+      var formEmail = document.getElementById('iguEmail').value.trim();
+      var gecmisEmail = document.getElementById('gecmisEmail');
+      if (formEmail && !gecmisEmail.value) {
+        gecmisEmail.value = formEmail;
+      }
+    }
+  };
 
   // Textarea otomatik boyut
   document.querySelectorAll('textarea').forEach(function(ta){
@@ -217,78 +330,83 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     });
   });
 
-  // ── Genel Değerlendirme — ÇİFT YÖNLÜ TOGGLE ────────────────
+  // Genel Değerlendirme toggle
   document.querySelectorAll('.ri').forEach(function(ri){
     ri.addEventListener('click',function(){
-      var zatenSecili = ri.classList.contains('on');
+      var zatenSecili=ri.classList.contains('on');
       document.querySelectorAll('.ri').forEach(function(x){ x.classList.remove('on'); });
-      if(zatenSecili){
-        seciliR = null;
-      } else {
-        ri.classList.add('on');
-        seciliR = ri.id;
-      }
+      if(zatenSecili){ seciliR=null; } else { ri.classList.add('on'); seciliR=ri.id; }
     });
   });
 
-  // ── API çağrısı: Apps Script'ten açıldıysa fetch, GitHub'dan açıldıysa JSONP ──
+  // İstatistik inputları
+  document.querySelectorAll('.istat-input').forEach(function(inp){
+    inp.addEventListener('change',function(){
+      var val=parseInt(inp.value,10);
+      if(isNaN(val)||val<0) inp.value=0;
+      if(val>9999) inp.value=9999;
+    });
+  });
+
+  // ── API çağrısı ─────────────────────────────────────────
   function jsonpCagri(params, callback) {
     if (_origin.indexOf('script.google.com') !== -1) {
       var url = API + '?' + Object.keys(params).map(function(k){
-        return encodeURIComponent(k) + '=' + encodeURIComponent(
-          typeof params[k] === 'object' ? JSON.stringify(params[k]) : String(params[k])
+        return encodeURIComponent(k)+'='+encodeURIComponent(
+          typeof params[k]==='object'?JSON.stringify(params[k]):String(params[k])
         );
       }).join('&');
       fetch(url)
         .then(function(r){ return r.json(); })
-        .then(function(data){ callback(null, data); })
-        .catch(function(err){ callback(new Error('Bağlantı hatası: ' + err.message)); });
+        .then(function(data){ callback(null,data); })
+        .catch(function(err){ callback(new Error('Bağlantı hatası: '+err.message)); });
       return;
     }
-    var cbAd = 'cb_' + (++cbSayac) + '_' + Date.now();
-    params.callback = cbAd;
-
-    var url = API + '?' + Object.keys(params).map(function(k){
-      return encodeURIComponent(k) + '=' + encodeURIComponent(
-        typeof params[k] === 'object' ? JSON.stringify(params[k]) : String(params[k])
+    var cbAd='cb_'+(++cbSayac)+'_'+Date.now();
+    params.callback=cbAd;
+    var url=API+'?'+Object.keys(params).map(function(k){
+      return encodeURIComponent(k)+'='+encodeURIComponent(
+        typeof params[k]==='object'?JSON.stringify(params[k]):String(params[k])
       );
     }).join('&');
-
-    window[cbAd] = function(data) {
+    var zaman=setTimeout(function(){
+      if(!window[cbAd]) return;
+      delete window[cbAd];
+      try{ document.head.removeChild(script); }catch(e){}
+      callback(new Error('Sunucu yanıt vermedi (zaman aşımı). Lütfen tekrar deneyin.'));
+    },25000);
+    window[cbAd]=function(data){
+      clearTimeout(zaman);
       delete window[cbAd];
       document.head.removeChild(script);
-      callback(null, data);
+      callback(null,data);
     };
-
-    var script = document.createElement('script');
-    script.src = url;
-    script.onerror = function() {
+    var script=document.createElement('script');
+    script.src=url;
+    script.onerror=function(){
+      clearTimeout(zaman);
       delete window[cbAd];
-      try { document.head.removeChild(script); } catch(e){}
+      try{ document.head.removeChild(script); }catch(e){}
       callback(new Error('Bağlantı hatası'));
     };
     document.head.appendChild(script);
   }
 
-  // ── Yükle butonu ─────────────────────────────────────────
-
+  // ── Yükle butonu ────────────────────────────────────────
   document.getElementById('yukleBtn').addEventListener('click',function(){
-    var email = document.getElementById('iguEmail').value.trim();
+    var email=document.getElementById('iguEmail').value.trim();
     if(!email){ hata('Lütfen e-posta adresinizi giriniz.'); return; }
-
-    // Yeni e-posta aranırken önceki isim ve telefonları temizle
-    document.getElementById('iguAd').value = '';
-    document.getElementById('iguTel').value = '';
-
+    var emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(email)){ hata('Geçerli bir e-posta adresi giriniz.'); return; }
+    document.getElementById('iguAd').value='';
+    document.getElementById('iguTel').value='';
     var dur=document.getElementById('odurum');
     var sel=document.getElementById('okulSec');
     var btn=document.getElementById('yukleBtn');
-
     btn.disabled=true; btn.textContent='...';
     dur.className='odurum y'; dur.style.display='block'; dur.textContent='Yükleniyor...';
     sel.innerHTML='<option value="">Yükleniyor...</option>';
-
-    jsonpCagri({ action:'okulListesi', email:email }, function(err, s){
+    jsonpCagri({action:'okulListesi',email:email},function(err,s){
       btn.disabled=false; btn.textContent='Yükle';
       if(err){ dur.className='odurum e'; dur.textContent='Bağlantı hatası. Tekrar deneyin.'; sel.innerHTML='<option value="">-- Hata --</option>'; return; }
       sel.innerHTML='<option value="">-- Okul seçiniz --</option>';
@@ -298,17 +416,124 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
       var f=document.createDocumentFragment();
       s.okullar.forEach(function(o){ var op=document.createElement('option'); op.value=o; op.textContent=o; f.appendChild(op); });
       sel.appendChild(f);
-      
-      // YENİ: İsim ve telefonu otomatik dolduruyoruz
-      if(s.iguAd) document.getElementById('iguAd').value = s.iguAd;
-      if(s.iguTel) document.getElementById('iguTel').value = s.iguTel;
-      
+      if(s.iguAd)  document.getElementById('iguAd').value=s.iguAd;
+      if(s.iguTel) document.getElementById('iguTel').value=s.iguTel;
+      // Geçmiş emailini de otomatik doldur
+      var ge=document.getElementById('gecmisEmail');
+      if(!ge.value) ge.value=email;
       dur.className='odurum ok'; dur.textContent='✓ '+s.okullar.length+' okul yüklendi';
     });
   });
 
-  // ── Gönder & Yeni Form ───────────────────────────────────
+  // ── GEÇMİŞ SORGULA ─────────────────────────────────────
+  document.getElementById('gecmisSorBtn').addEventListener('click', gecmisGetir);
+  document.getElementById('gecmisEmail').addEventListener('keydown', function(e){
+    if(e.key==='Enter') gecmisGetir();
+  });
 
+  function gecmisGetir() {
+    var email=document.getElementById('gecmisEmail').value.trim();
+    var dur=document.getElementById('gecmisDurum');
+    if(!email){ dur.className='odurum e'; dur.style.display='block'; dur.textContent='E-posta giriniz.'; return; }
+    var emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(email)){ dur.className='odurum e'; dur.style.display='block'; dur.textContent='Geçerli e-posta giriniz.'; return; }
+
+    dur.style.display='none';
+    document.getElementById('gecmisIcerik').style.display='none';
+    document.getElementById('gecmisBos').style.display='none';
+    document.getElementById('gecmisYukleniyor').classList.add('on');
+    document.getElementById('gecmisSorBtn').disabled=true;
+
+    jsonpCagri({action:'iguGecmis',email:email},function(err,s){
+      document.getElementById('gecmisYukleniyor').classList.remove('on');
+      document.getElementById('gecmisSorBtn').disabled=false;
+
+      if(err){
+        dur.className='odurum e'; dur.style.display='block';
+        dur.textContent='Bağlantı hatası. Tekrar deneyin.'; return;
+      }
+      if(!s.ok||s.bulunamadi||!s.ziyaretler||!s.ziyaretler.length){
+        document.getElementById('gecmisBos').style.display='block'; return;
+      }
+
+      // Özet
+      document.getElementById('ozToplam').textContent=s.ozet.toplam||0;
+      document.getElementById('ozOnaylanan').textContent=s.ozet.onaylanan||0;
+      document.getElementById('ozBekleyen').textContent=s.ozet.bekleyen||0;
+
+      // Filtre
+      var tumZiyaretler = s.ziyaretler;
+
+      function kartalariCiz(veri) {
+        var liste=document.getElementById('zkartListesi');
+        liste.innerHTML='';
+        if(!veri||!veri.length){
+          liste.innerHTML='<div style="text-align:center;padding:24px;color:var(--t3);font-size:13px">🔍 Bu filtrede kayıt yok.</div>';
+          return;
+        }
+        veri.forEach(function(z){
+          var durum=z.durum||'';
+          var rozetClass='mudur',rozetIkon='⏳',rozetMetin='Müdür Onayı Bekleniyor';
+          if(durum==='Onaylandı'){ rozetClass='onaylandi'; rozetIkon='✓'; rozetMetin='Onaylandı'; }
+          else if(durum==='İSGB Onayı Bekleniyor'){ rozetClass='isgb'; rozetIkon='🔄'; rozetMetin='İSGB Onayında'; }
+          var pdfHtml='<span class="pdf-yok">PDF henüz yok</span>';
+          if(z.pdfUrl){ pdfHtml='<a class="pdf-link" href="'+z.pdfUrl+'" target="_blank">📄 PDF\'i Aç</a>'; }
+          var kart=document.createElement('div');
+          kart.className='zkart';
+          kart.innerHTML=
+            '<div class="zkart-ust">'
+            +'<div class="zkart-okul">'+z.okul+'</div>'
+            +'<div class="zkart-tarih">'+z.tarih+'</div>'
+            +'</div>'
+            +'<span class="durum-rozet '+rozetClass+'">'+rozetIkon+' '+rozetMetin+'</span>'
+            +'<div class="zkart-alt">'+pdfHtml+'</div>';
+          liste.appendChild(kart);
+        });
+      }
+
+      function filtreAyarla(filtre) {
+        // Seçili kartı vurgula
+        ['ozKartTumu','ozKartOnaylandi','ozKartBekleyen'].forEach(function(id){
+          var el=document.getElementById(id);
+          if(el){ el.style.borderColor='transparent'; el.style.opacity='0.7'; }
+        });
+        var hedefId = filtre==='tumu'?'ozKartTumu':filtre==='onaylandi'?'ozKartOnaylandi':'ozKartBekleyen';
+        var hedef=document.getElementById(hedefId);
+        if(hedef){ hedef.style.borderColor='var(--pu)'; hedef.style.opacity='1'; }
+
+        var filtrelenmis = filtre==='tumu' ? tumZiyaretler
+          : filtre==='onaylandi' ? tumZiyaretler.filter(function(z){ return z.durum==='Onaylandı'; })
+          : tumZiyaretler.filter(function(z){ return z.durum!=='Onaylandı'; });
+
+        kartalariCiz(filtrelenmis);
+      }
+
+      // Özet kartlarına id ve tıklama ekle
+      var ozBand=document.querySelector('.ozet-band');
+      ozBand.children[0].id='ozKartTumu';
+      ozBand.children[1].id='ozKartOnaylandi';
+      ozBand.children[2].id='ozKartBekleyen';
+      [
+        ['ozKartTumu','tumu'],
+        ['ozKartOnaylandi','onaylandi'],
+        ['ozKartBekleyen','bekleyen']
+      ].forEach(function(c){
+        var el=document.getElementById(c[0]);
+        el.style.cursor='pointer';
+        el.style.transition='border-color .15s, opacity .15s';
+        el.style.border='1.5px solid transparent';
+        el.style.borderRadius='var(--rs)';
+        el.addEventListener('click',function(){ filtreAyarla(c[1]); });
+      });
+
+      // Varsayılan: tümü seçili
+      filtreAyarla('tumu');
+
+      document.getElementById('gecmisIcerik').style.display='block';
+    });
+  }
+
+  // ── Form Gönder & Yeni Form ─────────────────────────────
   document.getElementById('gonderBtn').addEventListener('click',formuGonder);
   document.getElementById('yeniBtn').addEventListener('click',yeniForm);
 
@@ -325,13 +550,15 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     var g21=aktif('g21'),g22=aktif('g22'),g23=aktif('g23'),g257=aktif('g257'),g28=aktif('g28'),gdig=aktif('gdig');
     var hb=g21||g22||g23||g257||g28||gdig;
     var deg=seciliR?RD[seciliR]:'';
-
-    if(!email) return hata('E-posta zorunludur.');
-    if(!ad)    return hata('Ad Soyad zorunludur.');
-    if(!okul)  return hata('Okul seçiniz.');
-    if(!tarih) return hata('Ziyaret tarihi zorunludur.');
-    if(!hb)    return hata('En az bir görev maddesi seçiniz.');
-    if(!deg)   return hata('Genel değerlendirme seçiniz.');
+    var emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!email)              return hata('E-posta zorunludur.');
+    if(!emailRegex.test(email)) return hata('Geçerli bir e-posta adresi giriniz.');
+    if(!ad)                 return hata('Ad Soyad zorunludur. Lütfen önce "Yükle" butonuna basınız.');
+    if(!okul)               return hata('Okul seçiniz.');
+    if(!tarih)              return hata('Ziyaret tarihi zorunludur.');
+    if(tarih>bugunStr())    return hata('Ziyaret tarihi bugünden ileri bir tarih olamaz.');
+    if(!hb)                 return hata('En az bir görev maddesi seçiniz.');
+    if(!deg)                return hata('Genel değerlendirme seçiniz.');
     if(g21  &&!deger('a21'))  return hata('2.1 için açıklama giriniz.');
     if(g22  &&!deger('a22'))  return hata('2.2 için açıklama giriniz.');
     if(g23  &&!deger('a23'))  return hata('2.3 için açıklama giriniz.');
@@ -339,7 +566,15 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     if(g28  &&!deger('a28'))  return hata('2.8 için açıklama giriniz.');
     if(gdig &&!deger('adig')) return hata('Diğer için açıklama giriniz.');
 
-    var fv = {
+    function istatDeger(id,aktifMi){
+      if(!aktifMi) return 0;
+      var val=parseInt(v(id).value,10);
+      if(isNaN(val)||val<0) return 0;
+      if(val>9999) return 9999;
+      return val;
+    }
+
+    var fv={
       iguAd:ad,iguEmail:email,iguTel:deger('iguTel'),
       okul:okul,tarih:tarih,saat:'',
       gorev21:g21,gorev22:g22,gorev23:g23,gorev257:g257,gorev28:g28,gorevDiger:gdig,
@@ -349,34 +584,41 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
       aciklama257:  g257 ?deger('a257') :'',
       aciklama28:   g28  ?deger('a28')  :'',
       aciklamaDiger:gdig ?deger('adig') :'',
-      degerlendirme:deg,
-      ikaz:deger('ikaz'),
-      istat: {
-        s21_1:  g21   ? (parseInt(v('s21_1').value)  || 0) : 0,
-        s22_1:  g22   ? (parseInt(v('s22_1').value)  || 0) : 0,
-        s22_2:  g22   ? (parseInt(v('s22_2').value)  || 0) : 0,
-        s22_3:  g22   ? (parseInt(v('s22_3').value)  || 0) : 0,
-        s22_4:  g22   ? (parseInt(v('s22_4').value)  || 0) : 0,
-        s22_5:  g22   ? (parseInt(v('s22_5').value)  || 0) : 0,
-        s22_6:  g22   ? (parseInt(v('s22_6').value)  || 0) : 0,
-        s22_7:  g22   ? (parseInt(v('s22_7').value)  || 0) : 0,
-        s23_1:  g23   ? (parseInt(v('s23_1').value)  || 0) : 0,
-        s23_2:  g23   ? (parseInt(v('s23_2').value)  || 0) : 0,
-        s257_1: g257  ? (parseInt(v('s257_1').value) || 0) : 0,
-        s257_2: g257  ? (parseInt(v('s257_2').value) || 0) : 0,
-        s28_1:  g28   ? (parseInt(v('s28_1').value)  || 0) : 0
+      degerlendirme:deg,ikaz:deger('ikaz'),
+      istat:{
+        s21_1: istatDeger('s21_1',g21),
+        s22_1: istatDeger('s22_1',g22), s22_2:istatDeger('s22_2',g22),
+        s22_3: istatDeger('s22_3',g22), s22_4:istatDeger('s22_4',g22),
+        s22_5: istatDeger('s22_5',g22), s22_6:istatDeger('s22_6',g22),
+        s22_7: istatDeger('s22_7',g22),
+        s23_1: istatDeger('s23_1',g23), s23_2:istatDeger('s23_2',g23),
+        s257_1:istatDeger('s257_1',g257),s257_2:istatDeger('s257_2',g257),
+        s28_1: istatDeger('s28_1',g28)
       }
     };
 
     v('gonderBtn').disabled=true;
     yuklGos('Form kaydediliyor...');
 
-    jsonpCagri({ action:'formGonder', veri:JSON.stringify(fv) }, function(err,s){
+    jsonpCagri({action:'formGonder',veri:JSON.stringify(fv)},function(err,s){
       yuklGizle();
       if(err){ v('gonderBtn').disabled=false; hata('Bağlantı hatası. İnternet bağlantınızı kontrol edin.'); return; }
-      if(s.ok){ v('anaForm').style.display='none'; v('basariEkrani').classList.add('on'); }
+      if(s.ok){ v('anaForm').style.display='none'; v('basariEkrani').classList.add('on'); basariGeriSayim(); }
       else{ v('gonderBtn').disabled=false; hata('Hata: '+(s.hata||'Bilinmeyen hata')); }
     });
+  }
+
+  function basariGeriSayim(){
+    var btn=v('yeniBtn'),sayim=v('geriSayim'),kalan=15;
+    var timer=setInterval(function(){
+      kalan--;
+      if(sayim) sayim.textContent='('+kalan+')';
+      if(kalan<=0){
+        clearInterval(timer);
+        btn.style.opacity='1'; btn.style.cursor='pointer'; btn.style.pointerEvents='auto';
+        if(sayim) sayim.textContent='';
+      }
+    },1000);
   }
 
   function yeniForm(){
@@ -390,8 +632,16 @@ textarea{resize:none;line-height:1.5;overflow:hidden;min-height:64px}
     ['g21','g22','g23','g257','g28','gdig'].forEach(function(id){ v(id).classList.remove('on'); });
     ['a21','a22','a23','a257','a28','adig'].forEach(function(id){ var el=v(id); el.value=''; el.style.height='auto'; });
     ['r1','r2','r3','r4'].forEach(function(id){ v(id).classList.remove('on'); });
-    ['s21_1','s22_1','s22_2','s22_3','s22_4','s22_5','s22_6','s22_7','s23_1','s23_2','s257_1','s257_2','s28_1'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
-    seciliR=null; window.scrollTo(0,0);
+    ['s21_1','s22_1','s22_2','s22_3','s22_4','s22_5','s22_6','s22_7','s23_1','s23_2','s257_1','s257_2','s28_1']
+      .forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+    seciliR=null;
+    var nb=v('yeniBtn');
+    nb.style.opacity='0.4'; nb.style.cursor='not-allowed'; nb.style.pointerEvents='none';
+    v('geriSayim').textContent='(15)';
+    var ti=document.getElementById('ziyaretTarih');
+    ti.max=bugunStr(); ti.value=bugunStr();
+    sekmeGec('form');
+    window.scrollTo(0,0);
   }
 
 })();
